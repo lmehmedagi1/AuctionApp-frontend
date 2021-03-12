@@ -1,0 +1,42 @@
+.itemCard {
+
+    font-family: Lato-Regular;
+    
+    .itemImage {
+        overflow: hidden;
+        img {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+        }
+    }
+
+    .itemName {
+        font-size: 24px;
+        font-weight: bold;
+        color: #252525;
+        letter-spacing: 0.84px;
+    }
+
+    .itemPrice {
+        font-size: 16px;
+        letter-spacing: 0.56px;
+        color: #252525;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    img {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        -webkit-transition: .3s ease-in-out;
+        transition: .3s ease-in-out;
+    }
+
+    a:hover img {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}

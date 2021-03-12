@@ -1,0 +1,72 @@
+.aboutUsContainer {
+    margin: 5% 12%;
+
+    font-family: Lato-Regular;
+    text-align: left;
+
+    #aboutTitle {
+        font-size: 46px;
+        color: $base-color;
+        letter-spacing: 1.61px;
+        margin: 1.5% 0;
+    }
+
+    #aboutUsGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 80px;
+
+        .aboutUsGridItem {
+            font-size: 18px;
+            color: $text-color;
+            letter-spacing: 0.63px;
+            line-height: 25px;
+
+            img {
+                width: 100%;
+            }
+
+            #aboutUsSmallImage1 {
+                width: 48%;
+                margin-top: 4%;
+                float: left;
+            }
+
+            #aboutUsSmallImage2 {
+                width: 48%;
+                margin-top: 4%;
+                float: right;
+            }
+        }
+    }
+}
+
+@media #{$tablet} {
+    .aboutUsContainer {
+        margin: 5% 10%;
+
+        #aboutUsGrid {
+
+            grid-template-columns: 1fr;
+            
+            .aboutUsGridItem:last-child {
+                margin-top: 5%;
+            }
+        }
+    }
+}
+
+@media #{$mobile} {
+    .aboutUsContainer {
+        margin: 5% 10%;
+        
+        #aboutUsGrid {
+
+            grid-template-columns: 1fr;
+            
+            .aboutUsGridItem:last-child {
+                margin-top: 5%;
+            }
+        }
+    }
+}

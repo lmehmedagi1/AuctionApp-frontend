@@ -1,0 +1,43 @@
+.staticContainer {
+    margin: 0 25%;
+    margin-top: 7%;
+
+    font-family: Lato-Regular;
+    font-size: 18px;
+    color: $text-color;
+    letter-spacing: 0.63px;
+    line-height: 25px;
+
+    text-align: left;
+
+    .staticTitle {
+        font-size: 46px;
+        color: $base-color;
+        letter-spacing: 1.61px;
+        margin: 4% 0;
+    }
+
+    .staticSubtitle {
+        font-size: 24px;
+        color: $base-color;
+        letter-spacing: 0.84px;
+        margin-bottom: 2%;
+        margin-top: 4%;
+    }
+
+    .staticColumn:last-child {
+        margin-bottom: 10%;
+    }
+}
+
+@media #{$tablet} {
+    .staticContainer {
+        margin: 5% 10%;
+    }
+}
+
+@media #{$mobile} {
+    .staticContainer {
+        margin: 5% 10%;
+    }
+}

@@ -1,0 +1,21 @@
+.alertContainer {
+    width: 100%;
+    text-align: left;
+    .alert {
+        padding-left: 12%;
+        .close {
+            padding-right: 12%;
+        }
+    }
+}
+
+@media #{$tablet} {
+    .alertContainer {
+        .alert {
+            padding-left: 5%;
+            .close {
+                padding-right: 5%;
+            }
+        }
+    }
+}

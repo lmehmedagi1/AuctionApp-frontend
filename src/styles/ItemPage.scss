@@ -1,0 +1,86 @@
+.itemPageContainer {
+
+    margin: 5% 12%;
+
+    font-family: Lato-Regular;
+    font-size: 46px;
+    color: #252525;
+    letter-spacing: 1.61px;
+    
+    .product {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+
+        .productImages {
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+            }
+
+            .productImagesGrid {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 10px;
+
+                .landingPageProduct {
+                    overflow: hidden;
+                    img {
+                        height: 100px;
+                    }
+                }
+
+                img {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                    -webkit-transition: .3s ease-in-out;
+                    transition: .3s ease-in-out;
+                }
+            
+                .landingPageProduct:hover img {
+                    -webkit-transform: scale(1.1);
+                    transform: scale(1.1);
+                }
+            }
+        }
+
+        .productInfo {
+            text-align: left;
+            h1 {
+                font-size: 46px;
+                letter-spacing: 1.61px;
+            }
+
+            h2 {
+                font-size: 24px;
+                color: #8367D8;
+                letter-spacing: 0.84px;
+                margin-bottom: 20px;
+            }
+
+            p {
+                font-size: 16px;
+                color: #9B9B9B;
+                letter-spacing: 0.56px;
+                margin-bottom: 0;
+            }
+
+            .productDetailsTitle {
+                font-size: 18px;
+                color: #252525;
+                letter-spacing: 0.63px;
+                border-bottom: #ECECEC 3px solid;
+                margin: 10px auto;
+            }
+
+            .productDetails {
+                font-size: 15px;
+                letter-spacing: 0.52px;
+                line-height: 22px;
+            }
+        }
+    }
+}

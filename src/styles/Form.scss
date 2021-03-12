@@ -1,0 +1,113 @@
+.formContainer {
+    width: 100%;
+    background: #ffffff;
+
+    font-family: Lato-Regular;
+    font-size: 18px;
+    color: #252525;
+    letter-spacing: 0.63px;
+
+    margin: 5% auto;
+
+    div {
+        width: 700px;
+        margin: 20px auto;
+        border: 1px solid #d8d8d8;
+
+        text-align: left;
+
+        .formTitle {
+            width: 100%;
+            height: 60px;
+            background: #fafafa;
+            font-family: Lato-Bold;
+            font-weight: bold;
+            font-size: 24px;
+            color: #252525;
+            letter-spacing: 0.84px;
+            text-align: center;
+            border: none;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .formBasic {
+            margin-bottom: 30px;
+            .form-group {
+                width: 85%;
+                border: none;
+                margin: 0 auto;
+
+                .invalid-feedback {
+                    margin: 0 auto;
+                    border: none;
+                    font-size: 12px;
+                }
+
+                .form-check {
+                    border: none;
+                    margin: 30px 0 0 0;
+                }
+
+                button {
+                    width: 100%;
+                    background: #8367d8;
+                    border: 3px solid #8367d8;
+                    box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
+                    font-family: Lato-Bold;
+                    font-weight: bold;
+                    font-size: 18px;
+                    color: #ffffff;
+                    letter-spacing: 0.63px;
+                    text-align: center;
+                    margin-top: 30px;
+                }
+
+                #registerButton {
+                    background: #FFFFFF;
+                    border: 3px solid #8367D8;
+                    box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+                    color: #252525;
+                }
+
+                .form-label {
+                    margin-bottom: 10px;
+                    margin-top: 30px;
+                }
+
+                .form-control,
+                button {
+                    height: 50px;
+                }
+
+                p {
+                    text-align: center;
+                    font-size: 18px;
+                    color: #9b9b9b;
+                    letter-spacing: 0.63px;
+                    margin-top: 25px;
+
+                    .formLink {
+                        color: #8367d8;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media #{$tablet} {
+    .formContainer {
+        div {
+            width: 500px;
+        }
+    }
+}
+
+@media #{$mobile} {
+    .formContainer {
+        div {
+            width: 90%;
+        }
+    }
+}

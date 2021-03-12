@@ -1,0 +1,119 @@
+.menuContainer {
+    font-family: Lato-Light;
+    font-size: 24px;
+    color: #8367D8;
+    letter-spacing: 0.84px;
+
+    background: #FFFFFF;
+
+    margin: 0 12%;
+
+    .navbar {
+        padding: .5rem 0rem;
+    }
+
+    .navbar-expand {
+        justify-content: space-between;
+    }
+
+    .navbar-brand {
+        .logo {
+            color: #8367D8;
+            opacity: 0.7;
+        }
+        
+        img {
+            width: 20px;
+            margin-right: 5px;
+        }
+    }
+
+    .form-inline {
+        border: 1px solid #D8D8D8;
+        box-shadow: 0 0 9px 0 rgba(0,0,0,0.08);
+        width: 45%;
+
+        font-family: Lato-Regular;
+        font-size: 18px;
+        color: #252525;
+        letter-spacing: 0.63px;
+
+        .fa, .fa-search {
+            font-size: 20px;
+            color: #252525;
+        }
+
+        .form-control {
+            width: 90%;
+            border: none;
+            outline:none !important;
+            outline-width: 0 !important;
+            box-shadow: none;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+    }
+
+    .navbar-nav {
+        font-family: Lato-Light;
+        font-size: 16px;
+        color: #252525;
+        letter-spacing: 0.56px;
+
+        margin-right: 0 !important;
+
+        float: right;
+    }
+}
+
+@media #{$tablet} {
+    .menuContainer {
+        margin: 0 5%;
+
+        .logo {
+            font-size: 18px;
+        }
+        .form-inline {
+            width: 32%;
+
+            .form-control {
+                width: 82%;
+            }
+        }
+
+        .navbar-nav {
+            font-family: Lato-Light;
+            font-size: 14px;
+        }
+    }
+}
+
+@media #{$mobile} {
+    .menuContainer {
+        margin: 0 5%;
+
+        .navbar {
+          flex-wrap: wrap;
+          flex-direction: row;
+        }
+        .form-inline {
+            order: 4;
+            flex: 1 0 80%;
+            margin: 10px auto;
+
+            .form-control {
+                width: 90%;
+            }
+        }
+
+        .logo {
+            font-size: 18px;
+        }
+
+
+        .navbar-nav {
+            font-family: Lato-Light;
+            font-size: 14px;
+        }
+    }
+}
