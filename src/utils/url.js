@@ -1,4 +1,4 @@
-export const hostUrl = "http://localhost:8080";
+export const hostUrl = "https://auction-app-atlantbh.herokuapp.com";
 export const homeUrl = "/";
 
 export const aboutUrl = "/about-us";
