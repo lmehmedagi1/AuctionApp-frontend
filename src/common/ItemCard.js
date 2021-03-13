@@ -12,7 +12,7 @@ function ItemCard(props) {
                     {props.product.name}
                 </div>
                 <div className="itemPrice">
-                    Start from ${props.product.price}
+                    Start from ${props.product.startingPrice}
                 </div>
             </Link>
         </div>

@@ -9,7 +9,7 @@ const handleSearch = value => {
     
 }
 
-function Header() {
+function Menu() {
     return (
         <div className="menuContainer">
             <Navbar>
@@ -41,4 +41,4 @@ function Header() {
     )
 }
 
-export default Header;
+export default Menu;

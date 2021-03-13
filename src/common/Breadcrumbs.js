@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { urlToName } from '../utils/converters'
 
 class Breadcrumb extends React.Component {
 
@@ -8,36 +9,30 @@ class Breadcrumb extends React.Component {
         this.state = { breadcrumbs: [], title: "" };
     }
 
-    getNameFromUrl = url =>  {
-        return url.replaceAll("-", " ").toUpperCase().substr(1);
-    }
-
     componentDidMount() {
         let url = window.location.pathname;
         let breadcrumbs = [];
-        let title = "";
-
-        if (url.includes("about") || url.includes("privacy") || url.includes("terms")) {
-            breadcrumbs.push({ name: "SHOP", url: "/shop" });
-            let name = this.getNameFromUrl(url);
-            breadcrumbs.push({ name: name, url: url });
-            title = name;
-        }
-        else if (url.includes("shop")) {
-            let pages = url.split("/");
+        let name = urlToName(url);
+        
+        if (url.includes("shop")) {
+            let pages = url.substr(1).split("/");
             let currUrl = "";
+            
             for (let i = 0; i < pages.length; i++) {
-                let name = this.getNameFromUrl('/' + pages[i]);
+                name = urlToName('/' + pages[i]);
                 currUrl = currUrl + "/" + pages[i];
+                if (i === 3) name = "SINGLE PRODUCT";
                 breadcrumbs.push({ name: name, url: currUrl });
-                title = name;
             }
+            
         }
-        else {
-            let name = this.getNameFromUrl(url);
-            title = name;
+        else if (url.includes("about") || url.includes("privacy") || url.includes("terms")) {
+            breadcrumbs.push({ name: "SHOP", url: "/shop" });
+            name = urlToName(url);
+            breadcrumbs.push({ name: name, url: url });
         }
-        this.setState({ breadcrumbs: breadcrumbs, title: title });
+
+        this.setState({ breadcrumbs: breadcrumbs, title: name });
 
     }
 

@@ -1,8 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { loginUrl, registerUrl } from '../utils/url'
+import auth, { userIsLoggedIn } from "../api/auth"
 
 function Header() {
+
+    const logout = () => {
+        auth.logout(() => window.location.href="/");
+    }
+
     return (
         <div className="headerContainer">
             <div id="headerColumnLeft">
@@ -14,15 +20,23 @@ function Header() {
                 </div>
             </div>
             <div id="headerColumnRight">
-                <div>
-                <Link className="headerLink" to={loginUrl}>
-                    Login
-                </Link>
-                <span> or </span>
-                <Link className="headerLink" to={registerUrl}>
-                    Create an Account
-                </Link>
-                </div>
+                {!userIsLoggedIn() ? 
+                    <div>
+                    <Link className="headerLink" to={loginUrl}>
+                        Login
+                    </Link>
+                    <span> or </span>
+                    <Link className="headerLink" to={registerUrl}>
+                        Create an Account
+                    </Link>
+                    </div>
+                    :
+                    <div onClick={logout}>
+                    <Link className="headerLink" to='#'>
+                        Logout
+                    </Link>
+                    </div>
+                }
             </div>
         </div>
     )

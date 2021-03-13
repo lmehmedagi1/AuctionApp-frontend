@@ -25,6 +25,7 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr 1fr;
                 gap: 10px;
+                margin-top: 10px;
 
                 .landingPageProduct {
                     overflow: hidden;
@@ -66,6 +67,11 @@
                 color: #9B9B9B;
                 letter-spacing: 0.56px;
                 margin-bottom: 0;
+
+                span {
+                    color: #8367D8;
+                    font-weight: bold;
+                }
             }
 
             .productDetailsTitle {
@@ -81,6 +87,37 @@
                 letter-spacing: 0.52px;
                 line-height: 22px;
             }
+        }
+    }
+}
+
+@media #{$tablet} {
+    .itemPageContainer {
+        margin: 5% 5%;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 950px) {
+    .itemPageContainer .product .productImages .productImagesGrid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media #{$mobile} {
+    .itemPageContainer {
+        margin: 5% 5%;
+
+        .product {
+            grid-template-columns: 1fr;
+        }
+
+        #breadcrumbTitle, 
+        #breadcrumbs {
+            text-align: center;
+        }
+
+        #breadcrumbTitle {
+            margin-bottom: 5px;
         }
     }
 }
