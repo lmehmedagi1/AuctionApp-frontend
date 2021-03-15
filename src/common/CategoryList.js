@@ -18,32 +18,34 @@ function CategoryList(props) {
                 }
             }
             setCategories(categoriesList);
+
+            if (props.initial != "") setActiveCategory(props.initial);
         });
-    }, []);
+    }, [props.initial]);
 
     const subcategoryClicked = choice => {
         props.subcategoryChange(choice);
     }
 
     const supercategoryClicked = choice => {
-        if (activeCategory == choice.name) 
+        if (activeCategory == choice.id) 
             setActiveCategory("");
         else {
-            setActiveCategory(choice.name);
+            setActiveCategory(choice.id);
             props.supercategoryChange(choice.id);
         }
     }
 
     return (
         <div className="categoriesListContainer">
-            <Accordion>
+            <Accordion activeKey={activeCategory}>
                 <div className="listTitle">
                     PRODUCT CATEGORIES
                 </div>
                 {categories.map((category, index) => (
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey={category.id} onClick={() => supercategoryClicked(category)}>
-                        {category.name}{activeCategory==category.name ? <i className="fa fa-minus" aria-hidden="true"></i> : <i className="fa fa-plus" aria-hidden="true"></i>}
+                        {category.name}{activeCategory==category.id ? <i className="fa fa-minus" aria-hidden="true"></i> : <i className="fa fa-plus" aria-hidden="true"></i>}
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey={category.id}>
                             <Card.Body>

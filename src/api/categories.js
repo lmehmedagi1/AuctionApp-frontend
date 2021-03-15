@@ -12,7 +12,11 @@ class Categories extends React.Component {
         axios
             .get(hostUrl + "/supercategories")
             .then((response) => {
-                cb(null, null, response.data);
+                let categories = response.data
+                for (let i = 0; i<categories.length; i++) {
+                    categories[i].url = "/shop/" + categories[i].id;
+                }
+                cb(null, null, categories);
             }).catch(error => {
                 if (error.response == null)
                     cb("Please check your internet connection!", "warning", null);

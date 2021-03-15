@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
-import * as yup from 'yup'
 import { handleAlerts } from '../utils/handlers'
 
 import Breadcrumb from '../common/Breadcrumbs'
@@ -22,6 +21,17 @@ function ShopPage(props) {
     const [activeId, setActiveId] = useState("");
     const [activePageNo, setActivePageNo] = useState(0);
     const [activeHasNext, setActiveHasNext] = useState(false);
+
+    const [initialSupercategory, setInitialSupercategory] = useState("");
+    
+    useEffect(() => {
+        let categoriesPathname = window.location.pathname.split('/');
+        if (categoriesPathname.length > 2) {
+            let initial = categoriesPathname.pop();
+            sendRequest("/supercategory/products", initial, 0);
+            setInitialSupercategory(initial);
+        }
+    }, []);
 
     const sendRequest = (url, id, pageNo) => {
         setActiveUrl(url);
@@ -55,7 +65,7 @@ function ShopPage(props) {
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <div className="shopPageContainer">
                 <div className="filters">
-                     <CategoryList subcategoryChange={subcategoryChange} supercategoryChange={supercategoryChange}/>
+                     <CategoryList subcategoryChange={subcategoryChange} supercategoryChange={supercategoryChange} initial={initialSupercategory}/>
                 </div>
                 <div className="products">
                     <div className="productsList">

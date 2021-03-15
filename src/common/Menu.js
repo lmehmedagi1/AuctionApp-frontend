@@ -28,7 +28,7 @@ function Menu() {
                     <LinkContainer to={homeUrl} exact>
                         <Nav.Link active={homeUrls.some(v => v == window.location.pathname)}>HOME</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/about-us">
+                    <LinkContainer to="/shop">
                         <Nav.Link active={shopUrls.some(v => v == window.location.pathname)}>SHOP</Nav.Link>
                     </LinkContainer>
                     <LinkContainer to="/my-account">

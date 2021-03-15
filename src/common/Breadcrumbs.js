@@ -17,6 +17,8 @@ class Breadcrumb extends React.Component {
         if (url.includes("shop")) {
             let pages = url.substr(1).split("/");
             let currUrl = "";
+
+            if (pages.length == 2) pages[1] = "category";
             
             for (let i = 0; i < pages.length && i < 2; i++) {
                 name = urlToName('/' + pages[i]);
