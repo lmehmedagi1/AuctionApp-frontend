@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { ToggleButtonGroup, ToggleButton, ListGroup, Button } from 'react-bootstrap'
 
 import Menu from '../common/Menu'
 import Breadcrumb from '../common/Breadcrumbs'
@@ -20,7 +18,6 @@ class ItemPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Mounted")
         productsApi.getProductById((message, variant, data) => {
             handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
         }, window.location.pathname.split('/').pop());
@@ -48,11 +45,7 @@ class ItemPage extends React.Component {
         for (let i = 0; i < product.bids.length; i++)
             if (product.bids[i].price > highestBid) highestBid = product.bids[i].price;
         
-        console.log("Ide gas")
-        console.log(Date.now())
-        console.log((new Date(product.endDate)).getTime())
         let timeLeft = timeDifference((new Date(product.endDate)).getTime(), Date.now());
-        console.log("Poslije funkcije: " + timeLeft)
         let newProduct = {
             title: product.name, 
             startingPrice: product.startingPrice, 
@@ -61,10 +54,7 @@ class ItemPage extends React.Component {
             timeLeft: timeLeft,
             details: product.details
         }
-        console.log(newProduct);
-        console.log(images);
         this.setState({images: images, activeImage: images[0], product: newProduct});
-        console.log("Success");
     }
 
     activeImageChange = index => {

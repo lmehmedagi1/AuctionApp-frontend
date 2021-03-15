@@ -1,5 +1,5 @@
 import React from 'react'
-import { homeUrl, aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, itemPageUrl, loginUrl, registerUrl } from '../utils/url'
+import { homeUrl, aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, shopPageUrl, itemPageUrl, loginUrl, registerUrl } from '../utils/url'
 
 import {
   Switch,
@@ -13,6 +13,7 @@ import AboutUs from '../components/AboutUs'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import LandingPage from '../components/LandingPage'
+import ShopPage from '../components/ShopPage'
 import ItemPage from '../components/ItemPage'
 
 import ScrollToTop from '../utils/ScrollToTop'
@@ -27,6 +28,7 @@ function Routes(props) {
         <Route path={termsAndConditionsUrl}><TearmsAndConditions /></Route>
         <Route path={privacyPolicyUrl}><PrivacyPolicy /></Route>
         <Route path={itemPageUrl} component={ItemPage} />
+        <Route path={shopPageUrl} component={ShopPage} />
         <Route path={loginUrl}><Login setToken={props.setToken} /></Route>
         <Route path={registerUrl}><Register setToken={props.setToken} /></Route>
         <Route><NotFound/></Route>

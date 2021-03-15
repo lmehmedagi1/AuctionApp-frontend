@@ -17,7 +17,9 @@ class LandingPage extends React.Component {
     constructor() {
         super();
         this.state = { categories: [], newArrivals: [], lastChances: [], products: [], title: "", show: false, message: "", variant: "" };
+    }
 
+    componentDidMount() {
         categoriesApi.getMainCategories((message, variant, data) => {
             if (data == null) data = [];
             this.handleResponse(this.setCategories, message, variant, data);
@@ -33,7 +35,6 @@ class LandingPage extends React.Component {
         productsApi.getLastChance((message, variant, data) => {
             this.handleResponse(this.setLastChances, message, variant, data);
         });
-
     }
 
     toggleButtonChange = value => {

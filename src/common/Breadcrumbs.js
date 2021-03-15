@@ -18,10 +18,9 @@ class Breadcrumb extends React.Component {
             let pages = url.substr(1).split("/");
             let currUrl = "";
             
-            for (let i = 0; i < pages.length; i++) {
+            for (let i = 0; i < pages.length && i < 2; i++) {
                 name = urlToName('/' + pages[i]);
                 currUrl = currUrl + "/" + pages[i];
-                if (i === 3) name = "SINGLE PRODUCT";
                 breadcrumbs.push({ name: name, url: currUrl });
             }
             
