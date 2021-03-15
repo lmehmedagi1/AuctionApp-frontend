@@ -6,7 +6,6 @@ import Logo from '../assets/images/gavel-icon.ico'
 
 const handleSearch = value => {
     console.log(value);
-    
 }
 
 function Menu() {

@@ -21,7 +21,6 @@ export const setUserSession = (user) => {
 
 // check if user is logged in
 export const userIsLoggedIn = () => {
-    console.log("User " + (localStorage.getItem('user') != null) + " ali " + localStorage.getItem('user'));
     return localStorage.getItem('user') != null;
 }
 
