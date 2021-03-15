@@ -1,7 +1,7 @@
-//export const hostUrl = "https://auction-app-atlantbh.herokuapp.com";
-export const hostUrl = "http://localhost:8080";
+export const hostUrl = "https://auction-app-atlantbh.herokuapp.com";
+//export const hostUrl = "http://localhost:8080";
 export const homeUrl = "/";
-export const itemPageUrl = "/shop/single-products/*";
+export const itemPageUrl = "/shop/single-product/*";
 export const shopPageUrl = "/shop";
 
 export const aboutUrl = "/about-us";

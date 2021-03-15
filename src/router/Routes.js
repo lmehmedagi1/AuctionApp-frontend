@@ -28,7 +28,7 @@ function Routes(props) {
         <Route path={termsAndConditionsUrl}><TearmsAndConditions /></Route>
         <Route path={privacyPolicyUrl}><PrivacyPolicy /></Route>
         <Route path={itemPageUrl} component={ItemPage} />
-        <Route path={shopPageUrl} component={ShopPage} />
+        <Route exact path={shopPageUrl} component={ShopPage} />
         <Route path={loginUrl}><Login setToken={props.setToken} /></Route>
         <Route path={registerUrl}><Register setToken={props.setToken} /></Route>
         <Route><NotFound/></Route>
