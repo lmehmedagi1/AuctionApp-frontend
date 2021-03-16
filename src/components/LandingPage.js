@@ -11,6 +11,7 @@ import productsApi from "../api/products"
 import { userIsLoggedIn } from "../api/auth"
 
 import { handleAlerts } from '../utils/handlers'
+import { nameToUrl } from '../utils/converters'
 
 class LandingPage extends React.Component {
 
@@ -94,7 +95,7 @@ class LandingPage extends React.Component {
                             <p>CATEGORIES</p>
                             <ListGroup>
                                 {this.state.categories.map((category, index) => (
-                                    <Link to={category.url}>
+                                    <Link to={{state: {supercategory: category.id}, pathname: "/shop/" + nameToUrl(category.name)}}>
                                         <ListGroup.Item>{category.name}</ListGroup.Item>
                                     </Link>
                                 ))}

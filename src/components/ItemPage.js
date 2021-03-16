@@ -52,7 +52,8 @@ class ItemPage extends React.Component {
             highestBid: highestBid, 
             numberOfBids: product.bids.length,
             timeLeft: timeLeft,
-            details: product.details
+            details: product.details,
+            category: product.category
         }
         this.setState({images: images, activeImage: images[0], product: newProduct});
     }

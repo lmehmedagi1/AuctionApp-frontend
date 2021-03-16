@@ -30,7 +30,7 @@ class Products extends React.Component {
                 for (let i = 0; i<products.length; i++) {
                     let image = "https://www.firstfishonline.com/wp-content/uploads/2017/07/default-placeholder-700x700.png";
                     if (products[i].images.length > 0) image = products[i].images[0].url;
-                    products[i].url = "/shop/single-product/" + products[i].id;
+                    products[i].url = "/single-product/" + products[i].id;
                     products[i].image = image;
                 }
                 if (response.data.hasNext != null) cb(null, null, {products: products, hasNext: response.data.hasNext});

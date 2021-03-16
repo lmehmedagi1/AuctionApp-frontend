@@ -32,7 +32,7 @@ function CategoryList(props) {
             setActiveCategory("");
         else {
             setActiveCategory(choice.id);
-            props.supercategoryChange(choice.id);
+            props.supercategoryChange(choice);
         }
     }
 
@@ -51,7 +51,7 @@ function CategoryList(props) {
                             <Card.Body>
                             <ListGroup>
                                 {category.subcategories.map((subcategory, subindex) => (
-                                    <ListGroup.Item action onClick={() => subcategoryClicked(subcategory.id)}>{subcategory.name} ({subcategory.quantity})</ListGroup.Item>
+                                    <ListGroup.Item action onClick={() => subcategoryClicked(subcategory)}>{subcategory.name} ({subcategory.quantity})</ListGroup.Item>
                                 ))}
                             </ListGroup>
                             </Card.Body>

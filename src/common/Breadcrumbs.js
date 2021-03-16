@@ -10,22 +10,35 @@ class Breadcrumb extends React.Component {
     }
 
     componentDidMount() {
+
         let url = window.location.pathname;
         let breadcrumbs = [];
         let name = urlToName(url);
-        
-        if (url.includes("shop")) {
-            let pages = url.substr(1).split("/");
-            let currUrl = "";
 
-            if (pages.length == 2) pages[1] = "category";
+        let pages = url.substr(1).split("/");
+        let currUrl = "";
+
+        if (url.includes("single-product")) {
             
-            for (let i = 0; i < pages.length && i < 2; i++) {
+            for (let i = 0; i < pages.length; i++) {
+                if (pages[i] == "single-product") break;
                 name = urlToName('/' + pages[i]);
                 currUrl = currUrl + "/" + pages[i];
                 breadcrumbs.push({ name: name, url: currUrl });
             }
+
+            if (pages.length == 2) breadcrumbs.push({ name: "HOME", url: "/" });
+            name = "SINGLE PRODUCT";
+            currUrl = currUrl + "/single-product";
+            breadcrumbs.push({ name: name, url: currUrl });
+        }
+        else if (url.includes("shop")) {
             
+            for (let i = 0; i < pages.length; i++) {
+                name = urlToName('/' + pages[i]);
+                currUrl = currUrl + "/" + pages[i];
+                breadcrumbs.push({ name: name, url: currUrl });
+            }
         }
         else if (url.includes("about") || url.includes("privacy") || url.includes("terms")) {
             breadcrumbs.push({ name: "SHOP", url: "/shop" });
@@ -34,7 +47,6 @@ class Breadcrumb extends React.Component {
         }
 
         this.setState({ breadcrumbs: breadcrumbs, title: name });
-
     }
 
     render() {
@@ -43,6 +55,18 @@ class Breadcrumb extends React.Component {
                 <div id="breadcrumbTitle">
                     {this.state.title}
                 </div>
+                {this.props.update ? 
+                <div id="breadcrumbs" className="breadcrumbsUpdate">
+                    {this.state.breadcrumbs.map((breadcrumb, index) => (
+                        <div className="breadcrumbColumn">
+                            <div className="breadcrumbLink" onClick={() => this.props.update(breadcrumb.url, true)}>
+                                {breadcrumb.name}
+                                <span> / </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                :
                 <div id="breadcrumbs">
                     {this.state.breadcrumbs.map((breadcrumb, index) => (
                         <div className="breadcrumbColumn">
@@ -53,6 +77,7 @@ class Breadcrumb extends React.Component {
                         </div>
                     ))}
                 </div>
+                }
             </div>
         );
     }
