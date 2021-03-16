@@ -9,14 +9,19 @@ export const getUser = () => {
     else return null;
 }
 
-// remove the token and user from the session storage
+// remove the user from the session storage
 export const removeUserSession = () => {
     localStorage.removeItem('user');
 }
 
-// set the token and user from the session storage
+// set the user from the session storage
 export const setUserSession = (user) => {
     localStorage.setItem('user', JSON.stringify(user));
+}
+
+// check if user is logged in
+export const userIsLoggedIn = () => {
+    return localStorage.getItem('user') != null;
 }
 
 class Auth extends React.Component {

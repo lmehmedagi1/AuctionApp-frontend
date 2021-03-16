@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { ToggleButtonGroup, ToggleButton, ListGroup, Button } from 'react-bootstrap'
 
 import ItemCard from '../common/ItemCard'
@@ -8,6 +8,7 @@ import Alert from '../common/Alert'
 
 import categoriesApi from "../api/categories"
 import productsApi from "../api/products"
+import { userIsLoggedIn } from "../api/auth"
 
 import { handleAlerts } from '../utils/handlers'
 
@@ -77,6 +78,10 @@ class LandingPage extends React.Component {
         this.setState({lastChances: lastChances});
     }
 
+    routeChange = url => {
+        this.props.history.push(url);
+    }
+
     render() {
         return (
             <div>
@@ -101,9 +106,13 @@ class LandingPage extends React.Component {
                                     <h1>{this.state.products[0].name}</h1>
                                     <h2>Start from - ${this.state.products[0].startingPrice}</h2>
                                     <h3>{this.state.products[0].details}</h3>
-                                    <div><Button variant="primary" type="submit">
-                                        BID NOW <i class="bi bi-chevron-right"></i>
-                                    </Button></div>
+                                    <div>
+                                    {userIsLoggedIn() ? 
+                                    <Button variant="primary" type="submit" onClick={() => this.routeChange(this.state.products[0].url)}>
+                                        BID NOW <i className="bi bi-chevron-right"></i>
+                                    </Button>
+                                    : null}
+                                    </div>
                                         
                                 </div>
                                 <div className="headerProductImage">
@@ -132,4 +141,4 @@ class LandingPage extends React.Component {
     }
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);

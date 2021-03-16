@@ -9,23 +9,20 @@ import Alert from '../common/Alert'
 import productsApi from "../api/products"
 
 import { handleAlerts } from '../utils/handlers'
+import { timeDifference } from '../utils/calc'
 
 class ItemPage extends React.Component {
 
     constructor() {
         super();
 
-        this.state = { images: ["https://i.picsum.photos/id/919/5472/3648.jpg?hmac=FXWoTLe8uCx6rIVzP4Lx4Og7ioZBm6UwypEi0_cDb04", "https://i.picsum.photos/id/951/4472/2803.jpg?hmac=aB6s0hBjWu_NcE75bGn9qnZTRcWSPCdo_qEGo6dzh7k"], activeImage: "https://i.picsum.photos/id/907/6004/3914.jpg?hmac=yHBEBivgu2fOMqkXPaf0DRdT6eW62aTTIw1BWksoeBE", show: false, message: "", variant: "", product: {} };
-
-        // productsApi.getProductByIdAndCategory((message, variant, data) => {
-        //     handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
-        // }, this.props.match.params.product_id, this.props.match.params.category, this.props.match.params.supercategory);
-
+        this.state = { images: [], activeImage: "", show: false, message: "", variant: "", product: {} };
     }
 
     componentDidMount() {
-        let product = {title: 'Test product', startingPrice: 230, highestBid: 330, numberOfBids: 2, timeLeft: 3, details: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."};
-        this.setProduct(product);
+        productsApi.getProductById((message, variant, data) => {
+            handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
+        }, window.location.pathname.split('/').pop());
     }
 
     setShow = show => {
@@ -41,7 +38,29 @@ class ItemPage extends React.Component {
     }
 
     setProduct = product => {
-        this.setState({product: product});
+        let images = [];
+        if (!product.images.length)
+            images.push("https://www.firstfishonline.com/wp-content/uploads/2017/07/default-placeholder-700x700.png");
+        for (let i = 0; i < product.images.length; i++)
+            images.push(product.images[i].url);
+        let highestBid = 0;
+        for (let i = 0; i < product.bids.length; i++)
+            if (product.bids[i].price > highestBid) highestBid = product.bids[i].price;
+        
+        let timeLeft = timeDifference((new Date(product.endDate)).getTime(), Date.now());
+        let newProduct = {
+            title: product.name, 
+            startingPrice: product.startingPrice, 
+            highestBid: highestBid, 
+            numberOfBids: product.bids.length,
+            timeLeft: timeLeft,
+            details: product.details
+        }
+        this.setState({images: images, activeImage: images[0], product: newProduct});
+    }
+
+    activeImageChange = index => {
+        this.setState({activeImage: this.state.images[index]});
     }
 
     render() {
@@ -58,7 +77,7 @@ class ItemPage extends React.Component {
                             </div>
                             <div className="productImagesGrid">
                                 {this.state.images.map((image, index) => (
-                                    <div className="landingPageProduct">
+                                    <div className="landingPageProduct" onClick={() => this.activeImageChange(index)}>
                                         <img src={image} alt="Image"/>
                                     </div>
                                 ))}
@@ -67,9 +86,9 @@ class ItemPage extends React.Component {
                         <div className="productInfo">
                             <h1>{this.state.product.title}</h1>
                             <h2>Start from - ${this.state.product.startingPrice}</h2>
-                            <p>Highest bid: ${this.state.product.highestBid}</p>
-                            <p>No bids: ${this.state.product.numberOfBids}</p>
-                            <p>Time left: ${this.state.product.timeLeft} days</p>
+                            <p>Highest bid: <span>${this.state.product.highestBid}</span></p>
+                            <p>No bids: {this.state.product.numberOfBids}</p>
+                            <p>Time left: {this.state.product.timeLeft} days</p>
                             <div className="productDetailsTitle">
                                 Details
                             </div>

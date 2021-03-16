@@ -6,10 +6,9 @@ import Logo from '../assets/images/gavel-icon.ico'
 
 const handleSearch = value => {
     console.log(value);
-    
 }
 
-function Header() {
+function Menu() {
     return (
         <div className="menuContainer">
             <Navbar>
@@ -41,4 +40,4 @@ function Header() {
     )
 }
 
-export default Header;
+export default Menu;
