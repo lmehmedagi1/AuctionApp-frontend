@@ -5,7 +5,7 @@ import { LinkContainer } from "react-router-bootstrap"
 import Logo from '../assets/images/gavel-icon.ico'
 
 const handleSearch = value => {
-    console.log(value);
+    // To do: implement search logic
 }
 
 function Menu() {
@@ -28,7 +28,7 @@ function Menu() {
                     <LinkContainer to={homeUrl} exact>
                         <Nav.Link active={homeUrls.some(v => v == window.location.pathname)}>HOME</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/about-us">
+                    <LinkContainer to="/shop">
                         <Nav.Link active={shopUrls.some(v => v == window.location.pathname)}>SHOP</Nav.Link>
                     </LinkContainer>
                     <LinkContainer to="/my-account">

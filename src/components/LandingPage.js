@@ -11,13 +11,16 @@ import productsApi from "../api/products"
 import { userIsLoggedIn } from "../api/auth"
 
 import { handleAlerts } from '../utils/handlers'
+import { nameToUrl } from '../utils/converters'
 
 class LandingPage extends React.Component {
 
     constructor() {
         super();
         this.state = { categories: [], newArrivals: [], lastChances: [], products: [], title: "", show: false, message: "", variant: "" };
+    }
 
+    componentDidMount() {
         categoriesApi.getMainCategories((message, variant, data) => {
             if (data == null) data = [];
             this.handleResponse(this.setCategories, message, variant, data);
@@ -33,7 +36,6 @@ class LandingPage extends React.Component {
         productsApi.getLastChance((message, variant, data) => {
             this.handleResponse(this.setLastChances, message, variant, data);
         });
-
     }
 
     toggleButtonChange = value => {
@@ -93,7 +95,7 @@ class LandingPage extends React.Component {
                             <p>CATEGORIES</p>
                             <ListGroup>
                                 {this.state.categories.map((category, index) => (
-                                    <Link to={category.url}>
+                                    <Link to={{state: {supercategory: category.id}, pathname: "/shop/" + nameToUrl(category.name)}}>
                                         <ListGroup.Item>{category.name}</ListGroup.Item>
                                     </Link>
                                 ))}

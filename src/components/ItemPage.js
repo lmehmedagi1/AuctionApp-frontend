@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { ToggleButtonGroup, ToggleButton, ListGroup, Button } from 'react-bootstrap'
 
 import Menu from '../common/Menu'
 import Breadcrumb from '../common/Breadcrumbs'
@@ -54,7 +52,8 @@ class ItemPage extends React.Component {
             highestBid: highestBid, 
             numberOfBids: product.bids.length,
             timeLeft: timeLeft,
-            details: product.details
+            details: product.details,
+            category: product.category
         }
         this.setState({images: images, activeImage: images[0], product: newProduct});
     }

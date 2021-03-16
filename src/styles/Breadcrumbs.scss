@@ -17,6 +17,7 @@
 
     #breadcrumbs {
         text-align: right;
+
         .breadcrumbColumn {
             display: inline-block;
             font-family: Lato-Light;
@@ -42,6 +43,16 @@
                 display: none;
             }
         }
+    }
+
+    .breadcrumbsUpdate {
+        display: flex;
+        justify-content: right;
+
+        .breadcrumbColumn {
+            cursor: pointer;
+        }
+
     }
 }
 

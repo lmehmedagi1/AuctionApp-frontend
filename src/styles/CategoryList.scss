@@ -1,0 +1,56 @@
+.categoriesListContainer {
+
+    font-family: Lato-Regular;
+    font-size: 14px;
+    letter-spacing: 0.49px;
+    text-align: left;
+    color: #252525;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+
+    .listTitle {
+        color: #8367D8;
+        font-weight: bold;
+        padding: .75rem 1.25rem;
+    }
+
+    .card {
+        border: none;
+
+        .card-header {
+            background: #FFFFFF;
+    
+            .fa {
+                float: right;
+                font-weight: bold;
+                font-size: large;
+            }
+    
+            .fa-minus {
+                color: #8367D8;
+            }
+        }
+    
+        .card-header:hover {
+            background: #ECECEC !important;
+        }
+        
+        .card-body {
+            padding: 0;
+    
+            .list-group .list-group-item {
+                border: none;
+                color: #9B9B9B;
+            }
+    
+            .list-group {
+                .list-group-item-action:focus, .list-group-item-action:hover {
+                    z-index: 1;
+                    text-decoration: none;
+                    background: #ECECEC;
+                }
+            }
+                
+        }
+    }
+}

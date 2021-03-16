@@ -1,7 +1,6 @@
 import React from 'react'
 import axios from 'axios'
 import { hostUrl } from '../utils/url'
-import { nameToUrl } from '../utils/converters'
 
 class Products extends React.Component {
 
@@ -22,19 +21,20 @@ class Products extends React.Component {
             });
     }
     
-    getFilteredProducts = (cb, url) => {
+    getFilteredProducts = (cb, url, parameters) => {
         axios
-            .get(url)
+            .get(url, {params: parameters})
             .then((response) => {
                 let products = response.data;
-                let filteredProducts = [];
+                if (products.products != null) products = products.products;
                 for (let i = 0; i<products.length; i++) {
                     let image = "https://www.firstfishonline.com/wp-content/uploads/2017/07/default-placeholder-700x700.png";
                     if (products[i].images.length > 0) image = products[i].images[0].url;
-                    let url = "/shop/" + nameToUrl(products[i].category.superCategory.name) + "/" + nameToUrl(products[i].category.name) + "/" + products[i].id;
-                    filteredProducts.push({name: products[i].name, details: products[i].details, image: image, startingPrice: products[i].startingPrice, url: url});
+                    products[i].url = "/single-product/" + products[i].id;
+                    products[i].image = image;
                 }
-                cb(null, null, filteredProducts);
+                if (response.data.hasNext != null) cb(null, null, {products: products, hasNext: response.data.hasNext});
+                else cb(null, null, products);
             }).catch(error => {
                 if (error.response == null)
                     cb("Please check your internet connection!", "warning", null);
@@ -44,15 +44,19 @@ class Products extends React.Component {
     }
 
     getNewArrivals = (cb) => {
-        this.getFilteredProducts(cb, hostUrl + "/products/new-arrivals");
+        this.getFilteredProducts(cb, hostUrl + "/products/new-arrivals", {});
     }
 
     getLastChance = (cb) => {
-        this.getFilteredProducts(cb, hostUrl + "/products/last-chance");
+        this.getFilteredProducts(cb, hostUrl + "/products/last-chance", {});
     }
 
     getProductById = (cb, id) => {
         this.sendRequest(cb, hostUrl + "/products/" + id);
+    }
+
+    getProductsByCategory = (cb, id, path, pageNo) => {
+        this.getFilteredProducts(cb, hostUrl + path, {id: id, pageNo: pageNo}); 
     }
 }
 
