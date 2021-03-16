@@ -51,13 +51,13 @@ function ShopPage(props) {
     const subcategoryChange = choice => {
         let supercategoryid = window.history.state.supercategory; 
         let currentPathname = window.location.pathname.substr(1).split('/');
-        let url = "http://localhost:3000/shop/" + currentPathname[1] + "/" + nameToUrl(choice.name);
+        let url = "https://auction-app-atlantbh-frontend.herokuapp.com/shop/" + currentPathname[1] + "/" + nameToUrl(choice.name);
         window.history.replaceState({ supercategory: supercategoryid, subcategory: choice.id }, "", url);
         sendRequest("/category/products", choice.id, 0);
     }
 
     const supercategoryChange = choice => {
-        window.history.replaceState({ supercategory: choice.id }, "", "http://localhost:3000/shop/" + nameToUrl(choice.name));
+        window.history.replaceState({ supercategory: choice.id }, "", "https://auction-app-atlantbh-frontend.herokuapp.com/shop/" + nameToUrl(choice.name));
         sendRequest("/supercategory/products", choice.id, 0);
     }
 
