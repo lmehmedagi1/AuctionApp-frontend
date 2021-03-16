@@ -52,12 +52,14 @@ function ShopPage(props) {
         let supercategoryid = window.history.state.supercategory; 
         let currentPathname = window.location.pathname.substr(1).split('/');
         let url = "https://auction-app-atlantbh-frontend.herokuapp.com/shop/" + currentPathname[1] + "/" + nameToUrl(choice.name);
+        //let url = "http://localhost:3000/shop/" + currentPathname[1] + "/" + nameToUrl(choice.name);
         window.history.replaceState({ supercategory: supercategoryid, subcategory: choice.id }, "", url);
         sendRequest("/category/products", choice.id, 0);
     }
 
     const supercategoryChange = choice => {
         window.history.replaceState({ supercategory: choice.id }, "", "https://auction-app-atlantbh-frontend.herokuapp.com/shop/" + nameToUrl(choice.name));
+        //window.history.replaceState({ supercategory: choice.id }, "", "http://localhost:3000/shop/" + nameToUrl(choice.name));
         sendRequest("/supercategory/products", choice.id, 0);
     }
 
@@ -70,28 +72,29 @@ function ShopPage(props) {
         if (categoriesPathname.length > 1) {
             if (window.history.state && window.history.state.supercategory) {
                 let initial = window.history.state.supercategory;
-                let url = categoriesPathname.length == 2 ? "/supercategory/products" : "/category/products";
+                let requestUrl = categoriesPathname.length == 2 ? "/supercategory/products" : "/category/products";
                 let id = categoriesPathname.length == 2 ? window.history.state.supercategory : window.history.state.subcategory;
-                sendRequest(url, id, 0);
+                window.history.replaceState({ supercategory: window.history.state.supercategory, subcategory: window.history.state.subcategory }, "", url);
+                sendRequest(requestUrl, id, 0);
                 setInitialSupercategory(initial);
                 return;
             }
             else if (props.location.state && props.location.state.supercategory) {
                 let initial = props.location.state.supercategory;
-                let url = "/supercategory/products";
-                sendRequest(url, initial, 0);
+                let requestUrl = "/supercategory/products";
+                window.history.replaceState({ supercategory: props.location.state.supercategory }, "", url);
+                sendRequest(requestUrl, initial, 0);
                 setInitialSupercategory(initial);
                 return;
             }
         }
         
-        window.history.replaceState({}, "", "/shop"); 
-
+        window.history.replaceState({}, "", "/shop");
+        const newKey = breadcrumbsKey * 89;
+        setBreadcrumbsKey(newKey);
         setProducts([]);
         setActivePageNo(0);
         setActiveHasNext(false);
-        const newKey = breadcrumbsKey * 89;
-        setBreadcrumbsKey(newKey);
         setInitialSupercategory("");
         const newListKey = listKey * 89;
         setListKey(newListKey);
