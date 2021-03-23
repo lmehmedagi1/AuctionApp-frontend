@@ -1,11 +1,20 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import Breadcrumb from '../common/Breadcrumbs'
 import Menu from '../common/Menu'
 
-function PrivacyPolicy() {
+function PrivacyPolicy(props) {
+
+    const handleSearchChange = search => {
+        props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     return (
         <div>
-            <Menu />
+            <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb />
             <div className="staticContainer">
                 <div className="staticColumn staticTitle">
@@ -25,4 +34,4 @@ function PrivacyPolicy() {
     )
 }
 
-export default PrivacyPolicy;
+export default withRouter(PrivacyPolicy);

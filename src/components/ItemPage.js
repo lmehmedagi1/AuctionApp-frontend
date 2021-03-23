@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 import Menu from '../common/Menu'
 import Breadcrumb from '../common/Breadcrumbs'
@@ -62,10 +63,17 @@ class ItemPage extends React.Component {
         this.setState({activeImage: this.state.images[index]});
     }
 
+    handleSearchChange = search => {
+        this.props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     render() {
         return (
             <div>
-                <Menu />
+                <Menu handleSearchChange={this.handleSearchChange} />
                 <Breadcrumb />
                 <Alert message={this.state.message} showAlert={this.state.show} variant={this.state.variant} onShowChange={this.setShow} />
                 <div className="itemPageContainer">
@@ -103,4 +111,4 @@ class ItemPage extends React.Component {
     }
 }
 
-export default ItemPage;
+export default withRouter(ItemPage);

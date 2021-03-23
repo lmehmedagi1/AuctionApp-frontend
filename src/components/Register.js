@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { loginUrl } from '../utils/url'
 import { handleAlerts } from '../utils/handlers'
@@ -37,9 +37,16 @@ function Register(props) {
         }, user);
     }
 
+    const handleSearchChange = search => {
+        props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     return (
         <div>
-            <Menu />
+            <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb />
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <div className="formContainer">
@@ -101,4 +108,4 @@ function Register(props) {
     )
 }
 
-export default Register;
+export default withRouter(Register);

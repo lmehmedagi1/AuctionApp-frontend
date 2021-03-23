@@ -18,10 +18,32 @@
         letter-spacing: 0.84px;
     }
 
+    .itemDetails {
+        display: none;
+        margin-top: 10px;
+    }
+
     .itemPrice {
         font-size: 16px;
         letter-spacing: 0.56px;
         color: #252525;
+    }
+
+    .itemButtons button {
+        display: none;
+        background: #FFFFFF;
+        border: 3px solid #ECECEC;
+        border-radius: 0;
+        width: 100px;
+        font-family: Lato-Regular;
+        font-size: 15px;
+        color: #252525;
+        letter-spacing: 0.52px;
+        line-height: 22px;
+
+        .fa {
+            color: #ECECEC;
+        }
     }
 
     a:hover {

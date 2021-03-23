@@ -4,13 +4,9 @@ import { hostUrl } from '../utils/url'
 
 class Products extends React.Component {
 
-    constructor() {
-        super();
-    }
-
-    sendRequest = (cb, url) => {
+    sendRequest = (cb, url, parameters) => {
         axios
-            .get(url)
+            .get(url, {params: parameters})
             .then((response) => {
                 cb(null, null, response.data);
             }).catch(error => {
@@ -52,11 +48,23 @@ class Products extends React.Component {
     }
 
     getProductById = (cb, id) => {
-        this.sendRequest(cb, hostUrl + "/products/" + id);
+        this.sendRequest(cb, hostUrl + "/products/" + id, {});
     }
 
     getProductsByCategory = (cb, id, path, pageNo) => {
         this.getFilteredProducts(cb, hostUrl + path, {id: id, pageNo: pageNo}); 
+    }
+
+    getProductsByFilters = (cb, params) => {
+        this.getFilteredProducts(cb, hostUrl + "/products", params);
+    }
+
+    getPriceFilterInfo = (cb, params) => {
+        this.sendRequest(cb, hostUrl + "/products/filter/price", params);
+    }
+
+    getCategoriesFilterInfo = (cb, params) => {
+        this.sendRequest(cb, hostUrl + "/products/filter/category", params);
     }
 }
 

@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { homeUrls, shopUrls, accountUrls, homeUrl } from '../utils/url'
 import { Navbar, Nav, Form, FormControl } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap"
 import Logo from '../assets/images/gavel-icon.ico'
 
-const handleSearch = value => {
-    // To do: implement search logic
-}
+function Menu(props) {
 
-function Menu() {
+    const [initialSearch, setInitialSearch] = useState("");
+
+    const handleSearch = event => {
+        event.preventDefault();
+        const formData = new FormData(event.target),
+        formDataObj = Object.fromEntries(formData.entries());
+        if (props.handleSearchChange) props.handleSearchChange(formDataObj.search);
+    }
+
+    useEffect(() => {
+        if (props.initial) setInitialSearch(props.initial);
+    }, [props]);
+
     return (
         <div className="menuContainer">
             <Navbar>
@@ -20,8 +30,8 @@ function Menu() {
                         </div>
                     </Navbar.Brand>
                 </LinkContainer>
-                <Form inline>
-                    <FormControl type="text" placeholder="Try enter: Shoes" className="mr-sm-2" onChange={handleSearch} />
+                <Form noValidate inline onSubmit={handleSearch}>
+                    <FormControl type="text" name="search" placeholder="Try enter: Shoes" defaultValue={initialSearch} className="mr-sm-2" />
                     <i className="fa fa-search" aria-hidden="true"></i>
                 </Form>
                 <Nav className="mr-auto" defaultActiveKey="/my-account">

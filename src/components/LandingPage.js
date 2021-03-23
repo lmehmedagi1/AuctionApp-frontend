@@ -84,10 +84,17 @@ class LandingPage extends React.Component {
         this.props.history.push(url);
     }
 
+    handleSearchChange = search => {
+        this.props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     render() {
         return (
             <div>
-                <Menu />
+                <Menu handleSearchChange={this.handleSearchChange} />
                 <Alert message={this.state.message} showAlert={this.state.show} variant={this.state.variant} onShowChange={this.setShow} />
                 <div className="landingPageContainer">
                     <div className="landingPageHeader">

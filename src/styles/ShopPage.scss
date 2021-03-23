@@ -4,7 +4,60 @@
     display: grid;
     grid-template-columns: 250px auto;
 
-    .productsList {
+    .productsHeader {
+
+        display: flex;
+        justify-content: space-between;
+
+        font-family: Lato-Regular;
+        letter-spacing: 0.56px;
+
+        .sorting .dropdown {
+
+            button {
+                border: 3px solid #ECECEC;
+                border-radius: 0;
+                box-shadow: none;
+                width: 265px;
+                height: 46px;
+                margin-left: 20px;
+                text-align: left;
+                background: #FFFFFF;
+                color: #252525;
+                font-size: 16px !important;
+            }
+
+            .dropdown-menu {
+                width: 265px;
+            }
+        }
+
+        .toggleStyle {
+
+            .btn {
+                background: none;
+                color: #252525;
+                border: none;
+                border-radius: 0;
+                width: 100px;
+                height: 46px;
+                padding-top: 9px;
+                font-family: Lato-Regular;
+                font-weight: bold;
+                font-size: 16px;
+                letter-spacing: 0.56px;
+                
+            }
+
+            .active {
+                background: #8367D8 !important;
+                color: #FFFFFF;
+                border: none;
+            }
+        }
+    }
+
+    .productsGrid, .productsList {
         width: 90%;
         margin: 0 auto;
         display: grid;
@@ -15,6 +68,49 @@
 
         .itemCard .itemImage img {
             height: 350px;
+        }
+    }
+
+    .productsList {
+        grid-template-columns: 1fr;
+        width: 100%;
+        margin-left: 20px;
+
+        .itemCard a {
+            display: grid;
+            grid-template-columns: 212px auto;
+            gap: 20px;
+
+            text-align: left;
+
+            .itemImage {
+                height: 280px;
+                img {
+                    width: 100%;
+                    height: 280px;
+                }
+            }
+
+            .itemDetails {
+                display: block;
+                font-family: Lato-Regular;
+                font-size: 16px;
+                color: #9B9B9B;
+                letter-spacing: 0.56px;
+                line-height: 21px;
+            }
+
+            .itemPrice {
+                font-size: 24px;
+                color: #8367D8;
+                letter-spacing: 0.84px;
+                margin: 20px auto;
+            }
+
+            .itemButtons button {
+                display: inline-block;
+                cursor: pointer;
+            }
         }
     }
 
@@ -38,7 +134,7 @@
 
 @media only screen and (min-width: 600px) and (max-width: 1400px) {
     .shopPageContainer {
-        .productsList {
+        .productsGrid {
             width: 90%;
             margin: 0 auto;
             display: grid;
@@ -52,7 +148,7 @@
 
 @media only screen and (min-width: 300px) and (max-width: 940px) {
     .shopPageContainer {
-        .productsList {
+        .productsGrid {
             width: 90%;
             margin: 0 auto;
             display: grid;
