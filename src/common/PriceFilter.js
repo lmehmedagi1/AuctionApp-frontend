@@ -13,7 +13,7 @@ function PriceFilter(props) {
         setMaxValue(Math.max(...props.prices));
         setFilterMin(props.activeMin);
         props.activeMax == 2147483640 ? setFilterMax(0) : setFilterMax(props.activeMax);
-    }, [props.prices])
+    }, [props.activeMax])
 
     const priceRangeChange = price => {
         setFilterMin(price[0]);
@@ -44,7 +44,7 @@ function PriceFilter(props) {
                 min={props.minPrice}
                 max={props.maxPrice == 2147483640 ? 0 : props.maxPrice}
                 allowCross={false}
-                value={[filterMin < props.minPrice ? props.minPrice : filterMin, filterMax > props.maxPrice ? props.maxPrice : filterMax]}
+                value={[filterMin, filterMax]}
                 onChange={priceRangeChange}
                 onAfterChange={afterPriceRangeChange}
             />

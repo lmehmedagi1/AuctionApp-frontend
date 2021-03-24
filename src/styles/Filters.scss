@@ -1,0 +1,30 @@
+.filtersContainer {
+    
+    margin: 0 12%;
+    margin-top: 20px;
+    font-family: Lato-Regular;
+    font-size: 14px;
+    letter-spacing: 0.49px;
+
+    display: flex;
+
+    .alert {
+        width: auto;
+        height: auto;
+        color: white;
+        background: #8367D8;
+        padding: .3rem 1rem;
+        padding-right: 3rem;
+        margin: 0;
+        border: none;
+        margin-right: 5px;
+
+        border-radius: 15px;
+
+        .close {
+
+            padding: .1rem 1rem;
+            background: none;
+        }
+    }
+}

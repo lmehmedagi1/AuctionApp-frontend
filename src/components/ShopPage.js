@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {withRouter} from 'react-router';
-import { Button, DropdownButton, Dropdown, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
+import { Button, DropdownButton, Dropdown, ToggleButtonGroup, ToggleButton, Spinner } from 'react-bootstrap'
 import { handleAlerts } from '../utils/handlers'
 
 import Menu from '../common/Menu'
@@ -8,6 +8,7 @@ import Alert from '../common/Alert'
 import CategoryList from '../common/CategoryList'
 import ItemCard from '../common/ItemCard'
 import PriceFilter from '../common/PriceFilter'
+import Filters from '../common/Filters'
 
 import productsApi from "../api/products"
 
@@ -20,6 +21,7 @@ function ShopPage(props) {
     const [products, setProducts] = useState([]);
 
     const [listStyle, setListStyle] = useState("grid");
+    const [loading, setLoading] = useState(false);
 
     // Filters
     const [sorting, setSorting] = useState({title: "Default sorting", value: "default"});
@@ -43,7 +45,11 @@ function ShopPage(props) {
 
     // List filter info
     const [listKey, setListKey] = useState(7);
-    const [priceKey, setPriceKey] = useState(7);
+    const [menuKey, setMenuKey] = useState(7);
+
+    // Filet tags 
+    const [supercategoryName, setSupercategoryName] = useState("");
+    const [subcategoriesNames, setSubcategoriesNames] = useState([]);
     
     useEffect(() => {
         let search = "";
@@ -56,6 +62,7 @@ function ShopPage(props) {
     }, []);
 
     const fetchProducts = (cat, minPrice, maxPrice, sort, search, pageNo, subcat) => {
+        setLoading(true);
         let params = new URLSearchParams();
         params.append("cat", cat);
         params.append("minPrice", minPrice);
@@ -73,6 +80,7 @@ function ShopPage(props) {
             setActiveHasNext(data.hasNext);
             if (pageNo > 0) handleAlerts(setShow, setMessage, setVariant, setProducts, message, variant, [...products, ...data.products]);
             else handleAlerts(setShow, setMessage, setVariant, setProducts, message, variant, data.products);
+            setLoading(false);
         }, params);
     }
 
@@ -101,25 +109,36 @@ function ShopPage(props) {
         }
 
         productsApi.getCategoriesFilterInfo((message, variant, data) => {
-            if (data == null) data = {minPrice: 0, maxPrice: 0, avgPrice: 0, histogram: []};
+            if (data == null) data = [];
             handleAlerts(setShow, setMessage, setVariant, setCategories, message, variant, data);
         }, params);
     }
 
     const subcategoryChange = choice => {
         let currSubcategories = subcategories;
-        if (currSubcategories.includes(choice.id)) currSubcategories = currSubcategories.filter(e => e !== choice.id);
-        else currSubcategories.push(choice.id);
+        let currSubcategoriesNames = subcategoriesNames;
+        if (currSubcategories.includes(choice.id)) {
+            currSubcategories = currSubcategories.filter(e => e !== choice.id);
+            currSubcategoriesNames = currSubcategoriesNames.filter(e => e !== choice.name);
+        }
+        else {
+            currSubcategories.push(choice.id);
+            currSubcategoriesNames.push(choice.name);
+        }
         setSubcategories(currSubcategories);
         setActivePageNo(0);
+        setSubcategoriesNames(currSubcategoriesNames);
         fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, 0, currSubcategories);
     }
 
     const supercategoryChange = choice => {
         let id = supercategoryId == choice.id ? "" : choice.id;
+        let name = supercategoryName == choice.name ? "" : choice.name;
         setSupercategoryId(id);
         setSubcategories([]);
         setActivePageNo(0);
+        setSupercategoryName(name);
+        setSubcategoriesNames([]);
         fetchPriceFilterInfo(id, activeMinPrice, activeMaxPrice, sorting, search, 0, []);
     }
 
@@ -164,6 +183,9 @@ function ShopPage(props) {
     }
 
     const setPriceInfo = info => {
+        if (activeMinPrice == 0 || activeMinPrice < info.minPrice) setActiveMinPrice(info.minPrice);
+        if (activeMaxPrice == 2147483640 || activeMaxPrice > info.maxPrice) setActiveMaxPrice(info.maxPrice);
+
         setPrices(info.histogram);
         setMinPrice(info.minPrice);
         setMaxPrice(info.maxPrice);
@@ -181,11 +203,43 @@ function ShopPage(props) {
         fetchCategoriesFilterInfo(activeMinPrice, activeMaxPrice, search);
     }
 
+    // Closable filter tags
+    const resetMinPrice = () => {
+        priceFilterChange({minPrice: minPrice, maxPrice: activeMaxPrice});
+    }
+
+    const resetMaxPrice = () => {
+        priceFilterChange({minPrice: activeMinPrice, maxPrice: maxPrice});
+    }
+
+    const resetSupercategory = () => {
+        supercategoryChange({id: "", name: ""});
+        const newListKey = listKey * 89;
+        setListKey(newListKey);
+    }
+
+    const resetSubcategory = (index) => {
+        let currSubcategories = subcategories.filter((_, i) => i !== index);
+        let currSubcategoriesNames = subcategoriesNames.filter((_, i) => i !== index);
+        setSubcategories(currSubcategories);
+        setActivePageNo(0);
+        setSubcategoriesNames(currSubcategoriesNames);
+        fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, 0, currSubcategories);
+    }
+
+    const resetSearch = () => {
+        handleSearchChange("");
+        const newMenuKey = menuKey * 89;
+        setMenuKey(newMenuKey);
+    }
+
     return (
         <div>
-            <Menu handleSearchChange={handleSearchChange} initial={search}/>
+            <Menu handleSearchChange={handleSearchChange} initial={search} key={menuKey}/>
             {/* <Breadcrumb key={breadcrumbsKey}/> */}
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
+            <Filters minPrice={minPrice} maxPrice={maxPrice} activeMinPrice={activeMinPrice} activeMaxPrice={activeMaxPrice} supercategory={supercategoryName} subcategories={subcategoriesNames} search={search}
+            resetMinPrice={resetMinPrice} resetMaxPrice={resetMaxPrice} resetSupercategory={resetSupercategory} resetSubcategory={resetSubcategory} resetSearch={resetSearch}/>
             <div className="shopPageContainer">
                 <div className="filters">
                     <CategoryList subcategoryChange={subcategoryChange} supercategoryChange={supercategoryChange} categories={categories} key={listKey}/>
@@ -202,6 +256,7 @@ function ShopPage(props) {
                             <Dropdown.Item eventKey="Price: High to Low">Price: High to Low</Dropdown.Item>
                         </DropdownButton>
                         </div>
+                        {loading ? <Spinner className="spinner" animation="border" role="status"/> : null}
                         <div className="toggleStyle">
                         <ToggleButtonGroup type="radio" name="options" defaultValue={listStyle} onChange={handleStyleChange}>
                             <ToggleButton value="grid"><i class="fa fa-th" aria-hidden="true"></i> Grid </ToggleButton>

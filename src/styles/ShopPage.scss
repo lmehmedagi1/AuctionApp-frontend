@@ -32,6 +32,14 @@
             }
         }
 
+        .spinner {
+            // position: absolute;
+            // left: 360px;
+            // color: var(--primary);
+            // top: 17px;
+            margin: auto;
+        }
+
         .toggleStyle {
 
             .btn {
@@ -41,12 +49,21 @@
                 border-radius: 0;
                 width: 100px;
                 height: 46px;
-                padding-top: 9px;
+                padding-top: 9.5px;
                 font-family: Lato-Regular;
                 font-weight: bold;
                 font-size: 16px;
                 letter-spacing: 0.56px;
+                box-shadow: none;
                 
+            }
+
+            .btn-primary {
+                background-color: transparent;
+            }
+
+            .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+                background-color: #8367D8;
             }
 
             .active {

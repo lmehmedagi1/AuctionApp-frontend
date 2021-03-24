@@ -31,7 +31,7 @@ function Menu(props) {
                     </Navbar.Brand>
                 </LinkContainer>
                 <Form noValidate inline onSubmit={handleSearch}>
-                    <FormControl type="text" name="search" placeholder="Try enter: Shoes" defaultValue={initialSearch} className="mr-sm-2" />
+                    <FormControl type="text" name="search" placeholder="Try enter: Shoes" defaultValue={props.initial} className="mr-sm-2" />
                     <i className="fa fa-search" aria-hidden="true"></i>
                 </Form>
                 <Nav className="mr-auto" defaultActiveKey="/my-account">
