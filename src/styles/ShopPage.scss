@@ -9,7 +9,7 @@
         display: flex;
         justify-content: space-between;
 
-        font-family: Lato-Regular;
+        font-family: Lato;
         letter-spacing: 0.56px;
 
         .sorting .dropdown {
@@ -33,10 +33,6 @@
         }
 
         .spinner {
-            // position: absolute;
-            // left: 360px;
-            // color: var(--primary);
-            // top: 17px;
             margin: auto;
         }
 
@@ -50,7 +46,7 @@
                 width: 100px;
                 height: 46px;
                 padding-top: 9.5px;
-                font-family: Lato-Regular;
+                font-family: Lato;
                 font-weight: bold;
                 font-size: 16px;
                 letter-spacing: 0.56px;
@@ -110,7 +106,7 @@
 
             .itemDetails {
                 display: block;
-                font-family: Lato-Regular;
+                font-family: Lato;
                 font-size: 16px;
                 color: #9B9B9B;
                 letter-spacing: 0.56px;
@@ -154,6 +150,7 @@
         .productsGrid {
             width: 90%;
             margin: 0 auto;
+            margin-top: 20px;
             display: grid;
             grid-template-columns: 260px 260px;
             .itemCard .itemImage img {
@@ -168,11 +165,68 @@
         .productsGrid {
             width: 90%;
             margin: 0 auto;
+            margin-top: 20px;
             display: grid;
             grid-template-columns: 260px;
             justify-content: center;
             .itemCard .itemImage img {
                 height: 250px;
+            }
+        }
+
+        .productsHeader .sorting .dropdown {
+
+            button {
+                width: 185px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 770px) {
+    .shopPageContainer {
+
+        .productsHeader  {
+            flex-wrap: wrap;
+            justify-content: left;
+            width: 100%;
+
+            .sorting {
+                flex: 90%;
+                .dropdown button {
+                    margin: 0;
+                    width: 90%;
+                    margin-bottom: 20px;
+                }
+
+                .dropdown .dropdown-menu {
+                    width: 90%;
+                }
+            }
+            .spinner {
+                margin-bottom: 20px;
+            }
+
+            .toggleStyle {
+                flex: 90%;
+            }
+        }
+
+        .productsList {
+
+            margin: 0;
+            margin-top: 20px;
+
+            .itemCard a {
+                grid-template-columns: 1fr;
+            }
+
+            .itemImage {
+                height: 200px;
+                img {
+                    width: 100%;
+                    height: 200px;
+                }
             }
         }
     }

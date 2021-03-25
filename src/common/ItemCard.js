@@ -21,7 +21,7 @@ function ItemCard(props) {
                 </div>
                 <div className="itemButtons">
                     <Button variant="primary" type="submit">
-                        Bid <i class="fa fa-gavel" aria-hidden="true"></i>
+                        Bid <i className="fa fa-gavel" aria-hidden="true"></i>
                     </Button>
                 </div>
                 </div>

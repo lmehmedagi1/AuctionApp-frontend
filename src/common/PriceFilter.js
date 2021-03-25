@@ -14,7 +14,7 @@ function PriceFilter(props) {
         setMaxValue(Math.max(...props.prices));
         setFilterMin(props.activeMin);
         props.activeMax == 2147483640 ? setFilterMax(props.activeMin) : setFilterMax(props.activeMax);
-    }, [props])
+    }, [props]);
 
     const priceRangeChange = price => {
         setFilterMin(price[0]);

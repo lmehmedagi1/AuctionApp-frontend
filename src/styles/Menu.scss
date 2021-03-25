@@ -33,7 +33,7 @@
         box-shadow: 0 0 9px 0 rgba(0,0,0,0.08);
         width: 45%;
 
-        font-family: Lato-Regular;
+        font-family: Lato;
         font-size: 18px;
         color: #252525;
         letter-spacing: 0.63px;
@@ -96,6 +96,7 @@
           flex-wrap: wrap;
           flex-direction: row;
         }
+
         .form-inline {
             order: 4;
             flex: 1 0 80%;
@@ -112,7 +113,8 @@
 
 
         .navbar-nav {
-            font-family: Lato-Light;
+            font-family: Lato;
+            font-weight: lighter;
             font-size: 14px;
         }
     }

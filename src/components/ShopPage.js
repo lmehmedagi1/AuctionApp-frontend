@@ -51,28 +51,80 @@ function ShopPage(props) {
     // Filet tags 
     const [supercategoryName, setSupercategoryName] = useState("");
     const [subcategoriesNames, setSubcategoriesNames] = useState([]);
+
+    let initialMaxLoad = false;
+    let initialMinLoad = false;
     
     useEffect(() => {
-        let search = "";
+        
         let supercategoryId = "";
+        let supercategoryName = "";
+        let subcat = [];
+        let subcatNames = [];
+        let minPrice = 0;
+        let maxPrice = 2147483640;
+        let sort = {title: "Default sorting", value: "default"};
+        let search = "";
+        let pageNo = 0;
+        let listStyle = "grid";
 
-        // Search from a different page
-        if (props.location.state && props.location.state.search) {
-            search = props.location.state.search;
-            setSearch(props.location.state.search);
+        if (props.location.state) {
+
+            if (props.location.state.minPrice && props.location.state.minPrice != 0) {
+                initialMinLoad = true;
+                minPrice = props.location.state.minPrice;
+                setActiveMinPrice(minPrice);
+            }
+            if (props.location.state.maxPrice && props.location.state.maxPrice != 2147483640) {
+                initialMaxLoad = true;
+                maxPrice = props.location.state.maxPrice;
+                setActiveMaxPrice(maxPrice);
+
+            }
+            if (props.location.state.search && props.location.state.search != "") {
+                search = props.location.state.search;
+                setSearch(search);
+            }
+            if (props.location.state.supercategory && props.location.state.supercategory != "") {
+                supercategoryId = props.location.state.supercategory;
+                supercategoryName = props.location.state.supercategoryName;
+                setSupercategoryId(supercategoryId);
+                setSupercategoryName(supercategoryName);
+            }
+            if (props.location.state.subcat && props.location.state.subcat != []) {
+                subcat = props.location.state.subcat;
+                subcatNames = props.location.state.subcatNames;
+                setSubcategories(subcat);
+                setSubcategoriesNames(subcatNames);
+            }
+            if (props.location.state.sort && props.location.state.sort.title != "Default sorting") {
+                sort = props.location.state.sort;
+                setSorting(sort);
+            }
+            if (props.location.state.pageNo && props.location.state.pageNo != 0) {
+                pageNo = props.location.state.pageNo;
+                setActivePageNo(pageNo);
+            }
+            if (props.location.state.list && props.location.state.list != "grid") {
+                listStyle = props.location.state.list;
+                setListStyle(listStyle);
+            }
         }
-        // Selected category from crumbs or landing page
-        if (props.location.state && props.location.state.supercategory) {
-            supercategoryId = props.location.state.supercategory;
-            const supercategoryNameTemp = props.location.state.supercategoryName;
-            supercategoryChange({id: supercategoryId, name: supercategoryNameTemp});
-        }
-        fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, activePageNo, subcategories);
-        fetchCategoriesFilterInfo(activeMinPrice, activeMaxPrice, search);
+
+        fetchPriceFilterInfo(supercategoryId, supercategoryName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames);
+        fetchCategoriesFilterInfo(minPrice, maxPrice, search);
     }, []);
 
-    const fetchProducts = (cat, minPrice, maxPrice, sort, search, pageNo, subcat) => {
+    const updateState = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames, listStyle) => {
+        props.history.replace(props.location.pathname, { supercategory: cat, supercategoryName: catName, minPrice: minPrice, maxPrice: maxPrice, sort: sort, 
+            search: search, pageNo: pageNo, subcat: subcat, subcatNames: subcatNames, list: listStyle });
+    }
+
+    const fetchProducts = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames) => {
         setLoading(true);
+
+        updateState(cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames, listStyle);
+
         let params = new URLSearchParams();
         params.append("cat", cat);
         params.append("minPrice", minPrice);
@@ -94,9 +146,9 @@ function ShopPage(props) {
         }, params);
     }
 
-    const fetchPriceFilterInfo = (cat, minPrice, maxPrice, sort, search, pageNo, subcat) => {
+    const fetchPriceFilterInfo = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames) => {
         
-        fetchProducts(cat, minPrice, maxPrice, sort, search, pageNo, subcat);
+        fetchProducts(cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames);
 
         setLoadingPrice(true);
 
@@ -115,6 +167,7 @@ function ShopPage(props) {
     }
 
     const fetchCategoriesFilterInfo = (minPrice, maxPrice, search) => {
+
         let params = {
             minPrice: minPrice,
             maxPrice: maxPrice,
@@ -141,7 +194,7 @@ function ShopPage(props) {
         setSubcategories(currSubcategories);
         setActivePageNo(0);
         setSubcategoriesNames(currSubcategoriesNames);
-        fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, 0, currSubcategories);
+        fetchPriceFilterInfo(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, 0, currSubcategories, currSubcategoriesNames);
     }
 
     const supercategoryChange = choice => {
@@ -152,13 +205,13 @@ function ShopPage(props) {
         setActivePageNo(0);
         setSupercategoryName(name);
         setSubcategoriesNames([]);
-        fetchPriceFilterInfo(id, activeMinPrice, activeMaxPrice, sorting, search, 0, []);
+        fetchPriceFilterInfo(id, name, activeMinPrice, activeMaxPrice, sorting, search, 0, [], []);
     }
 
     const exploreMore = () => {
         let pageNo = activePageNo + 1;
         setActivePageNo(pageNo);
-        fetchProducts(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, pageNo, subcategories);
+        fetchProducts(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, pageNo, subcategories, subcategoriesNames);
     }
 
     const handleSortingSelect = e => {
@@ -183,7 +236,7 @@ function ShopPage(props) {
         }
 
         setSorting({title: title, value: value});
-        fetchProducts(supercategoryId, activeMinPrice, activeMaxPrice, {title: title, value: value}, search, activePageNo, subcategories);
+        fetchProducts(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, {title: title, value: value}, search, activePageNo, subcategories, subcategoriesNames);
     }
 
     const priceFilterChange = price => {
@@ -191,28 +244,34 @@ function ShopPage(props) {
         setActiveMinPrice(price.minPrice);
         setActiveMaxPrice(price.maxPrice);
         setActivePageNo(0);
-        fetchProducts(supercategoryId, price.minPrice, price.maxPrice, sorting, search, 0, subcategories);
+        fetchProducts(supercategoryId, supercategoryName, price.minPrice, price.maxPrice, sorting, search, 0, subcategories, subcategoriesNames);
         fetchCategoriesFilterInfo(price.minPrice, price.maxPrice, search);
     }
 
     const setPriceInfo = info => {
-        if (activeMinPrice == minPrice || activeMinPrice < info.minPrice) setActiveMinPrice(info.minPrice);
-        if (activeMaxPrice == maxPrice || activeMaxPrice > info.maxPrice) setActiveMaxPrice(info.maxPrice);
+        if (!initialMinLoad && (activeMinPrice == minPrice || activeMinPrice < info.minPrice)) setActiveMinPrice(info.minPrice);
+        if (!initialMaxLoad && (activeMaxPrice == maxPrice || activeMaxPrice > info.maxPrice)) setActiveMaxPrice(info.maxPrice);
 
         setPrices(info.histogram);
         setMinPrice(info.minPrice);
         setMaxPrice(info.maxPrice);
         setAvgPrice(info.avgPrice);
+
+        if (initialMaxLoad || initialMinLoad) {
+            initialMinLoad = false;
+            initialMaxLoad = false;
+        }
     }
 
     const handleStyleChange = e => {
+        updateState(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, activePageNo, subcategories, subcategoriesNames, e);
         setListStyle(e);
     }
 
     const handleSearchChange = search => {
         setSearch(search);
         setActivePageNo(0);
-        fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, 0, subcategories);
+        fetchPriceFilterInfo(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, 0, subcategories, subcategoriesNames);
         fetchCategoriesFilterInfo(activeMinPrice, activeMaxPrice, search);
     }
 
@@ -237,7 +296,7 @@ function ShopPage(props) {
         setSubcategories(currSubcategories);
         setActivePageNo(0);
         setSubcategoriesNames(currSubcategoriesNames);
-        fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, 0, currSubcategories);
+        fetchPriceFilterInfo(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, 0, currSubcategories, currSubcategoriesNames);
     }
 
     const resetSearch = () => {
@@ -271,9 +330,9 @@ function ShopPage(props) {
                         </div>
                         {loading ? <Spinner className="spinner" animation="border" role="status"/> : null}
                         <div className="toggleStyle">
-                        <ToggleButtonGroup type="radio" name="options" defaultValue={listStyle} onChange={handleStyleChange}>
-                            <ToggleButton value="grid"><i class="fa fa-th" aria-hidden="true"></i> Grid </ToggleButton>
-                            <ToggleButton value="list"><i class="fa fa-th-list" aria-hidden="true"></i> List</ToggleButton>
+                        <ToggleButtonGroup type="radio" name="options" value={listStyle} onChange={handleStyleChange}>
+                            <ToggleButton value="grid"><i className="fa fa-th" aria-hidden="true"></i> Grid </ToggleButton>
+                            <ToggleButton value="list"><i className="fa fa-th-list" aria-hidden="true"></i> List</ToggleButton>
                         </ToggleButtonGroup>
                         </div>
                     </div>
