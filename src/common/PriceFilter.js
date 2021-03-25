@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap'
 import { Range } from 'rc-slider';
 
 function PriceFilter(props) {
@@ -12,8 +13,8 @@ function PriceFilter(props) {
         if (!props.prices) return;
         setMaxValue(Math.max(...props.prices));
         setFilterMin(props.activeMin);
-        props.activeMax == 2147483640 ? setFilterMax(0) : setFilterMax(props.activeMax);
-    }, [props.activeMax])
+        props.activeMax == 2147483640 ? setFilterMax(props.activeMin) : setFilterMax(props.activeMax);
+    }, [props])
 
     const priceRangeChange = price => {
         setFilterMin(price[0]);
@@ -27,20 +28,20 @@ function PriceFilter(props) {
     return (
         <div className="priceFilterContainer">
             <div className="priceTitle">
-                FILTER BY PRICE
+                FILTER BY PRICE {props.loading ? <Spinner className="spinner" animation="border" role="status" size="sm"/> : null}
             </div>
-            <div className="price-range-container">
-            <div className="histogram-container">
+            <div className="histogram">
+            <div className="histogramContainer">
                 {props.prices.map((size, i) => (
                     <div
                         key={i}
-                        className="histogram-bar"
+                        className="histogramBar"
                         style={{ width: 'calc(100% / 24)', height: size === 0 ? 0 : 'calc(70px / ' + (maxValue / size) + ')' }}
                     />
                 ))}
             </div>
             <Range
-                className="price-range-slider"
+                className="priceRange"
                 min={props.minPrice}
                 max={props.maxPrice == 2147483640 ? 0 : props.maxPrice}
                 allowCross={false}

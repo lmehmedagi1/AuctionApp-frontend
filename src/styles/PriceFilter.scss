@@ -25,7 +25,11 @@
     .priceTitle {
         color: #8367D8;
         font-weight: bold;
-        padding: .75rem 0
+        padding: .75rem 0;
+
+        .spinner {
+            color: #8367D8;
+        }
     }
 
     .priceInfo {
@@ -33,11 +37,11 @@
     }
     
     
-    .price-range-container {
+    .histogram {
         position: relative;
         height: 80px;
 
-        .histogram-container {
+        .histogramContainer {
             display: flex;
             align-items: flex-end;
             width: 100%;
@@ -49,12 +53,12 @@
             width: 100%;
             height: inherit;
     
-            .histogram-bar {
+            .histogramBar {
                 background-color: #E4E5EC;
             }
         }
 
-        .price-range-slider {
+        .priceRange {
             position: absolute;
             bottom: 0;
 

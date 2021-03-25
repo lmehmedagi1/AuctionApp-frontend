@@ -22,6 +22,7 @@ function ShopPage(props) {
 
     const [listStyle, setListStyle] = useState("grid");
     const [loading, setLoading] = useState(false);
+    const [loadingPrice, setLoadingPrice] = useState(false);
 
     // Filters
     const [sorting, setSorting] = useState({title: "Default sorting", value: "default"});
@@ -53,9 +54,18 @@ function ShopPage(props) {
     
     useEffect(() => {
         let search = "";
+        let supercategoryId = "";
+
+        // Search from a different page
         if (props.location.state && props.location.state.search) {
-            search = props.location.state.search
+            search = props.location.state.search;
             setSearch(props.location.state.search);
+        }
+        // Selected category from crumbs or landing page
+        if (props.location.state && props.location.state.supercategory) {
+            supercategoryId = props.location.state.supercategory;
+            const supercategoryNameTemp = props.location.state.supercategoryName;
+            supercategoryChange({id: supercategoryId, name: supercategoryNameTemp});
         }
         fetchPriceFilterInfo(supercategoryId, activeMinPrice, activeMaxPrice, sorting, search, activePageNo, subcategories);
         fetchCategoriesFilterInfo(activeMinPrice, activeMaxPrice, search);
@@ -88,6 +98,8 @@ function ShopPage(props) {
         
         fetchProducts(cat, minPrice, maxPrice, sort, search, pageNo, subcat);
 
+        setLoadingPrice(true);
+
         let params = new URLSearchParams();
         params.append("cat", cat);
         params.append("search", search);
@@ -98,6 +110,7 @@ function ShopPage(props) {
         productsApi.getPriceFilterInfo((message, variant, data) => {
             if (data == null) data = {minPrice: 0, maxPrice: 0, avgPrice: 0, histogram: []};
             handleAlerts(setShow, setMessage, setVariant, setPriceInfo, message, variant, data);
+            setLoadingPrice(false);
         }, params);
     }
 
@@ -183,8 +196,8 @@ function ShopPage(props) {
     }
 
     const setPriceInfo = info => {
-        if (activeMinPrice == 0 || activeMinPrice < info.minPrice) setActiveMinPrice(info.minPrice);
-        if (activeMaxPrice == 2147483640 || activeMaxPrice > info.maxPrice) setActiveMaxPrice(info.maxPrice);
+        if (activeMinPrice == minPrice || activeMinPrice < info.minPrice) setActiveMinPrice(info.minPrice);
+        if (activeMaxPrice == maxPrice || activeMaxPrice > info.maxPrice) setActiveMaxPrice(info.maxPrice);
 
         setPrices(info.histogram);
         setMinPrice(info.minPrice);
@@ -242,8 +255,8 @@ function ShopPage(props) {
             resetMinPrice={resetMinPrice} resetMaxPrice={resetMaxPrice} resetSupercategory={resetSupercategory} resetSubcategory={resetSubcategory} resetSearch={resetSearch}/>
             <div className="shopPageContainer">
                 <div className="filters">
-                    <CategoryList subcategoryChange={subcategoryChange} supercategoryChange={supercategoryChange} categories={categories} key={listKey}/>
-                    <PriceFilter prices={prices} minPrice={minPrice} maxPrice={maxPrice} avgPrice={avgPrice} activeMin={activeMinPrice} activeMax={activeMaxPrice} priceFilterChange={priceFilterChange} />
+                    <CategoryList subcategoryChange={subcategoryChange} supercategoryChange={supercategoryChange} categories={categories} key={listKey} initial={supercategoryId}/>
+                    <PriceFilter prices={prices} minPrice={minPrice} maxPrice={maxPrice} avgPrice={avgPrice} activeMin={activeMinPrice} activeMax={activeMaxPrice} priceFilterChange={priceFilterChange} loading={loadingPrice}/>
                 </div>
                 <div className="products">
                     <div className="productsHeader">
@@ -267,7 +280,7 @@ function ShopPage(props) {
                     {listStyle == "grid" ?
                         <div className="productsGrid">
                         {products.map((product, index) => {
-                        product.url = window.location.pathname + "/single-product/" + product.id;
+                        product.url = "/shop/single-product/" + product.id;
                         return (
                             <div className="shopPageProduct">
                                 <ItemCard product={product} />
@@ -277,7 +290,7 @@ function ShopPage(props) {
                     :
                         <div className="productsList">
                         {products.map((product, index) => {
-                        product.url = window.location.pathname + "/single-product/" + product.id;
+                        product.url = "/shop/single-product/" + product.id;
                         return (
                             <div className="shopPageProduct">
                                 <ItemCard product={product} />

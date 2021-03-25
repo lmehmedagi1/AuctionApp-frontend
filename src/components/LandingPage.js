@@ -102,7 +102,7 @@ class LandingPage extends React.Component {
                             <p>CATEGORIES</p>
                             <ListGroup>
                                 {this.state.categories.map((category, index) => (
-                                    <Link to={{state: {supercategory: category.id}, pathname: "/shop/" + nameToUrl(category.name)}}>
+                                    <Link to={{state: {supercategory: category.id, supercategoryName: category.name}, pathname: "/shop"}}>
                                         <ListGroup.Item>{category.name}</ListGroup.Item>
                                     </Link>
                                 ))}

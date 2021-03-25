@@ -15,6 +15,7 @@ function CategoryList(props) {
                 categoriesList.push({id: data[i].id, name: data[i].name, subcategories: subcategories});
             }
         }
+        if (props.initial) setActiveCategory(props.initial);
         setCategories(categoriesList);
     }, [props.categories]);
 
