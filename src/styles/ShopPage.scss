@@ -4,7 +4,73 @@
     display: grid;
     grid-template-columns: 250px auto;
 
-    .productsList {
+    .productsHeader {
+
+        display: flex;
+        justify-content: space-between;
+
+        font-family: "Lato", sans-serif;
+        letter-spacing: 0.56px;
+
+        .sorting .dropdown {
+
+            button {
+                border: 3px solid #ECECEC;
+                border-radius: 0;
+                box-shadow: none;
+                width: 265px;
+                height: 46px;
+                margin-left: 20px;
+                text-align: left;
+                background: #FFFFFF;
+                color: #252525;
+                font-size: 16px !important;
+            }
+
+            .dropdown-menu {
+                width: 265px;
+            }
+        }
+
+        .spinner {
+            margin: auto;
+        }
+
+        .toggleStyle {
+
+            .btn {
+                background: none;
+                color: #252525;
+                border: none;
+                border-radius: 0;
+                width: 100px;
+                height: 46px;
+                padding-top: 9.5px;
+                font-family: "Lato", sans-serif;
+                font-weight: bold;
+                font-size: 16px;
+                letter-spacing: 0.56px;
+                box-shadow: none;
+                
+            }
+
+            .btn-primary {
+                background-color: transparent;
+            }
+
+            .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+                background-color: #8367D8;
+            }
+
+            .active {
+                background: #8367D8 !important;
+                color: #FFFFFF;
+                border: none;
+            }
+        }
+    }
+
+    .productsGrid, .productsList {
         width: 90%;
         margin: 0 auto;
         display: grid;
@@ -15,6 +81,49 @@
 
         .itemCard .itemImage img {
             height: 350px;
+        }
+    }
+
+    .productsList {
+        grid-template-columns: 1fr;
+        width: 100%;
+        margin-left: 20px;
+
+        .itemCard a {
+            display: grid;
+            grid-template-columns: 212px auto;
+            gap: 20px;
+
+            text-align: left;
+
+            .itemImage {
+                height: 280px;
+                img {
+                    width: 100%;
+                    height: 280px;
+                }
+            }
+
+            .itemDetails {
+                display: block;
+                font-family: "Lato", sans-serif;
+                font-size: 16px;
+                color: #9B9B9B;
+                letter-spacing: 0.56px;
+                line-height: 21px;
+            }
+
+            .itemPrice {
+                font-size: 24px;
+                color: #8367D8;
+                letter-spacing: 0.84px;
+                margin: 20px auto;
+            }
+
+            .itemButtons button {
+                display: inline-block;
+                cursor: pointer;
+            }
         }
     }
 
@@ -38,9 +147,10 @@
 
 @media only screen and (min-width: 600px) and (max-width: 1400px) {
     .shopPageContainer {
-        .productsList {
+        .productsGrid {
             width: 90%;
             margin: 0 auto;
+            margin-top: 20px;
             display: grid;
             grid-template-columns: 260px 260px;
             .itemCard .itemImage img {
@@ -52,14 +162,71 @@
 
 @media only screen and (min-width: 300px) and (max-width: 940px) {
     .shopPageContainer {
-        .productsList {
+        .productsGrid {
             width: 90%;
             margin: 0 auto;
+            margin-top: 20px;
             display: grid;
             grid-template-columns: 260px;
             justify-content: center;
             .itemCard .itemImage img {
                 height: 250px;
+            }
+        }
+
+        .productsHeader .sorting .dropdown {
+
+            button {
+                width: 185px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 300px) and (max-width: 770px) {
+    .shopPageContainer {
+
+        .productsHeader  {
+            flex-wrap: wrap;
+            justify-content: left;
+            width: 100%;
+
+            .sorting {
+                flex: 90%;
+                .dropdown button {
+                    margin: 0;
+                    width: 90%;
+                    margin-bottom: 20px;
+                }
+
+                .dropdown .dropdown-menu {
+                    width: 90%;
+                }
+            }
+            .spinner {
+                margin-bottom: 20px;
+            }
+
+            .toggleStyle {
+                flex: 90%;
+            }
+        }
+
+        .productsList {
+
+            margin: 0;
+            margin-top: 20px;
+
+            .itemCard a {
+                grid-template-columns: 1fr;
+            }
+
+            .itemImage {
+                height: 200px;
+                img {
+                    width: 100%;
+                    height: 200px;
+                }
             }
         }
     }

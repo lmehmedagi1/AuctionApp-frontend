@@ -1,0 +1,110 @@
+.priceFilterContainer {
+
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.49px;
+    text-align: left;
+    color: #252525;
+    background: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    margin-top: 20px;
+    padding: 0 1.25rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: left;
+    min-height: 200px;
+    border: 1px solid #D8D8D8;
+    padding: .75rem 1.25rem;
+
+    div {
+        color: #9B9B9B;
+    }
+
+    .priceTitle {
+        color: #8367D8;
+        font-weight: bold;
+        padding: .75rem 0;
+
+        .spinner {
+            color: #8367D8;
+        }
+    }
+
+    .priceInfo {
+        margin-bottom: 8px;
+    }
+    
+    
+    .histogram {
+        position: relative;
+        height: 80px;
+
+        .histogramContainer {
+            display: flex;
+            align-items: flex-end;
+            width: 100%;
+
+            display: flex;
+            align-items: flex-end;
+            bottom: 9px;
+            position: absolute;
+            width: 100%;
+            height: inherit;
+    
+            .histogramBar {
+                background-color: #E4E5EC;
+            }
+        }
+
+        .priceRange {
+            position: absolute;
+            bottom: 0;
+
+            height: 14px;
+            padding: 5px 0;
+            width: 100%;
+            border-radius: 6px;
+            touch-action: none;
+    
+            .rc-slider-track {
+                cursor: pointer;
+                background:  #8367D8;
+                border-radius: 1px;
+                height: 2px;
+                position: absolute;
+            }
+        
+            .rc-slider-rail {
+                cursor: pointer;
+                background: #E4E5EC;
+                border-radius: 1px;
+                height: 2px;
+                position: absolute;
+                width: 100%;
+            }
+        
+            .rc-slider-step {
+                cursor: pointer;
+                height: 2px;
+                position: absolute;
+                width: 100%;
+                background: transparent;
+            }
+        
+            .rc-slider-handle {
+                background: radial-gradient(circle, #8367D8 40%, white 40%);
+                width: 20px;
+                height: 20px;
+                margin-top: -10px;
+                border: 1px solid #E4E5EC;
+                border-radius: 50%;
+                position: absolute;
+                touch-action: pan-x;
+            }
+        }
+    }
+
+    
+}

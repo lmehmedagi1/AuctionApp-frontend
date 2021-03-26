@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 import BigImage from '../assets/images/about-us-big-image.jpg'
 import SmallImage1 from '../assets/images/about-us-small-image-1.jpg'
@@ -7,10 +8,18 @@ import SmallImage2 from '../assets/images/about-us-small-image-2.jpg'
 import Breadcrumb from '../common/Breadcrumbs'
 import Menu from '../common/Menu'
 
-function AboutUs() {
+function AboutUs(props) {
+
+    const handleSearchChange = search => {
+        props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     return (
         <div>
-            <Menu />
+            <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb />
             <div className="aboutUsContainer">
                 <div id="aboutTitle">
@@ -40,4 +49,4 @@ function AboutUs() {
     )
 }
 
-export default AboutUs;
+export default withRouter(AboutUs);

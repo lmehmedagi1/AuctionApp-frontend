@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Accordion, Card, ListGroup } from 'react-bootstrap'
 
-import categoriesApi from "../api/categories"
-
 function CategoryList(props) {
 
-    const [categories, setCategories] = useState([{id: "", name: "Test", subcategories: [{id:"", name: "test"}]}]);
+    const [categories, setCategories] = useState([{id: "", name: "", subcategories: [{id:"", name: ""}]}]);
     const [activeCategory, setActiveCategory] = useState("");
 
     useEffect(() => {
-        categoriesApi.getAllCategories((message, variant, data) => {
-            let categoriesList = [];
-            for (let i = 0; i<data.length; i++) {
-                if (!data[i].superCategory) {
-                    let subcategories = data.filter(item => item.superCategory === data[i].id);
-                    categoriesList.push({id: data[i].id, name: data[i].name, subcategories: subcategories});
-                }
+        let categoriesList = [];
+        let data = props.categories;
+        for (let i = 0; i<data.length; i++) {
+            if (!data[i].superCategory) {
+                let subcategories = data.filter(item => item.superCategory === data[i].id);
+                categoriesList.push({id: data[i].id, name: data[i].name, subcategories: subcategories});
             }
-            setCategories(categoriesList);
-
-            if (props.initial != "") setActiveCategory(props.initial);
-        });
-    }, [props.initial]);
+        }
+        if (props.initial) setActiveCategory(props.initial);
+        setCategories(categoriesList);
+    }, [props.categories]);
 
     const subcategoryClicked = choice => {
         props.subcategoryChange(choice);
@@ -32,8 +28,8 @@ function CategoryList(props) {
             setActiveCategory("");
         else {
             setActiveCategory(choice.id);
-            props.supercategoryChange(choice);
         }
+        props.supercategoryChange(choice);
     }
 
     return (

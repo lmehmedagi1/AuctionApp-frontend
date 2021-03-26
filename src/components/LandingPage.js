@@ -84,10 +84,17 @@ class LandingPage extends React.Component {
         this.props.history.push(url);
     }
 
+    handleSearchChange = search => {
+        this.props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     render() {
         return (
             <div>
-                <Menu />
+                <Menu handleSearchChange={this.handleSearchChange} />
                 <Alert message={this.state.message} showAlert={this.state.show} variant={this.state.variant} onShowChange={this.setShow} />
                 <div className="landingPageContainer">
                     <div className="landingPageHeader">
@@ -95,8 +102,8 @@ class LandingPage extends React.Component {
                             <p>CATEGORIES</p>
                             <ListGroup>
                                 {this.state.categories.map((category, index) => (
-                                    <Link to={{state: {supercategory: category.id}, pathname: "/shop/" + nameToUrl(category.name)}}>
-                                        <ListGroup.Item>{category.name}</ListGroup.Item>
+                                    <Link to={{state: {supercategory: category.id, supercategoryName: category.name}, pathname: "/shop"}}>
+                                        <ListGroup.Item key={index}>{category.name}</ListGroup.Item>
                                     </Link>
                                 ))}
                             </ListGroup>

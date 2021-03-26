@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { Formik } from "formik"
 import * as yup from 'yup'
@@ -31,9 +32,16 @@ function Login(props) {
         }, user);
     }
 
+    const handleSearchChange = search => {
+        props.history.push({
+            pathname: '/shop',
+            state: { search: search }
+        });
+    }
+
     return (
         <div>
-            <Menu />
+            <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb />
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <div className="formContainer">
@@ -80,4 +88,4 @@ function Login(props) {
     )
 }
 
-export default Login;
+export default withRouter(Login);
