@@ -9,7 +9,7 @@
         display: flex;
         justify-content: space-between;
 
-        font-family: Lato;
+        font-family: "Lato", sans-serif;
         letter-spacing: 0.56px;
 
         .sorting .dropdown {
@@ -46,7 +46,7 @@
                 width: 100px;
                 height: 46px;
                 padding-top: 9.5px;
-                font-family: Lato;
+                font-family: "Lato", sans-serif;
                 font-weight: bold;
                 font-size: 16px;
                 letter-spacing: 0.56px;
@@ -106,7 +106,7 @@
 
             .itemDetails {
                 display: block;
-                font-family: Lato;
+                font-family: "Lato", sans-serif;
                 font-size: 16px;
                 color: #9B9B9B;
                 letter-spacing: 0.56px;
