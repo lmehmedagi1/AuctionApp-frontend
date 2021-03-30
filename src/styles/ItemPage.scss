@@ -62,6 +62,14 @@
                 margin-bottom: 20px;
             }
 
+            h5 {
+                font-size: 15px;
+                color: #9B9B9B;
+                letter-spacing: 0.52px;
+                line-height: 22px;
+                margin-bottom: 20px;
+            }
+
             p {
                 font-size: 16px;
                 color: #9B9B9B;
@@ -71,6 +79,32 @@
                 span {
                     color: #8367D8;
                     font-weight: bold;
+                }
+            }
+
+            .form-inline {
+
+                margin-top: 30px;
+                .form-control, .btn {
+                    height: 54px;
+                    width: 176px;
+                }
+
+                .form-control {
+                    background: #ECECEC;
+                    border: 1px solid #D8D8D8;
+                    box-shadow: none;
+                }
+
+                .btn {
+                    background: #FFFFFF;
+                    border: 3px solid #8367D8;
+                    border-radius: 0;
+                    box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+                    font-size: 18px;
+                    font-family: "Lato", sans-serif;
+                    font-weight: bold;
+                    color: #252525;
                 }
             }
 
@@ -89,17 +123,115 @@
             }
         }
     }
+
+    .recommendedProducts {
+        .recommendedProductsTitle {
+            font-size: 28px;
+            color: #252525;
+            letter-spacing: 0.98px;
+            border-bottom: 4px solid #ECECEC;
+            text-align: left;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 50px;
+        }
+
+        .itemPageProducts {
+            display: grid;
+            grid-template-columns: 350px 350px 350px;
+            justify-content: space-between;
+
+            .itemPageProduct {
+                text-align: left;
+                img {
+                    width: 350px;
+                    height: 300px;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
+    .bids {
+        font-size: 18px;
+        color: #252525;
+        letter-spacing: 0.63px;
+        text-align: left;
+        margin-top: 50px;
+
+        #pageDropDown {
+            display: none;
+        }
+
+        .page-item .page-link {
+            margin-top: 10px;
+            background: #F0F0F0;
+            color: #252525;
+            box-shadow: none;
+        }
+
+        .react-bootstrap-table-pagination-list .active .page-link {
+            margin-top: 10px;
+            background: #8367D8;
+            color: white;
+            border-color: darken($color: #8367D8, $amount: 2);
+            box-shadow: none;
+        }
+
+        table {
+            margin: 0;
+            table-layout: auto; 
+        }
+
+        thead {
+            background: #F0F0F0;
+            th {
+                border: none;
+            }
+        }
+
+        tbody {
+            background: white;
+            td {
+                border: none;
+                vertical-align: middle;
+                img {
+                    width: 60px;
+                    height: 60px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
 }
 
 @media #{$tablet} {
     .itemPageContainer {
         margin: 5% 5%;
+
+        .recommendedProducts .itemPageProducts {
+            grid-template-columns: 280px 280px 280px;
+
+            .itemPageProduct img {
+                width: 280px;
+                height: 200px;
+            }
+        }
     }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 950px) {
     .itemPageContainer .product .productImages .productImagesGrid {
         grid-template-columns: 1fr 1fr 1fr;
+    }
+    .itemPageContainer .recommendedProducts .itemPageProducts {
+        grid-template-columns: 260px 260px;
+
+        .itemPageProduct img {
+            width: 260px;
+            height: 200px;
+        }
     }
 }
 
@@ -118,6 +250,17 @@
 
         #breadcrumbTitle {
             margin-bottom: 5px;
+        }
+
+        .recommendedProducts .itemPageProducts {
+            grid-template-columns: 260px;
+            justify-content: center;
+            row-gap: 20px;
+    
+            .itemPageProduct img {
+                width: 260px;
+                height: 200px;
+            }
         }
     }
 }

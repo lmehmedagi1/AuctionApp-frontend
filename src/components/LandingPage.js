@@ -11,7 +11,6 @@ import productsApi from "../api/products"
 import { userIsLoggedIn } from "../api/auth"
 
 import { handleAlerts } from '../utils/handlers'
-import { nameToUrl } from '../utils/converters'
 
 class LandingPage extends React.Component {
 

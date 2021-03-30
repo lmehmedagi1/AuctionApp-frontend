@@ -13,13 +13,21 @@ import Header from './common/Header'
 function App() {
 
   const [token, setToken] = useState(null);
+
+  const refreshToken = (token) => {
+    setToken(token);
+  }
+
+  const getToken = () => {
+    return token;
+  }
   
   return (
     <div className="App">
       <Router>
         <div>
           <Header />
-          <Routes token={token} setToken={setToken} />
+          <Routes token={token} setToken={refreshToken} getToken={getToken}/>
           <Footer />
         </div>
       </Router>

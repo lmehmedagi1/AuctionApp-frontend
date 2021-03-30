@@ -27,8 +27,8 @@ function Routes(props) {
         <Route exact path={aboutUrl}><AboutUs /></Route>
         <Route path={termsAndConditionsUrl}><TearmsAndConditions /></Route>
         <Route path={privacyPolicyUrl}><PrivacyPolicy /></Route>
-        <Route path={itemPageUrl} component={ItemPage} />
-        <Route path="/single-product/*" component={ItemPage} />
+        <Route path={itemPageUrl} render={(routeProps) => <ItemPage {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route path="/single-product/*" render={(routeProps) => <ItemPage {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
         <Route exact path={shopPageUrl} component={ShopPage} />
         <Route path={loginUrl}><Login setToken={props.setToken} /></Route>
         <Route path={registerUrl}><Register setToken={props.setToken} /></Route>

@@ -66,6 +66,10 @@ class Products extends React.Component {
     getCategoriesFilterInfo = (cb, params) => {
         this.sendRequest(cb, hostUrl + "/products/filter/category", params);
     }
+
+    getRecommendedProducts = (cb, params) => {
+        this.getFilteredProducts(cb, hostUrl + "/products/single-product/recommended", params);
+    }
 }
 
 export default new Products();

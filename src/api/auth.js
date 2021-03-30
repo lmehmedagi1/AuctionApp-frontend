@@ -24,6 +24,14 @@ export const userIsLoggedIn = () => {
     return localStorage.getItem('user') != null;
 }
 
+function clearCookie(name, domain, path){
+    var domain = domain || document.domain;
+    var path = path || "/";
+    document.cookie = name + "=; expires=" + +new Date + "; domain=" + domain + "; path=" + path;
+};
+
+//clearCookie("refreshToken", ".reddit.com", "/")  
+
 class Auth extends React.Component {
 
     constructor() {
@@ -49,15 +57,17 @@ class Auth extends React.Component {
 
     authenticate = (url, parameters, cb) => {
         axios
-            .post(url, parameters).then((response) => {
+            .post(url, parameters, {
+                headers: {"Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials':true, 'Content-Type': 'application/json'}})
+            .then((response) => {
                 if (response.data.length === 0) {
                     cb("Something went wrong!", "warning");
                     return;
                 }
                 let user = this.extractUser(response.data.user);
                 setUserSession(user);
-                cb(null, null, response.data.jwt);
-            }).catch(error => {
+                cb(null, null, response.data.jwt);})
+            .catch(error => {
                 if (error.response == null)
                     cb("Please check your internet connection!", "warning", null);
                 else
