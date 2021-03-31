@@ -68,6 +68,8 @@ class ItemPage extends React.Component {
             if (product.bids[i].price > highestBid) highestBid = product.bids[i].price;
         
         let timeLeft = timeDifference((new Date(product.endDate)).getTime(), Date.now());
+        if (timeLeft < 0) timeLeft = 0;
+
         let newProduct = {
             title: product.name, 
             startingPrice: product.startingPrice, 
@@ -135,11 +137,14 @@ class ItemPage extends React.Component {
                             <h2>Start from - ${this.state.product.startingPrice}</h2>
                             <Form inline onSubmit={this.handleBidSubmit}>
                                 <FormControl type="text" name="bid" className="mr-sm-2" value={this.state.bidInput} onChange={event => this.setState({bidInput: event.target.value.replace(/[^0-9]+/g,'')})} />
-                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId}>
+                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0}>
                                     PLACE BID <i className="bi bi-chevron-right"></i>
                                 </Button>
                             </Form>
-                            {userIsLoggedIn() ?
+                            {this.state.product.timeLeft <= 0 ?
+                            <h5>Auction has ended</h5>
+                            :
+                            (userIsLoggedIn() ?
                             (getUser().id == this.state.product.sellerId ?
                             <h5>You cannot bid on your own item</h5>
                             :
@@ -147,7 +152,7 @@ class ItemPage extends React.Component {
                             )
                             :
                             <h5>You have to be logged in to place bid</h5>
-                            }
+                            )}
                             <p>Highest bid: <span>${this.state.product.highestBid}</span></p>
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>
