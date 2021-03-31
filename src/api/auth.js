@@ -24,14 +24,6 @@ export const userIsLoggedIn = () => {
     return localStorage.getItem('user') != null;
 }
 
-function clearCookie(name, domain, path){
-    var domain = domain || document.domain;
-    var path = path || "/";
-    document.cookie = name + "=; expires=" + +new Date + "; domain=" + domain + "; path=" + path;
-};
-
-//clearCookie("refreshToken", ".reddit.com", "/")  
-
 class Auth extends React.Component {
 
     constructor() {
@@ -58,6 +50,7 @@ class Auth extends React.Component {
     authenticate = (url, parameters, cb) => {
         axios
             .post(url, parameters, {
+                withCredentials: true,
                 headers: {"Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials':true, 'Content-Type': 'application/json'}})
             .then((response) => {
                 if (response.data.length === 0) {
@@ -85,8 +78,22 @@ class Auth extends React.Component {
     }
 
     logout(cb) {
-        removeUserSession();
-        cb();
+
+        let url = hostUrl + '/logout';
+
+        let params = {}
+
+        let headers = {
+            withCredentials: true,
+            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        }
+
+        axios.post(hostUrl + '/logout-user', "{}", headers)
+            .then((response) => { removeUserSession(); cb(); })
+            .catch(error => { 
+                removeUserSession(); 
+                cb();
+            });
     }
 
     register(cb, values) {
