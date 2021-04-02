@@ -13,6 +13,7 @@ import bidsApi from '../api/bids'
 
 import { handleAlerts } from '../utils/handlers'
 import { timeDifference } from '../utils/calc'
+import { imagePlaceholder } from '../utils/constants'
 
 import { userIsLoggedIn, getUser } from "../api/auth"
 
@@ -60,13 +61,19 @@ class ItemPage extends React.Component {
 
         let images = [];
         if (!product.images.length)
-            images.push("https://www.firstfishonline.com/wp-content/uploads/2017/07/default-placeholder-700x700.png");
+            images.push(imagePlaceholder);
         for (let i = 0; i < product.images.length; i++)
             images.push(product.images[i].url);
+
         let highestBid = 0;
-        for (let i = 0; i < product.bids.length; i++)
-            if (product.bids[i].price > highestBid) highestBid = product.bids[i].price;
-        
+        let highestBidderId = "";
+        for (let i = 0; i < product.bids.length; i++) {
+            if (product.bids[i].price > highestBid) {
+                highestBid = product.bids[i].price;
+                highestBidderId = product.bids[i].user.id;
+            }
+        }
+
         let timeLeft = timeDifference((new Date(product.endDate)).getTime(), Date.now());
         if (timeLeft < 0) timeLeft = 0;
 
@@ -74,6 +81,7 @@ class ItemPage extends React.Component {
             title: product.name, 
             startingPrice: product.startingPrice, 
             highestBid: highestBid, 
+            highestBidderId: highestBidderId,
             numberOfBids: product.bids.length,
             timeLeft: timeLeft,
             details: product.details,
@@ -112,6 +120,20 @@ class ItemPage extends React.Component {
             }, {price: bid, productId: this.state.product.id}, this.props.getToken(), this.props.setToken);
     }
 
+    placeBidDescription = () => {
+
+        if (this.state.product.timeLeft <= 0) return "Auction has ended";
+        else if (!userIsLoggedIn()) return "You have to be logged in to place bid";
+        else if (getUser().id == this.state.product.sellerId) return "You cannot bid on your own item";
+        else if (getUser().id == this.state.product.highestBidderId) return "Your bid is already the highest bid";
+        
+        let minimalBid = 0;
+        if (this.state.product.highestBid >= this.state.product.startingPrice) minimalBid = this.state.product.highestBid + 1;
+        else minimalBid = this.state.product.startingPrice;
+
+        return "Enter $" + minimalBid + " or more";
+    }
+
     render() {
         return (
             <div>
@@ -137,22 +159,11 @@ class ItemPage extends React.Component {
                             <h2>Start from - ${this.state.product.startingPrice}</h2>
                             <Form inline onSubmit={this.handleBidSubmit}>
                                 <FormControl type="text" name="bid" className="mr-sm-2" value={this.state.bidInput} onChange={event => this.setState({bidInput: event.target.value.replace(/[^0-9]+/g,'')})} />
-                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0}>
+                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0 || getUser().id == this.state.product.highestBidderId}>
                                     PLACE BID <i className="bi bi-chevron-right"></i>
                                 </Button>
                             </Form>
-                            {this.state.product.timeLeft <= 0 ?
-                            <h5>Auction has ended</h5>
-                            :
-                            (userIsLoggedIn() ?
-                            (getUser().id == this.state.product.sellerId ?
-                            <h5>You cannot bid on your own item</h5>
-                            :
-                            <h5>Enter ${(this.state.product.highestBid >= this.state.product.startingPrice) ? this.state.product.highestBid + 1 : this.state.product.startingPrice} or more</h5>
-                            )
-                            :
-                            <h5>You have to be logged in to place bid</h5>
-                            )}
+                            <h5>{placeBidDescription()}</h5>
                             <p>Highest bid: <span>${this.state.product.highestBid}</span></p>
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>

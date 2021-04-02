@@ -5,6 +5,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css'
 
+import { imagePlaceholder } from '../utils/constants'
 import { timestampToDate } from '../utils/converters'
 
 function BidderTable(props) {
@@ -14,7 +15,7 @@ function BidderTable(props) {
             dataField: 'user.firstName',
             text: 'Bidder',
             formatter: (value, row) => {
-                return <div><img src="https://www.firstfishonline.com/wp-content/uploads/2017/07/default-placeholder-700x700.png"/> {  row.user.firstName + " " + row.user.lastName}</div>
+                return <div><img src={imagePlaceholder}/> {  row.user.firstName + " " + row.user.lastName}</div>
             }
         }, {
             dataField: 'time',
