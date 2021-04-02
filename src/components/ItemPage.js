@@ -163,7 +163,7 @@ class ItemPage extends React.Component {
                                     PLACE BID <i className="bi bi-chevron-right"></i>
                                 </Button>
                             </Form>
-                            <h5>{placeBidDescription()}</h5>
+                            <h5>{this.placeBidDescription()}</h5>
                             <p>Highest bid: <span>${this.state.product.highestBid}</span></p>
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>
