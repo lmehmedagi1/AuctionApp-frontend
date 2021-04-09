@@ -1,6 +1,6 @@
 import React from 'react'
-import axios from 'axios'
 import { hostUrl } from '../utils/url'
+import Requests from './requests'
 
 // return the user data from the session storage
 export const getUser = () => {
@@ -30,6 +30,29 @@ class Auth extends React.Component {
         super();
     }
 
+    forwardRequest = (cb, params, token, setToken, functionCb) => {
+        if (token == null || token == "") 
+            this.refreshToken(cb, token, setToken, params, functionCb);
+        else 
+            functionCb(cb, token, params);
+    }
+
+    refreshToken = (cb, token, setToken, params, successCb) => {
+
+        Requests.sendPostRequest(cb, hostUrl + "/refresh-token", {}, Requests.getCookieHeader(), 
+            (response) => { 
+                token = response.data;
+                setToken(token);
+                successCb(cb, token, params);
+            },  
+            (message) => {
+                removeUserSession();
+                cb("Your session has expired, log in again!", "warning", null);
+                return;
+            }
+        );
+    }
+
     extractUser = data => {
         let user = {
             id: data.id,
@@ -38,7 +61,13 @@ class Auth extends React.Component {
             email: data.email,
             birthDate: data.birthDate,
             phoneNumber: data.phoneNumber,
-            roles: []
+            gender: data.gender,
+            roles: [],
+            street: data.street,
+            city: data.city,
+            zipcode: data.zipcode,
+            state: data.state,
+            country: data.country
         }
         for (let i = 0; i < data.roles.length; i++) {
             let role = data.roles[i];
@@ -48,24 +77,17 @@ class Auth extends React.Component {
     }
 
     authenticate = (url, parameters, cb) => {
-        axios
-            .post(url, parameters, {
-                withCredentials: true,
-                headers: {"Access-Control-Allow-Origin": "*", 'Access-Control-Allow-Credentials':true, 'Content-Type': 'application/json'}})
-            .then((response) => {
+
+        Requests.sendPostRequest(cb, url, parameters, Requests.getCookieHeader(), 
+            (response) => {
                 if (response.data.length === 0) {
                     cb("Something went wrong!", "warning");
                     return;
                 }
                 let user = this.extractUser(response.data.user);
                 setUserSession(user);
-                cb(null, null, response.data.jwt);})
-            .catch(error => {
-                if (error.response == null)
-                    cb("Please check your internet connection!", "warning", null);
-                else
-                    cb(error.response.data.message, "warning", null);
-            });
+                cb(null, null, response.data.jwt);
+            }, null);
     }
 
     login(cb, values) {
@@ -78,22 +100,9 @@ class Auth extends React.Component {
     }
 
     logout(cb) {
-
-        let url = hostUrl + '/logout';
-
-        let params = {}
-
-        let headers = {
-            withCredentials: true,
-            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
-        }
-
-        axios.post(hostUrl + '/logout-user', "{}", headers)
-            .then((response) => { removeUserSession(); cb(); })
-            .catch(error => { 
-                removeUserSession(); 
-                cb();
-            });
+        Requests.sendPostRequest(cb, hostUrl + '/logout-user', "{}", Requests.getCookieHeader(), 
+        (response) => { removeUserSession(); cb(); }, 
+        (error) => { removeUserSession(); cb(); });
     }
 
     register(cb, values) {
@@ -102,9 +111,27 @@ class Auth extends React.Component {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
+            gender: 'Male',
             password: values.password
         };
         this.authenticate(url, parameters, cb);
+    }
+
+    sendGetCheckIfUserIsSeller = (cb, token, params) => {
+        Requests.sendGetRequest(cb, hostUrl + "/user/seller", Requests.getAuthorizationHeader(token), (response) => { cb(null, null, response.data); }, null);
+    }
+
+    sendPutDeactivateAccount = (cb, token, params) => {
+        Requests.sendPutRequest(cb, hostUrl + "/user/deactivate", "{}", Requests.getAuthorizationHeader(token), 
+            (response) => { this.logout(() => { window.location.href="/"; cb(response.data, "success", null); })}, null);
+    }
+
+    checkIfUserIsSeller = (cb, token, setToken) => {
+        this.forwardRequest(cb, {}, token, setToken, this.sendGetCheckIfUserIsSeller);
+    }
+
+    deactivateAccount = (cb, token, setToken) => {
+        this.forwardRequest(cb, {}, token, setToken, this.sendPutDeactivateAccount);
     }
 }
 

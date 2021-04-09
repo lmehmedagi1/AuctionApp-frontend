@@ -185,7 +185,7 @@ class ItemPage extends React.Component {
                         Related products
                         </div>
                         <div className="itemPageProducts">
-                        {this.state.recommendedProducts.map((product, index) => (
+                        {this.state.recommendedProducts && this.state.recommendedProducts.map((product, index) => (
                             <div className="itemPageProduct">
                                 <ItemCard product={product}/>
                             </div>

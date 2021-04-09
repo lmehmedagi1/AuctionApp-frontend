@@ -24,6 +24,7 @@ class Breadcrumb extends React.Component {
                 if (pages[i] == "single-product") break;
                 name = urlToName('/' + pages[i]);
                 currUrl = currUrl + "/" + pages[i];
+                if (currUrl === "/my-account") currUrl = "/my-account/profile"
                 breadcrumbs.push({ name: name, url: currUrl });
             }
 
@@ -45,6 +46,12 @@ class Breadcrumb extends React.Component {
             name = urlToName(url);
             breadcrumbs.push({ name: name, url: url });
         }
+        else if (url.includes("my-account") && pages.length == 2) {
+            breadcrumbs.push({ name: "MY ACCOUNT", url: "/my-account/profile" });
+            name = urlToName('/' + pages[1]);
+            if (name === "SELLER") name = "BECOME SELLER";
+            breadcrumbs.push({ name: name, url: url });
+        }
 
         this.setState({ breadcrumbs: breadcrumbs, title: name });
     }
@@ -59,7 +66,7 @@ class Breadcrumb extends React.Component {
                 <div id="breadcrumbs" className="breadcrumbsUpdate">
                     {this.state.breadcrumbs.map((breadcrumb, index) => (
                         <div className="breadcrumbColumn">
-                            <div className="breadcrumbLink" onClick={() => this.props.update(breadcrumb.url, true)}>
+                            <div className="breadcrumbLink" onClick={() => this.props.update("profile")}>
                                 {breadcrumb.name}
                                 <span> / </span>
                             </div>

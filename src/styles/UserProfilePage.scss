@@ -1,0 +1,442 @@
+.userProfilePageContainer {
+    margin: 2% 12%;
+    font-family: "Lato", sans-serif;
+
+    .nav {
+        gap: 10px;
+        border: none;
+    }
+
+    .nav-item {
+
+        .nav-link {
+            width: 133px;
+            height: 50px;
+            background: #F0F0F0;
+            color: #252525;
+            font-weight: bold;
+            font-size: 16px;
+            letter-spacing: 0.56px;
+            padding-top: 12px;
+        }
+
+        .nav-link.active {
+            background: #8367D8;
+            color: white;
+        }
+    }
+
+    .spinner {
+        margin-top: 10px;
+    }
+
+    .tab-content {
+        width: 100%;
+    }
+
+    /***** User bids tab *****/
+    .userBidsContainer, .userSellerContainer, .userWishlistContainer {
+        font-size: 18px;
+        color: #252525;
+        letter-spacing: 0.63px;
+        text-align: left;
+        margin-top: 50px;
+
+        .startSellingCard {
+            margin: 0 20%;
+            margin-bottom: 200px;
+            background: #FFFFFF;
+            border: 1px solid #D8D8D8;
+            text-align: center;
+
+            .title {
+                height: 60px;
+                background: #FAFAFA;
+                font-size: 20px;
+                font-weight: bold;
+                color: #252525;
+                letter-spacing: 0.7px;
+
+                position: relative;
+                p {
+                    position: absolute; 
+                    width: 100%;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                }
+            }
+
+            .body {
+
+                div {
+                    width: 99px;
+                    margin: 20px auto;
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                p {
+                    font-size: 18px;
+                    color: #252525;
+                    letter-spacing: 0.63px;
+                    margin-bottom: 0;
+                }
+
+                button {
+                    background: #FFFFFF;
+                    border: 3px solid #8367D8;
+                    box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #252525;
+                    letter-spacing: 0.63px;
+                    width: 303px;
+                    height: 57px;
+                    margin: 70px auto;
+                }
+            }
+        }
+
+        .sellerTabHeader {
+            .toggleStyle {
+                float: left;
+            }
+
+            .addItemButton {
+                float: right;
+
+                button {
+                    background: #8367D8;
+                    border: 3px solid #8367D8;
+                    box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+                    width: 200px;
+                    height: 46px;
+                    font-size: 18px;
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+        #pageDropDown {
+            display: none;
+        }
+
+        .page-item .page-link {
+            margin-top: 10px;
+            background: #F0F0F0;
+            color: #252525;
+            box-shadow: none;
+        }
+
+        .react-bootstrap-table-pagination-list .active .page-link {
+            margin-top: 10px;
+            background: #8367D8;
+            color: white;
+            border-color: darken($color: #8367D8, $amount: 2);
+            box-shadow: none;
+        }
+
+        .emptyTable {
+            border: 1px solid #dee2e6;
+        }
+
+        table {
+            margin: 0;
+            table-layout: auto; 
+        }
+
+        thead {
+            background: #F0F0F0;
+            th {
+                border: none;
+            }
+        }
+
+        tbody {
+            background: white;
+            td {
+                border: none;
+                vertical-align: middle;
+                img {
+                    width: 60px;
+                    height: 60px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+
+                button {
+                    width: 103px;
+                    height: 49px;
+                    background: #FFFFFF;
+                    border: 3px solid #E3E3E3;
+                    box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
+                    color: #252525;
+                    font-weight: bold;
+                    letter-spacing: 0.56px;
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .toggleStyle {
+
+            .btn {
+                color: #252525;
+                background: #FAFAFA;
+                border: 1px solid #D8D8D8;
+                border-radius: 0;
+                width: 100px;
+                height: 46px;
+                padding-top: 9.5px;
+                font-family: "Lato", sans-serif;
+                font-size: 18px;
+                letter-spacing: 0.63px;
+                box-shadow: none;
+            }
+
+            .btn-primary {
+                background-color: transparent;
+            }
+
+            .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+                background-color: #8367D8;
+            }
+
+            .active {
+                background: #8367D8 !important;
+                color: #FFFFFF;
+                border: none;
+            }
+        }
+    }
+
+    /***** Settings tab *****/
+    .userSettingsContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 50px;
+        
+        text-align: left;
+
+        .settingsCard {
+            background: #FFFFFF;
+            border: 1px solid #D8D8D8;
+            font-size: 18px;
+            color: #252525;
+            letter-spacing: 0.63px;
+            
+            .header, .body {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .header {
+                background: #F0F0F0;
+                height: 50px;
+                font-weight: bold;
+                position: relative;
+                p {
+                    position: absolute; 
+                    top: 50%;
+                    transform: translate(0, -50%);
+                }
+            }
+
+            .body {
+                height: 240px;
+                padding-top: 30px;
+
+                p {
+                    margin-bottom: 30px;
+
+                    span {
+                        color: #8367D8;
+                    }
+                }
+
+                button {
+                    background: #FFFFFF;
+                    border: 3px solid #E3E3E3;
+                    box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
+                    width: 243px;
+                    height: 57px;
+                    font-weight: bold;
+                    color: #252525;
+                    letter-spacing: 0.63px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    /***** User profile tab *****/
+    .userProfileContainer {
+
+        .profileCard {
+            background: #FFFFFF;
+            border: 1px solid #D8D8D8;
+            margin-top: 20px;
+            
+            .title, .accountInfo {
+                padding: 0 40px;
+            }
+
+            .title {
+                font-weight: bold;
+                font-size: 20px;
+                color: #252525;
+                letter-spacing: 0.7px;
+                text-align: left;
+                background: #FAFAFA;
+                height: 50px;
+                margin-bottom: 30px;
+                position: relative;
+                p {
+                    position: absolute; 
+                    top: 50%;
+                    transform: translate(0, -50%);
+                }
+            }
+
+            .accountInfo {
+                display: grid;
+                grid-template-columns: 200px auto;
+                gap: 40px;
+                text-align: center;
+
+                .form-label {
+                    font-size: 18px;
+                    color: #252525;
+                    letter-spacing: 0.63px;
+                }
+
+                .form-control {
+                    height: 46px;
+                    font-size: 17px;
+                    color: #252525;
+                    letter-spacing: 0.63px;
+                }
+
+                .image {
+                    width: 200px;
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+                        height: 264px;
+                        object-fit: cover;
+                    }
+
+                    button {
+                        background: #FFFFFF;
+                        border: 3px solid #E3E3E3;
+                        box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: #252525;
+                        letter-spacing: 0.56px;
+                        width: 200px;
+                        height: 50px;
+                        margin-top: 10px;
+                    }
+                }
+
+                .profileForm {
+                    text-align: left;
+                }
+            }
+
+            .cardInfo, .optionalInfo {
+                
+                text-align: left;
+                margin: 0 280px;
+
+                .form-label {
+                    font-size: 16px;
+                    color: #252525;
+                    letter-spacing: 0.56px;
+                    margin-top: 20px;
+                }
+
+                .form-check-label {
+                    font-size: 16px;
+                    color: #252525;
+                    letter-spacing: 0.56px;
+                }
+
+                .form-check {
+                    margin-top: 20px;
+                }
+
+                .form-control {
+                    height: 46px;
+                    font-size: 16px;
+                    letter-spacing: 0.63px;
+                }
+
+                .acceptedCards {
+                    margin: 10px 20px;
+                    p {
+                        color: #9B9B9B;
+                        margin-bottom: 5px;
+                    }
+                }
+
+                .cardImages {
+                    display: flex;
+                    gap: 10px;
+
+                    div {
+                        width: 50px;
+                        height: 30px;
+
+                        img { width: 100%; }
+                    }
+                }
+            }
+
+            .optionalInfo {
+
+                padding-bottom: 40px;
+
+                .form-label {
+                    font-size: 18px;
+                    color: #252525;
+                    letter-spacing: 0.56px;
+                    margin-top: 10px;
+                }
+
+                .form-control {
+                    font-size: 17px;
+                    letter-spacing: 0.63px;
+                }
+
+                p {
+                    font-size: 28px;
+                    color: #252525;
+                    letter-spacing: 0.98px;
+                }
+
+            }
+        }
+
+        button {
+            background: #FFFFFF;
+            border: 3px solid #8367D8;
+            box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+            font-size: 18px;
+            font-weight: bold;
+            color: #252525;
+            letter-spacing: 0.63px;
+            width: 243px;
+            height: 57px;
+
+            float: right;
+            margin-top: 40px;
+            margin-bottom: 200px;
+        }
+
+    }
+}

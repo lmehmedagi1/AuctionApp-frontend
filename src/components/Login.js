@@ -29,9 +29,10 @@ function Login(props) {
     const handleSubmit = user => {
         auth.login((message, variant, token) => {
             handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
-            props.history.push({
-                pathname: '/'
-            });
+            if (token != null)
+                props.history.push({
+                    pathname: '/'
+                });
         }, user);
     }
 

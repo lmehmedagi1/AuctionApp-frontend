@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 import { homeUrls, shopUrls, accountUrls, homeUrl } from '../utils/url'
-import { Navbar, Nav, Form, FormControl } from 'react-bootstrap'
+import { Navbar, Nav, Form, FormControl, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap"
 import Logo from '../assets/images/gavel-icon.ico'
 
 function Menu(props) {
 
     const [initialSearch, setInitialSearch] = useState("");
+    const [show, setShow] = useState(false);
+
+    const showDropdown = (e)=>{
+        setShow(!show);
+    }
+    const hideDropdown = e => {
+        setShow(false);
+    }
 
     const handleSearch = event => {
         event.preventDefault();
@@ -18,6 +27,29 @@ function Menu(props) {
     useEffect(() => {
         if (props.initial) setInitialSearch(props.initial);
     }, [props]);
+
+    const handleMyAccountDropdown = option => {
+
+        if (props.location.state && props.location.state.activeKey) {
+            props.handleTabChange(option);
+            return;
+        }
+
+        props.history.push({
+            pathname: '/my-account/' + option,
+            state: { activeKey: option }
+        });
+    }
+
+    const handleDropdownClick = (event) => {
+        event.preventDefault();
+        if (event.target.className.includes("dropdown-toggle")) {
+            props.history.push({
+                pathname: '/my-account/profile',
+                state: { activeKey: "profile" }
+            });
+        }
+    }
 
     return (
         <div className="menuContainer">
@@ -39,15 +71,26 @@ function Menu(props) {
                         <Nav.Link active={homeUrls.some(v => v == window.location.pathname)}>HOME</Nav.Link>
                     </LinkContainer>
                     <LinkContainer to="/shop">
-                        <Nav.Link active={shopUrls.some(v => v == window.location.pathname)}>SHOP</Nav.Link>
+                        <Nav.Link active={shopUrls.some(v => v == window.location.pathname) || window.location.pathname.includes("/single-product")}>SHOP</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer to="/my-account">
-                        <Nav.Link active={accountUrls.some(v => v == window.location.pathname)}>MY ACCOUNT</Nav.Link>
-                    </LinkContainer>
+                    <NavDropdown title="MY ACCOUNT" id="nav-dropdown" active={accountUrls.some(v => v == window.location.pathname)} show={show}
+                        onMouseEnter={showDropdown} 
+                        onMouseLeave={hideDropdown}
+                        onClick={handleDropdownClick}>
+                        <NavDropdown.Item eventKey="profile"  onClick={() => handleMyAccountDropdown("profile")}  active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="profile"}> Profile</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="seller"   onClick={() => handleMyAccountDropdown("seller")}   active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="seller"}>  Become Seller</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="bids"     onClick={() => handleMyAccountDropdown("bids")}     active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="bids"}>    Your Bids</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="wishlist" onClick={() => handleMyAccountDropdown("wishlist")} active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="wishlist"}>Wishlist</NavDropdown.Item>
+                        <NavDropdown.Item eventKey="settings" onClick={() => handleMyAccountDropdown("settings")} active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="settings"}>Settings</NavDropdown.Item>
+                    </NavDropdown>
                 </Nav>
             </Navbar>
         </div>
     )
 }
+// props.history.push({
+//     pathname: '/shop',
+//     state: { search: search }
+// });
 
-export default Menu;
+export default withRouter(Menu);

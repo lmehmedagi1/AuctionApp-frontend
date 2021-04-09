@@ -10,6 +10,33 @@
 
     .navbar {
         padding: .5rem 0rem;
+
+        .dropdown-item {
+            padding: .25rem 10px;
+            font-size: 16px;
+            color: #9B9B9B;
+            letter-spacing: 0.56px;
+        }
+
+        .dropdown-menu {
+            width: 130px;
+            min-width: 0;
+
+            .active {
+                background-color: transparent;
+                color: #8367D8;
+                font-weight: bold;
+            }
+        }
+
+        .show {
+            width: 130px !important;
+            color: inherit;
+        }
+
+        .dropdown-toggle::after {
+            display: none;
+        }
     }
 
     .navbar-expand {
@@ -63,6 +90,11 @@
         margin-right: 0 !important;
 
         float: right;
+        gap: 8px;
+    }
+
+    .nav-link:hover {
+        color: rgba(0,0,0,.6) !important;
     }
 }
 

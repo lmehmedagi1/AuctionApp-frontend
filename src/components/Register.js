@@ -34,6 +34,10 @@ function Register(props) {
     const handleSubmit = user => {
         auth.register((message, variant, token) => {
             handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
+            if (token != null)
+                props.history.push({
+                    pathname: '/'
+                });
         }, user);
     }
 

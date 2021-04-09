@@ -101,10 +101,6 @@ function ShopPage(props) {
                 sort = props.location.state.sort;
                 setSorting(sort);
             }
-            if (props.location.state.pageNo && props.location.state.pageNo != 0) {
-                pageNo = props.location.state.pageNo;
-                setActivePageNo(pageNo);
-            }
             if (props.location.state.list && props.location.state.list != "grid") {
                 listStyle = props.location.state.list;
                 setListStyle(listStyle);
@@ -115,15 +111,15 @@ function ShopPage(props) {
         fetchCategoriesFilterInfo(minPrice, maxPrice, search);
     }, []);
 
-    const updateState = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames, listStyle) => {
+    const updateState = (cat, catName, minPrice, maxPrice, sort, search, subcat, subcatNames, listStyle) => {
         props.history.replace(props.location.pathname, { supercategory: cat, supercategoryName: catName, minPrice: minPrice, maxPrice: maxPrice, sort: sort, 
-            search: search, pageNo: pageNo, subcat: subcat, subcatNames: subcatNames, list: listStyle });
+            search: search, subcat: subcat, subcatNames: subcatNames, list: listStyle });
     }
 
     const fetchProducts = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames) => {
         setLoading(true);
 
-        updateState(cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames, listStyle);
+        updateState(cat, catName, minPrice, maxPrice, sort, search, subcat, subcatNames, listStyle);
 
         let params = new URLSearchParams();
         params.append("cat", cat);
@@ -264,7 +260,7 @@ function ShopPage(props) {
     }
 
     const handleStyleChange = e => {
-        updateState(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, activePageNo, subcategories, subcategoriesNames, e);
+        updateState(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, subcategories, subcategoriesNames, e);
         setListStyle(e);
     }
 
@@ -308,7 +304,6 @@ function ShopPage(props) {
     return (
         <div>
             <Menu handleSearchChange={handleSearchChange} initial={search} key={menuKey}/>
-            {/* <Breadcrumb key={breadcrumbsKey}/> */}
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <Filters minPrice={minPrice} maxPrice={maxPrice} activeMinPrice={activeMinPrice} activeMaxPrice={activeMaxPrice} supercategory={supercategoryName} subcategories={subcategoriesNames} search={search}
             resetMinPrice={resetMinPrice} resetMaxPrice={resetMaxPrice} resetSupercategory={resetSupercategory} resetSubcategory={resetSubcategory} resetSearch={resetSearch}/>
