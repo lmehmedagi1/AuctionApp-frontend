@@ -18,7 +18,7 @@ const schema = yup.object().shape({
     firstName: yup.string().required("*First name is required")
         .matches(/^[^\p{P}\p{S}\s\d]*$/u,  "*First name can't contain special characters, numbers or whitespaces"),
     lastName: yup.string().required("*Last name is required")
-        .matches(/^[^\p{P}\p{S}\s\d]*$/u,  "*Last name can't contain special characters, numbers or and whitespaces"),
+        .matches(/^([^\p{P}\p{S}\s\d]+[ -]?[^\p{P}\p{S}\s\d]+)*$/u,  "*Last name can only contain characters and a space or dash"),
     phoneNumber: yup.string().required("*Phone number is required")
         .test("digits-only", "*Phone number can only contain digits", value => /^\d*$/.test(value))
         .max(16, "*Phone number can't be longer than 16 characters"),

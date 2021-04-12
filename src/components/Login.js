@@ -12,7 +12,7 @@ import Alert from 'common/Alert'
 
 const schema = yup.object().shape({
     email: yup.string().email("*Email must be valid").required("*Email is required"),
-    password: yup.string().required("*Password is required")
+    password: yup.string().required("*Password is required").matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@\[\]^_`{|}~])(?=\S+$).{8,}$/, "*Password must be at least 8 characters long. There must be at least one digit, one lowercase and one uppercase letter, one special character and no whitespaces!")
 });
 
 const initialValues = {

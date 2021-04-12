@@ -117,7 +117,7 @@ class Auth extends React.Component {
             lastName: values.lastName,
             email: values.email,
             gender: 'Male',
-            birthDate: '2021-01-01',
+            birthDate: '2000-01-01',
             phoneNumber: '0',
             password: values.password
         };

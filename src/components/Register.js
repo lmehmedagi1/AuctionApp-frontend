@@ -12,10 +12,12 @@ import Menu from 'common/Menu'
 import Alert from 'common/Alert'
 
 const schema = yup.object().shape({
-    firstName: yup.string().required("*First name is required"),
-    lastName: yup.string().required("*Last name is required"),
+    firstName: yup.string().required("*First name is required")
+        .matches(/^[^\p{P}\p{S}\s\d]*$/u,  "*First name can't contain special characters, numbers or whitespaces"),
+    lastName: yup.string().required("*Last name is required")
+        .matches(/^([^\p{P}\p{S}\s\d]+[ -]?[^\p{P}\p{S}\s\d]+)*$/u,  "*Last name can only contain characters and a space or dash"),
     email: yup.string().email("*Email must be valid").required("*Email is required"),
-    password: yup.string().required("*Password is required")
+    password: yup.string().required("*Password is required").matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@\[\]^_`{|}~])(?=\S+$).{8,}$/, "*Password must be at least 8 characters long. There must be at least one digit, one lowercase and one uppercase letter, one special character and no whitespaces!")
 });
 
 const initialValues = {
