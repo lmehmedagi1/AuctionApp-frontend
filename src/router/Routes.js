@@ -1,26 +1,26 @@
 import React from 'react'
-import { homeUrl, aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, shopPageUrl, itemPageUrls, loginUrl, registerUrl, userProfileUrls } from '../utils/url'
+import { homeUrl, aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, shopPageUrl, itemPageUrls, loginUrl, registerUrl, userProfileUrls } from 'utils/url'
 
 import {
   Switch,
   Route
 } from "react-router-dom";
 
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from 'router/ProtectedRoute';
 
-import TearmsAndConditions from '../components/TearmsAndConditions'
-import PrivacyPolicy from '../components/PrivacyPolicy'
-import AboutUs from '../components/AboutUs'
+import TearmsAndConditions from 'components/TearmsAndConditions'
+import PrivacyPolicy from 'components/PrivacyPolicy'
+import AboutUs from 'components/AboutUs'
 
-import Login from '../components/Login'
-import Register from '../components/Register'
-import LandingPage from '../components/LandingPage'
-import ShopPage from '../components/ShopPage'
-import ItemPage from '../components/ItemPage'
-import UserProfilePage from '../components/UserProfilePage'
+import Login from 'components/Login'
+import Register from 'components/Register'
+import LandingPage from 'components/LandingPage'
+import ShopPage from 'components/ShopPage'
+import ItemPage from 'components/ItemPage'
+import UserProfilePage from 'components/UserProfilePage'
 
-import ScrollToTop from '../utils/ScrollToTop'
-import NotFound from '../components/NotFound'
+import ScrollToTop from 'utils/ScrollToTop'
+import NotFound from 'components/NotFound'
 
 function Routes(props) {
   return (

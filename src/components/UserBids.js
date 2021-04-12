@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import BidTable from '../common/BidTable'
+import BidTable from 'common/BidTable'
 
 function UserBids(props) {
 

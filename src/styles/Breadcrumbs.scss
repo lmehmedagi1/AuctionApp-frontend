@@ -4,12 +4,12 @@
     grid-template-columns: 1fr 1fr;
     padding: 1% 12%;
 
-    font-family: "Lato", sans-serif;
+    
     font-size: 18px;
-    color: #252525;
+    color: $base-color;
     letter-spacing: 0.63px;
 
-    background: #FAFAFA;
+    background: $light-background-color;
 
     #breadcrumbTitle {
         text-align: left;
@@ -20,14 +20,14 @@
 
         .breadcrumbColumn {
             display: inline-block;
-            font-family: "Lato", sans-serif;
+            
             font-size: 16px;
             opacity: 0.5;
-            color: #252525;
+            color: $base-color;
             letter-spacing: 0.56px;
 
             .breadcrumbLink {
-                color: #252525;   
+                color: $base-color;   
             }
 
             span {

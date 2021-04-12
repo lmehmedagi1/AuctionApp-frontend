@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Form, Col, Row, Button } from 'react-bootstrap'
 import { Formik } from "formik"
 import * as yup from 'yup'
-import auth, { getUser } from '../api/auth'
+import auth, { getUser } from 'api/auth'
 
-import { handleAlerts } from '../utils/handlers'
-import { getMonthNames, getDaysInAMonth, getMonthName, getMonthFromName } from '../utils/converters'
-import { imagePlaceholder, getCountries, getStatesInCountry, getCitiesInStates, getFirstState, getFirstCity } from '../utils/constants'
+import { handleAlerts } from 'utils/handlers'
+import { getMonthNames, getDaysInAMonth, getMonthName, getMonthFromName } from 'utils/converters'
+import { imagePlaceholder, getCountries, getStatesInCountry, getCitiesInStates, getFirstState, getFirstCity } from 'utils/constants'
 
-import Mastercard from '../assets/images/mastercard.jpg'
-import Maestro from '../assets/images/maestro.jpg'
-import AmericanExpress from '../assets/images/americanexpress.png'
-import Visa from '../assets/images/visa.jpg'
+import Mastercard from 'assets/images/mastercard.jpg'
+import Maestro from 'assets/images/maestro.jpg'
+import AmericanExpress from 'assets/images/americanexpress.png'
+import Visa from 'assets/images/visa.jpg'
 
 const schema = yup.object().shape({
     email: yup.string().email("*Email must be valid").required("*Email is required"),
@@ -39,7 +39,7 @@ function UserProfile(props) {
                 pathname: '/login'
             });
         }
-        if (getUser().birthDate) 
+        if (getUser().birthDate != null) 
             setBirthDate({'day': getUser().birthDate.split('-')[2], 'month': getUser().birthDate.split('-')[1], 'year': getUser().birthDate.split('-')[0]});
     }, []);
 
@@ -209,19 +209,19 @@ function UserProfile(props) {
                         <Form.Label>Date of Birth</Form.Label>
                         <Form.Row>
                             <Form.Group as={Col} controlId="formMonth">
-                            <Form.Control as="select" name="month" defaultValue={getMonthName(birthDate.month)} onChange={ event => monthChange(event, handleChange) } >
+                            <Form.Control as="select" name="month" value={getMonthName(birthDate.month)} onChange={ event => monthChange(event, handleChange) } >
                             {getMonthNames().map((name, i) => {return <option>{name}</option>})}
                             </Form.Control>
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formDay">
-                            <Form.Control as="select" name="day" defaultValue={parseInt(birthDate.day)} onChange={ event => dayChange(event, handleChange) } >
+                            <Form.Control as="select" name="day" value={parseInt(birthDate.day)} onChange={ event => dayChange(event, handleChange) } >
                             {getDaysInAMonth(birthDate.year, birthDate.month).map((day, i) => {return <option>{day+1}</option>})}
                             </Form.Control>
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formYear">
-                            <Form.Control as="select" name="year" defaultValue={parseInt(birthDate.year)} onChange={ event => yearChange(event, handleChange) } >
+                            <Form.Control as="select" name="year" value={parseInt(birthDate.year)} onChange={ event => yearChange(event, handleChange) } >
                             {[...Array(70).keys()].map((year, i) => {return <option>{new Date().getFullYear()-year}</option>})}
                             </Form.Control>
                             </Form.Group>

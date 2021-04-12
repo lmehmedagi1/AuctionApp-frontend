@@ -1,8 +1,7 @@
 import React from 'react'
-import { hostUrl } from '../utils/url'
-import Requests from './requests'
-
-import auth from './auth'
+import { hostUrl } from 'utils/url'
+import Requests from 'api/requests'
+import auth from 'api/auth'
 
 class Bids extends React.Component {
 

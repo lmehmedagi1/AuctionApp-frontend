@@ -1,7 +1,7 @@
 import React from 'react'
-import { hostUrl } from '../utils/url'
-import { imagePlaceholder } from '../utils/constants'
-import Requests from './requests'
+import { hostUrl } from 'utils/url'
+import { imagePlaceholder } from 'utils/constants'
+import Requests from 'api/requests'
 
 class Products extends React.Component {
 

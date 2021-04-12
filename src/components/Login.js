@@ -3,12 +3,12 @@ import { withRouter } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { Formik } from "formik"
 import * as yup from 'yup'
-import auth from "../api/auth"
-import { handleAlerts } from '../utils/handlers'
+import auth from "api/auth"
+import { handleAlerts } from 'utils/handlers'
 
-import Breadcrumb from '../common/Breadcrumbs'
-import Menu from '../common/Menu'
-import Alert from '../common/Alert'
+import Breadcrumb from 'common/Breadcrumbs'
+import Menu from 'common/Menu'
+import Alert from 'common/Alert'
 
 const schema = yup.object().shape({
     email: yup.string().email("*Email must be valid").required("*Email is required"),

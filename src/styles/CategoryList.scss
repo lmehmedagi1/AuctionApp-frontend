@@ -1,15 +1,15 @@
 .categoriesListContainer {
 
-    font-family: "Lato", sans-serif;
+    
     font-size: 14px;
     letter-spacing: 0.49px;
     text-align: left;
-    color: #252525;
+    color: $base-color;
     background: #FFFFFF;
-    border: 1px solid #D8D8D8;
+    border: 1px solid $border-color;
 
     .listTitle {
-        color: #8367D8;
+        color: $default-purple-color;
         font-weight: bold;
         padding: .75rem 1.25rem;
     }
@@ -27,7 +27,7 @@
             }
     
             .fa-minus {
-                color: #8367D8;
+                color: $default-purple-color;
             }
         }
     
@@ -40,7 +40,7 @@
     
             .list-group .list-group-item {
                 border: none;
-                color: #9B9B9B;
+                color: $text-color;
             }
     
             .list-group {

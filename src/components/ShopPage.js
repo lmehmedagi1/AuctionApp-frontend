@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import {withRouter} from 'react-router';
 import { Button, DropdownButton, Dropdown, ToggleButtonGroup, ToggleButton, Spinner } from 'react-bootstrap'
-import { handleAlerts } from '../utils/handlers'
+import { handleAlerts } from 'utils/handlers'
 
-import Menu from '../common/Menu'
-import Alert from '../common/Alert'
-import CategoryList from '../common/CategoryList'
-import ItemCard from '../common/ItemCard'
-import PriceFilter from '../common/PriceFilter'
-import Filters from '../common/Filters'
+import Menu from 'common/Menu'
+import Alert from 'common/Alert'
+import CategoryList from 'common/CategoryList'
+import ItemCard from 'common/ItemCard'
+import PriceFilter from 'common/PriceFilter'
+import Filters from 'common/Filters'
 
-import productsApi from "../api/products"
+import productsApi from "api/products"
 
 function ShopPage(props) {
 

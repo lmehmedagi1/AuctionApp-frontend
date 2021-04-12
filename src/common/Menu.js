@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
-import { homeUrls, shopUrls, accountUrls, homeUrl } from '../utils/url'
+import { homeUrls, shopUrls, accountUrls, homeUrl } from 'utils/url'
 import { Navbar, Nav, Form, FormControl, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap"
-import Logo from '../assets/images/gavel-icon.ico'
+import Logo from 'assets/images/gavel-icon.ico'
 
 function Menu(props) {
 

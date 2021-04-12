@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Tab, Nav, Row, Spinner } from 'react-bootstrap'
 
-import Breadcrumb from '../common/Breadcrumbs'
-import Menu from '../common/Menu'
-import Alert from '../common/Alert'
+import Breadcrumb from 'common/Breadcrumbs'
+import Menu from 'common/Menu'
+import Alert from 'common/Alert'
 
-import UserProfile from './UserProfile'
-import UserBids from './UserBids'
-import UserSeller from './UserSeller'
-import UserSettings from './UserSettings'
-import UserWishlist from './UserWishlist'
+import UserProfile from 'components/UserProfile'
+import UserBids from 'components/UserBids'
+import UserSeller from 'components/UserSeller'
+import UserSettings from 'components/UserSettings'
+import UserWishlist from 'components/UserWishlist'
 
 function UserProfilePage(props) {
 

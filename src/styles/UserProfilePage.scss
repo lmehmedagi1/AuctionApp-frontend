@@ -1,6 +1,6 @@
 .userProfilePageContainer {
     margin: 2% 12%;
-    font-family: "Lato", sans-serif;
+    
 
     .nav {
         gap: 10px;
@@ -13,7 +13,7 @@
             width: 133px;
             height: 50px;
             background: #F0F0F0;
-            color: #252525;
+            color: $base-color;
             font-weight: bold;
             font-size: 16px;
             letter-spacing: 0.56px;
@@ -21,7 +21,7 @@
         }
 
         .nav-link.active {
-            background: #8367D8;
+            background: $default-purple-color;
             color: white;
         }
     }
@@ -37,7 +37,7 @@
     /***** User bids tab *****/
     .userBidsContainer, .userSellerContainer, .userWishlistContainer {
         font-size: 18px;
-        color: #252525;
+        color: $base-color;
         letter-spacing: 0.63px;
         text-align: left;
         margin-top: 50px;
@@ -46,15 +46,15 @@
             margin: 0 20%;
             margin-bottom: 200px;
             background: #FFFFFF;
-            border: 1px solid #D8D8D8;
+            border: 1px solid $border-color;
             text-align: center;
 
             .title {
                 height: 60px;
-                background: #FAFAFA;
+                background: $light-background-color;
                 font-size: 20px;
                 font-weight: bold;
-                color: #252525;
+                color: $base-color;
                 letter-spacing: 0.7px;
 
                 position: relative;
@@ -78,18 +78,18 @@
 
                 p {
                     font-size: 18px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.63px;
                     margin-bottom: 0;
                 }
 
                 button {
                     background: #FFFFFF;
-                    border: 3px solid #8367D8;
+                    border: 3px solid $default-purple-color;
                     box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
                     font-size: 18px;
                     font-weight: bold;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.63px;
                     width: 303px;
                     height: 57px;
@@ -107,8 +107,8 @@
                 float: right;
 
                 button {
-                    background: #8367D8;
-                    border: 3px solid #8367D8;
+                    background: $default-purple-color;
+                    border: 3px solid $default-purple-color;
                     box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
                     width: 200px;
                     height: 46px;
@@ -125,15 +125,15 @@
         .page-item .page-link {
             margin-top: 10px;
             background: #F0F0F0;
-            color: #252525;
+            color: $base-color;
             box-shadow: none;
         }
 
         .react-bootstrap-table-pagination-list .active .page-link {
             margin-top: 10px;
-            background: #8367D8;
+            background: $default-purple-color;
             color: white;
-            border-color: darken($color: #8367D8, $amount: 2);
+            border-color: darken($color: $default-purple-color, $amount: 2);
             box-shadow: none;
         }
 
@@ -171,7 +171,7 @@
                     background: #FFFFFF;
                     border: 3px solid #E3E3E3;
                     box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
-                    color: #252525;
+                    color: $base-color;
                     font-weight: bold;
                     letter-spacing: 0.56px;
                     font-size: 16px;
@@ -182,14 +182,14 @@
         .toggleStyle {
 
             .btn {
-                color: #252525;
-                background: #FAFAFA;
-                border: 1px solid #D8D8D8;
+                color: $base-color;
+                background: $light-background-color;
+                border: 1px solid $border-color;
                 border-radius: 0;
                 width: 100px;
                 height: 46px;
                 padding-top: 9.5px;
-                font-family: "Lato", sans-serif;
+                
                 font-size: 18px;
                 letter-spacing: 0.63px;
                 box-shadow: none;
@@ -200,11 +200,11 @@
             }
 
             .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
-                background-color: #8367D8;
+                background-color: $default-purple-color;
             }
 
             .active {
-                background: #8367D8 !important;
+                background: $default-purple-color !important;
                 color: #FFFFFF;
                 border: none;
             }
@@ -222,9 +222,9 @@
 
         .settingsCard {
             background: #FFFFFF;
-            border: 1px solid #D8D8D8;
+            border: 1px solid $border-color;
             font-size: 18px;
-            color: #252525;
+            color: $base-color;
             letter-spacing: 0.63px;
             
             .header, .body {
@@ -252,7 +252,7 @@
                     margin-bottom: 30px;
 
                     span {
-                        color: #8367D8;
+                        color: $default-purple-color;
                     }
                 }
 
@@ -263,7 +263,7 @@
                     width: 243px;
                     height: 57px;
                     font-weight: bold;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.63px;
                     text-align: center;
                 }
@@ -276,7 +276,7 @@
 
         .profileCard {
             background: #FFFFFF;
-            border: 1px solid #D8D8D8;
+            border: 1px solid $border-color;
             margin-top: 20px;
             
             .title, .accountInfo {
@@ -286,10 +286,10 @@
             .title {
                 font-weight: bold;
                 font-size: 20px;
-                color: #252525;
+                color: $base-color;
                 letter-spacing: 0.7px;
                 text-align: left;
-                background: #FAFAFA;
+                background: $light-background-color;
                 height: 50px;
                 margin-bottom: 30px;
                 position: relative;
@@ -308,14 +308,14 @@
 
                 .form-label {
                     font-size: 18px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.63px;
                 }
 
                 .form-control {
                     height: 46px;
                     font-size: 17px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.63px;
                 }
 
@@ -335,7 +335,7 @@
                         box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
                         font-size: 16px;
                         font-weight: bold;
-                        color: #252525;
+                        color: $base-color;
                         letter-spacing: 0.56px;
                         width: 200px;
                         height: 50px;
@@ -355,14 +355,14 @@
 
                 .form-label {
                     font-size: 16px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.56px;
                     margin-top: 20px;
                 }
 
                 .form-check-label {
                     font-size: 16px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.56px;
                 }
 
@@ -379,7 +379,7 @@
                 .acceptedCards {
                     margin: 10px 20px;
                     p {
-                        color: #9B9B9B;
+                        color: $text-color;
                         margin-bottom: 5px;
                     }
                 }
@@ -403,7 +403,7 @@
 
                 .form-label {
                     font-size: 18px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.56px;
                     margin-top: 10px;
                 }
@@ -415,7 +415,7 @@
 
                 p {
                     font-size: 28px;
-                    color: #252525;
+                    color: $base-color;
                     letter-spacing: 0.98px;
                 }
 
@@ -424,11 +424,11 @@
 
         button {
             background: #FFFFFF;
-            border: 3px solid #8367D8;
+            border: 3px solid $default-purple-color;
             box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
             font-size: 18px;
             font-weight: bold;
-            color: #252525;
+            color: $base-color;
             letter-spacing: 0.63px;
             width: 243px;
             height: 57px;

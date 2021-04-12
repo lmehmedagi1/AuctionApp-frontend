@@ -1,12 +1,12 @@
 .priceFilterContainer {
 
-    font-family: "Lato", sans-serif;
+    
     font-size: 14px;
     letter-spacing: 0.49px;
     text-align: left;
-    color: #252525;
+    color: $base-color;
     background: #FFFFFF;
-    border: 1px solid #D8D8D8;
+    border: 1px solid $border-color;
     margin-top: 20px;
     padding: 0 1.25rem;
 
@@ -15,20 +15,20 @@
     justify-content: space-evenly;
     text-align: left;
     min-height: 200px;
-    border: 1px solid #D8D8D8;
+    border: 1px solid $border-color;
     padding: .75rem 1.25rem;
 
     div {
-        color: #9B9B9B;
+        color: $text-color;
     }
 
     .priceTitle {
-        color: #8367D8;
+        color: $default-purple-color;
         font-weight: bold;
         padding: .75rem 0;
 
         .spinner {
-            color: #8367D8;
+            color: $default-purple-color;
         }
     }
 
@@ -70,7 +70,7 @@
     
             .rc-slider-track {
                 cursor: pointer;
-                background:  #8367D8;
+                background:  $default-purple-color;
                 border-radius: 1px;
                 height: 2px;
                 position: absolute;
@@ -94,7 +94,7 @@
             }
         
             .rc-slider-handle {
-                background: radial-gradient(circle, #8367D8 40%, white 40%);
+                background: radial-gradient(circle, $default-purple-color 40%, white 40%);
                 width: 20px;
                 height: 20px;
                 margin-top: -10px;

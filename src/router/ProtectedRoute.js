@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { userIsLoggedIn } from "../api/auth";
+import { userIsLoggedIn } from "api/auth";
 
 function ProtectedRoute({ children, ...rest }) {
   return (

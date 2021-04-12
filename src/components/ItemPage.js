@@ -2,20 +2,20 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { Button, Form, FormControl } from 'react-bootstrap'
 
-import Menu from '../common/Menu'
-import Breadcrumb from '../common/Breadcrumbs'
-import Alert from '../common/Alert'
-import ItemCard from '../common/ItemCard'
-import BidderTable from '../common/BidderTable'
+import Menu from 'common/Menu'
+import Breadcrumb from 'common/Breadcrumbs'
+import Alert from 'common/Alert'
+import ItemCard from 'common/ItemCard'
+import BidderTable from 'common/BidderTable'
 
-import productsApi from '../api/products'
-import bidsApi from '../api/bids'
+import productsApi from 'api/products'
+import bidsApi from 'api/bids'
 
-import { handleAlerts } from '../utils/handlers'
-import { timeDifference } from '../utils/calc'
-import { imagePlaceholder } from '../utils/constants'
+import { handleAlerts } from 'utils/handlers'
+import { timeDifference } from 'utils/calc'
+import { imagePlaceholder } from 'utils/constants'
 
-import { userIsLoggedIn, getUser } from "../api/auth"
+import { userIsLoggedIn, getUser } from "api/auth"
 
 class ItemPage extends React.Component {
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Form, Button, Modal } from 'react-bootstrap'
-import auth, { getUser } from '../api/auth'
+import auth, { getUser } from 'api/auth'
 
-import { handleAlerts } from '../utils/handlers'
+import { handleAlerts } from 'utils/handlers'
 
 function UserSettings(props) {
 

@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
-import { loginUrl } from '../utils/url'
-import { handleAlerts } from '../utils/handlers'
+import { loginUrl } from 'utils/url'
+import { handleAlerts } from 'utils/handlers'
 import { Formik } from "formik"
 import * as yup from 'yup'
-import auth from "../api/auth"
+import auth from "api/auth"
 
-import Breadcrumb from '../common/Breadcrumbs'
-import Menu from '../common/Menu'
-import Alert from '../common/Alert'
+import Breadcrumb from 'common/Breadcrumbs'
+import Menu from 'common/Menu'
+import Alert from 'common/Alert'
 
 const schema = yup.object().shape({
     firstName: yup.string().required("*First name is required"),

@@ -5,9 +5,9 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 
-import Routes from './router/Routes'
-import Footer from './common/Footer'
-import Header from './common/Header'
+import Routes from 'router/Routes'
+import Footer from 'common/Footer'
+import Header from 'common/Header'
 
 
 function App() {

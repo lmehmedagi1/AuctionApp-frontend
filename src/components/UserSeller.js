@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 
-import BidTable from '../common/BidTable'
-import authApi from '../api/auth'
-import { handleAlerts } from '../utils/handlers'
+import BidTable from 'common/BidTable'
+import authApi from 'api/auth'
+import { handleAlerts } from 'utils/handlers'
 
-import ShoppingBag from '../assets/images/shoppingBag.jpg'
+import ShoppingBag from 'assets/images/shoppingBag.jpg'
 
 function UserSeller(props) {
 

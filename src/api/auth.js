@@ -1,6 +1,6 @@
 import React from 'react'
-import { hostUrl } from '../utils/url'
-import Requests from './requests'
+import { hostUrl } from 'utils/url'
+import Requests from 'api/requests'
 
 // return the user data from the session storage
 export const getUser = () => {

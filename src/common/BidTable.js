@@ -7,10 +7,10 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css'
 
-import { timeDifference } from '../utils/calc'
-import { handleAlerts } from '../utils/handlers'
+import { timeDifference } from 'utils/calc'
+import { handleAlerts } from 'utils/handlers'
 
-import bidsApi from '../api/bids'
+import bidsApi from 'api/bids'
 
 function BidTable(props) {
 

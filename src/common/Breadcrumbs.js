@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { urlToName } from '../utils/converters'
+import { urlToName } from 'utils/converters'
 
 class Breadcrumb extends React.Component {
 
