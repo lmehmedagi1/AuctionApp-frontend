@@ -59,9 +59,14 @@ class Auth extends React.Component {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
-            birthDate: data.birthDate,
-            phoneNumber: data.phoneNumber,
             gender: data.gender,
+            phoneNumber: data.phoneNumber,
+            birthDate: data.birthDate,
+            nameOnCard: data.nameOnCard,
+            cardNumber: data.cardNumber,
+            cardExpirationYear: data.cardExpirationYear,
+            cardExpirationMonth: data.cardExpirationMonth,
+            cvc: data.cvc,
             roles: [],
             street: data.street,
             city: data.city,
@@ -112,6 +117,8 @@ class Auth extends React.Component {
             lastName: values.lastName,
             email: values.email,
             gender: 'Male',
+            birthDate: '2021-01-01',
+            phoneNumber: '0',
             password: values.password
         };
         this.authenticate(url, parameters, cb);
@@ -126,12 +133,28 @@ class Auth extends React.Component {
             (response) => { this.logout(() => { window.location.href="/"; cb(response.data, "success", null); })}, null);
     }
 
+    sendPutUpdateUserInfo = (cb, token, params) => {
+        Requests.sendPutRequest(cb, hostUrl + "/user/update", params, Requests.getAuthorizationHeader(token), 
+            (response) => { 
+                let user = this.extractUser(response.data.user);
+                removeUserSession();
+                setUserSession(user);
+                cb(null, null, response.data.jwt);
+                cb("You have successfully updated your account", "success", null);
+            }, null);
+    }
+
     checkIfUserIsSeller = (cb, token, setToken) => {
         this.forwardRequest(cb, {}, token, setToken, this.sendGetCheckIfUserIsSeller);
     }
 
     deactivateAccount = (cb, token, setToken) => {
         this.forwardRequest(cb, {}, token, setToken, this.sendPutDeactivateAccount);
+    }
+
+    updateUserInfo = (cb, token, setToken, userInfo) => {
+        console.log(userInfo);
+        this.forwardRequest(cb, userInfo, token, setToken, this.sendPutUpdateUserInfo);
     }
 }
 

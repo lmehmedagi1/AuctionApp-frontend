@@ -440,3 +440,40 @@
 
     }
 }
+
+@media #{$tablet} {
+    .userProfilePageContainer {
+        margin: 5% 5%;
+
+        .userProfileContainer {
+            .cardInfo, .optionalInfo {
+                margin: 0 20px !important;
+            }
+        }
+    }
+}
+
+@media #{$mobile} {
+    .userProfilePageContainer {
+        margin: 5% 5%;
+
+        .userProfileContainer {
+            .cardInfo, .optionalInfo {
+                margin: 0 10px !important;
+            }
+
+            .accountInfo {
+                grid-template-columns: 1fr !important;
+
+                .image {
+                    width: 100% !important;
+
+                    button {
+                        width: 100% !important;
+                        margin-bottom: 10px !important;
+                    }
+                }
+            }
+        }
+    }
+}

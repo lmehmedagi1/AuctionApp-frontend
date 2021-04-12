@@ -64,18 +64,18 @@ function BidTable(props) {
             dataField: 'price',
             text: 'Your Price',
             formatter: (value, row) => {
-                if (row.price == row.highestPrice) return <div style={{ color: 'green' }}>$ {row.price}</div> 
+                if (row.price == row.productHighestPrice) return <div style={{ color: 'green' }}>$ {row.price}</div> 
                 return <div>$ {row.price}</div>
             }
         }, {
-            dataField: 'noBids',
+            dataField: 'totalBidsNumber',
             text: 'No. Bids'
         }, {
-            dataField: 'highestPrice',
+            dataField: 'productHighestPrice',
             text: 'Highest Bid',
             formatter: (value, row) => {
-                if (row.price == row.highestPrice) return <div style={{ color: 'green' }}>$ {row.highestPrice}</div> 
-                return <div style={{ color: '#5B9ED6' }}>$ {row.highestPrice}</div>
+                if (row.price == row.productHighestPrice) return <div style={{ color: 'green' }}>$ {row.productHighestPrice}</div> 
+                return <div style={{ color: '#5B9ED6' }}>$ {row.productHighestPrice}</div>
             }
         }, {
             dataField: 'product.startingPrice',

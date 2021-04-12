@@ -88,9 +88,5 @@ function Menu(props) {
         </div>
     )
 }
-// props.history.push({
-//     pathname: '/shop',
-//     state: { search: search }
-// });
 
 export default withRouter(Menu);

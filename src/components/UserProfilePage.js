@@ -85,7 +85,7 @@ function UserProfilePage(props) {
             <Row>
                 <Tab.Content>
                     <Tab.Pane eventKey="profile"  active={activeTab == "profile"}>
-                    <UserProfile /> 
+                    <UserProfile setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/> 
                     </Tab.Pane>
                     <Tab.Pane eventKey="seller"   active={activeTab == "seller"}>
                     <UserSeller handleSellerTabChange={handleSellerTabChange} sellerType={sellerType} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/>

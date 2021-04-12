@@ -7,9 +7,18 @@ export const nameToUrl = name => {
 export const urlToName = url => {
     return url.replaceAll("-", " ").toUpperCase().substr(1);
 }
+
 export const timestampToDate = timestamp => {
     const longDateTimeFormat = "D MMMM YYYY";
     return moment.utc(timestamp ).local().format(longDateTimeFormat);
+}
+
+export const getMonthName = (month) => {
+    return getMonthNames()[parseInt(month)-1];
+}
+
+export const getMonthFromName = (month) => {
+    return getMonthNames().indexOf(month) + 1;
 }
 
 export const getMonthNames = () => {
@@ -20,7 +29,6 @@ export const getMonthNames = () => {
     return months;
 }
 
-export const getDaysInAMonth = (month) => {
-    let days = [...Array(moment(new Date().getFullYear() + "-" + month, "YYYY-MM").daysInMonth()).keys()];
-    return days
+export const getDaysInAMonth = (year, month) => {
+    return [...Array(moment(year + "-" + month, "YYYY-MM").daysInMonth()).keys()];
 }

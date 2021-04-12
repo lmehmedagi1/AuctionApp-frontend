@@ -12,6 +12,10 @@ class Products extends React.Component {
     getFilteredProducts = (cb, url, parameters) => {
         Requests.sendGetRequest(cb, url, {params: parameters}, 
         (response) => {
+            if (response.data == null) {
+                cb("Something went wrong!", "warning");
+                return;
+            }
             let products = response.data;
             if (products.products != null) products = products.products;
             for (let i = 0; i<products.length; i++) {
