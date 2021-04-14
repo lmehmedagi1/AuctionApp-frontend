@@ -2,6 +2,7 @@ import React from 'react'
 import { hostUrl } from 'utils/url'
 import { imagePlaceholder } from 'utils/constants'
 import Requests from 'api/requests'
+import auth from 'api/auth'
 
 class Products extends React.Component {
 
@@ -20,7 +21,7 @@ class Products extends React.Component {
             if (products.products != null) products = products.products;
             for (let i = 0; i<products.length; i++) {
                 let image = imagePlaceholder;
-                if (products[i].images.length > 0) image = products[i].images[0].url;
+                if (products[i].images.length > 0) image = 'data:'+products[i].images[0].type+';base64,'+products[i].images[0].url; //products[i].images[0].url;
                 products[i].url = "/single-product/" + products[i].id;
                 products[i].image = image;
             }
@@ -59,6 +60,25 @@ class Products extends React.Component {
 
     getRecommendedProducts = (cb, params) => {
         this.getFilteredProducts(cb, hostUrl + "/products/single-product/recommended", params);
+    }
+
+    sendAddNewProductRequest = (cb, token, params) => {
+        Requests.sendPostRequest(cb, hostUrl + "/product/add", params, Requests.getAuthorizationHeader(token), 
+            (response) => { cb(response.data, "success", null); }, null
+        );
+    }
+
+    addNewProduct = (cb, params, token, setToken) => {
+        let newParams = {
+            name: params.name,
+            details: params.description,
+            startingPrice: params.price,
+            startDate: params.startDate + 'T00:00:00.000',
+            endDate: params.endDate + 'T00:00:00.000',
+            subcategory: params.subcategory,
+            images: [...params.images]
+        }
+        auth.forwardRequest(cb, JSON.parse(JSON.stringify(params)), token, setToken, this.sendAddNewProductRequest);
     }
 }
 

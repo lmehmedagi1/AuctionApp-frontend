@@ -72,7 +72,9 @@ class Auth extends React.Component {
             city: data.city,
             zipcode: data.zipcode,
             state: data.state,
-            country: data.country
+            country: data.country,
+            avatar: data.avatar,
+            avatarType: data.avatarType
         }
         for (let i = 0; i < data.roles.length; i++) {
             let role = data.roles[i];
@@ -153,7 +155,6 @@ class Auth extends React.Component {
     }
 
     updateUserInfo = (cb, token, setToken, userInfo) => {
-        console.log(userInfo);
         this.forwardRequest(cb, userInfo, token, setToken, this.sendPutUpdateUserInfo);
     }
 }

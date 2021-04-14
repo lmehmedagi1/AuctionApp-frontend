@@ -29,8 +29,11 @@ const schema = yup.object().shape({
 
 function UserProfile(props) {
 
-    const [address, setAddress] = useState({'country': getUser().country, 'state': getUser().state, 'city': getUser().city});
+    const [address, setAddress] = useState({'country': '', 'state': '', 'city': ''});
     const [birthDate, setBirthDate] = useState({'day': new Date().getDate(), 'month': new Date().getMonth() + 1, 'year': new Date().getFullYear()});
+
+    const [image, setImage] = useState("");
+    const [base64URL, setBase64URL] = useState("");
 
     useEffect(() => {
 
@@ -38,25 +41,35 @@ function UserProfile(props) {
             props.history.push({
                 pathname: '/login'
             });
+            return;
         }
+
+        setImage({ type: getUser().avatarType != null ? getUser().avatarType : 'image/png'});
+        setBase64URL(getUser().avatar != null ? getUser().avatar : 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==');
+
+        setAddress({'country': getUser().country, 'state': getUser().state, 'city': getUser().city});
         if (getUser().birthDate != null) 
             setBirthDate({'day': getUser().birthDate.split('-')[2], 'month': getUser().birthDate.split('-')[1], 'year': getUser().birthDate.split('-')[0]});
     }, []);
 
     const handleSubmit = user => {
-        console.log("submit");
 
         let updatedInfo = {};
 
-        if (birthDate.month < 10) birthDate.month = '0' + birthDate.month;
-        if (birthDate.day < 10) birthDate.day = '0' + birthDate.day;
+        let month = birthDate.month;
+        let day = birthDate.day;
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
 
         updatedInfo.firstName = user.firstName ? user.firstName : getUser().firstName;
         updatedInfo.lastName = user.lastName ? user.lastName : getUser().lastName;
         updatedInfo.gender = user.gender ? user.gender : getUser().gender;
-        updatedInfo.birthDate = birthDate.year + '-' + birthDate.month + '-' + birthDate.day;
+        updatedInfo.birthDate = birthDate.year + '-' + month + '-' + day;
         updatedInfo.phoneNumber = user.phoneNumber ? user.phoneNumber : getUser().phoneNumber;
         updatedInfo.email = user.email ? user.email : getUser().email;
+        updatedInfo.avatar = base64URL;
+        updatedInfo.avatarType = image.type;
 
         updatedInfo.nameOnCard = user.nameOnCard ? user.nameOnCard : getUser().nameOnCard;
         updatedInfo.cardNumber = user.cardNumber ? user.cardNumber : getUser().cardNumber;
@@ -139,6 +152,14 @@ function UserProfile(props) {
     }
 
     const getInitialValues = () => {
+
+        if (getUser() == null) {
+            props.history.push({
+                pathname: '/login'
+            });
+            return;
+        }
+
         return {
             firstName: getUser().firstName,
             lastName: getUser().lastName,
@@ -163,6 +184,41 @@ function UserProfile(props) {
         }
     }
 
+    const getBase64 = file => {
+        return new Promise(resolve => {
+            let baseURL = "";
+
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                baseURL = reader.result;
+                resolve(baseURL);
+            };
+        });
+    };
+
+    const handleFileInputChange = e => {
+
+        let file = e.target.files[0];
+
+        if (file.type.substring(0, 6) != "image/") {
+            handleAlerts(props.setShow, props.setMessage, props.setVariant, null, "Invalid image type", "warning", null);
+            return;
+        }
+
+        getBase64(file)
+            .then(result => {
+                file["base64"] = result;
+                setBase64URL(result.substring(13 + file.type.length));
+                setImage(file);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        setImage(e.target.files[0]);
+    }
+
     return (
         <div className="userProfileContainer">
 
@@ -179,9 +235,10 @@ function UserProfile(props) {
                 <div className="title"><p>REQUIRED</p></div>
                 <div className="accountInfo">
                     <div className="image">
-                        <div>
-                            <img src={imagePlaceholder} alt="Profile image"/>
-                            <button>CHANGE PHOTO</button>
+                        <div id="myFileDiv">
+                            <img src={'data:'+image.type+';base64,'+base64URL} alt="Profile image"/>
+                            <input type="file" id="inputFile" onChange={handleFileInputChange} accept="image/*"/>
+                            <label for="inputFile">CHANGE PHOTO</label>
                         </div>
                     </div>
                     <div className="profileForm">

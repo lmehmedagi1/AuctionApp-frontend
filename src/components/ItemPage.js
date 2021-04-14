@@ -63,7 +63,7 @@ class ItemPage extends React.Component {
         if (!product.images.length)
             images.push(imagePlaceholder);
         for (let i = 0; i < product.images.length; i++)
-            images.push(product.images[i].url);
+            images.push('data:'+product.images[i].type+';base64,'+product.images[i].url);
 
         let highestBid = 0;
         let highestBidderId = "";
