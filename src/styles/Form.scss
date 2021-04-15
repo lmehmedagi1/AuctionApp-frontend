@@ -93,6 +93,20 @@
                     }
                 }
             }
+
+            .formInfoText {
+                width: 85%;
+                border: none;
+                margin: 20px auto;
+            }
+
+            .forgotPassword {
+                width: 85%;
+                border: none;
+                margin: 30px auto;
+                text-align: center;
+                cursor: pointer;
+            }
         }
     }
 }

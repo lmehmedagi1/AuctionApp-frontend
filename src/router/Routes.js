@@ -1,5 +1,5 @@
 import React from 'react'
-import { homeUrl, aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, shopPageUrl, itemPageUrls, loginUrl, registerUrl, userProfileUrls, sellPageUrl } from 'utils/url'
+import { homeUrl, aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, shopPageUrl, itemPageUrls, loginUrl, registerUrl, userProfileUrls, sellPageUrl, resetPasswordUrl } from 'utils/url'
 
 import {
   Switch,
@@ -22,6 +22,7 @@ import UserProfilePage from 'components/UserProfilePage'
 import ScrollToTop from 'utils/ScrollToTop'
 import NotFound from 'components/NotFound'
 import SellPage from 'components/SellPage'
+import PasswordReset from 'components/PasswordReset';
 
 function Routes(props) {
   return (
@@ -35,6 +36,7 @@ function Routes(props) {
         <Route exact path={shopPageUrl} component={ShopPage} />
         <Route path={loginUrl}><Login setToken={props.setToken} /></Route>
         <Route path={registerUrl}><Register setToken={props.setToken} /></Route>
+        <Route path={resetPasswordUrl}><PasswordReset setToken={props.setToken} /></Route>
         <ProtectedRoute path={sellPageUrl}><SellPage setToken={props.setToken} getToken={props.getToken}/></ProtectedRoute>
         <ProtectedRoute exact path={userProfileUrls}><UserProfilePage setToken={props.setToken} getToken={props.getToken}/></ProtectedRoute>
         <Route><NotFound/></Route>

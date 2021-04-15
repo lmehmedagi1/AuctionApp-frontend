@@ -43,6 +43,12 @@ function Login(props) {
         });
     }
 
+    const handleForgotPasswordCLick = () => {
+        props.history.push({
+            pathname: '/reset_password'
+        });
+    }
+
     return (
         <div>
             <Menu handleSearchChange={handleSearchChange}/>
@@ -83,6 +89,7 @@ function Login(props) {
                                         LOGIN
                                     </Button>
                                 </Form.Group>
+                                <div className="forgotPassword" onClick={handleForgotPasswordCLick}>Forgot Password?</div>
                             </Form>
                         )}
                     </Formik>

@@ -13,6 +13,7 @@ export const privacyPolicyUrl = "/privacy-policy";
 
 export const loginUrl = "/login";
 export const registerUrl = "/register";
+export const resetPasswordUrl = "/reset_password*";
 
 export const homeUrls = [homeUrl, loginUrl, registerUrl];
 export const shopUrls = [aboutUrl, termsAndConditionsUrl, privacyPolicyUrl, ...itemPageUrls, shopPageUrl];
