@@ -25,7 +25,7 @@ class Products extends React.Component {
                 products[i].url = "/single-product/" + products[i].id;
                 products[i].image = image;
             }
-            if (response.data.hasNext != null) cb(null, null, {products: products, hasNext: response.data.hasNext});
+            if (response.data.hasNext != null) cb(null, null, {products: products, hasNext: response.data.hasNext, suggested: response.data.suggested});
             else cb(null, null, products);
         }, null);
     }
@@ -69,15 +69,6 @@ class Products extends React.Component {
     }
 
     addNewProduct = (cb, params, token, setToken) => {
-        let newParams = {
-            name: params.name,
-            details: params.description,
-            startingPrice: params.price,
-            startDate: params.startDate + 'T00:00:00.000',
-            endDate: params.endDate + 'T00:00:00.000',
-            subcategory: params.subcategory,
-            images: [...params.images]
-        }
         auth.forwardRequest(cb, JSON.parse(JSON.stringify(params)), token, setToken, this.sendAddNewProductRequest);
     }
 }

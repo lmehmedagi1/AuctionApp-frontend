@@ -48,6 +48,7 @@ function UserProfile(props) {
         setBase64URL(getUser().avatar != null ? getUser().avatar : 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==');
 
         setAddress({'country': getUser().country, 'state': getUser().state, 'city': getUser().city});
+
         if (getUser().birthDate != null) 
             setBirthDate({'day': getUser().birthDate.split('-')[2], 'month': getUser().birthDate.split('-')[1], 'year': getUser().birthDate.split('-')[0]});
     }, []);
@@ -383,7 +384,7 @@ function UserProfile(props) {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formCity">
                         <Form.Label>City</Form.Label>
-                        <Form.Control as="select" name="city" defaultValue={address.city} onChange={ event => cityChange(event, handleChange) } >
+                        <Form.Control as="select" name="city" value={address.city} onChange={ event => cityChange(event, handleChange) } >
                         {getCitiesInStates(address.country, address.state).map((name, i) => {return <option>{name}</option>})}
                         </Form.Control>
                         </Form.Group>
@@ -397,14 +398,14 @@ function UserProfile(props) {
 
                     <Form.Group controlId="formBasicState">
                         <Form.Label>State</Form.Label>
-                        <Form.Control as="select" name="state" defaultValue={address.state} onChange={ event => stateChange(event, handleChange) } >
+                        <Form.Control as="select" name="state" value={address.state} onChange={ event => stateChange(event, handleChange) } >
                         {getStatesInCountry(address.country).map((name, i) => <option>{name}</option>)}
                         </Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId="formBasicCountry">
                         <Form.Label>Country</Form.Label>
-                        <Form.Control as="select" name="country" defaultValue={address.country} onChange={ event => countryChange(event, handleChange) } >
+                        <Form.Control as="select" name="country" value={address.country} onChange={ event => countryChange(event, handleChange) } >
                         {getCountries().map((name, i) => <option>{name}</option>)}
                         </Form.Control>
                     </Form.Group>

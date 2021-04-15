@@ -12,6 +12,7 @@ import SellPageStep1 from 'common/SellPageSteps/SellPageStep1'
 import SellPageStep2 from 'common/SellPageSteps/SellPageStep2'
 import SellPageStep3 from 'common/SellPageSteps/SellPageStep3'
 import Stepper from 'common/SellPageSteps/Stepper'
+import ScrollButton from 'utils/ScrollButton'
 
 function SellPage(props) {
 
@@ -91,14 +92,19 @@ function SellPage(props) {
         });
     };
 
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
     const handleSubmit = (item) => {
         setProduct(item);
         if (step < 3) setStep(s => s + 1);
         else {
 
             // Don't allow submit when page refreshes
-            if (item.name == "" || item.description == "" || item.category == "" || item.subcategory == "" || item.images.length == 0)
+            if (item.name == "" || item.description == "" || item.category == "" || item.subcategory == "" || item.images == null || item.images.length == 0) {
                 handleAlerts(setShow, setMessage, setVariant, null, "Some data might have been lost, check previous steps", "warning", null);
+                ScrollButton.scrollToTop();
+                return;
+            }
 
             let values = Promise.all(item.images.map(image => {
                 return getBase64(image)
@@ -115,6 +121,8 @@ function SellPage(props) {
                         subcategory: item.subcategory,
                         images: pushResults[item.images.length-1]
                     }
+
+                    ScrollButton.scrollToTop();
 
                     productsApi.addNewProduct((message, variant, data) => {
                         if (data == null) data = [];

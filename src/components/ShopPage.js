@@ -9,6 +9,7 @@ import CategoryList from 'common/CategoryList'
 import ItemCard from 'common/ItemCard'
 import PriceFilter from 'common/PriceFilter'
 import Filters from 'common/Filters'
+import DidYouMean from 'common/DidYouMean'
 
 import productsApi from "api/products"
 
@@ -52,6 +53,8 @@ function ShopPage(props) {
     const [supercategoryName, setSupercategoryName] = useState("");
     const [subcategoriesNames, setSubcategoriesNames] = useState([]);
 
+    const [suggested, setSuggested] = useState("");
+
     let initialMaxLoad = false;
     let initialMinLoad = false;
     
@@ -67,6 +70,7 @@ function ShopPage(props) {
         let search = "";
         let pageNo = 0;
         let listStyle = "grid";
+        let suggested = "";
 
         if (props.location.state) {
 
@@ -105,21 +109,25 @@ function ShopPage(props) {
                 listStyle = props.location.state.list;
                 setListStyle(listStyle);
             }
+            if (props.location.state.suggested && props.location.state.suggested != "") {
+                suggested = props.location.state.suggested;
+                setSuggested(suggested);
+            }
         }
 
         fetchPriceFilterInfo(supercategoryId, supercategoryName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames);
         fetchCategoriesFilterInfo(minPrice, maxPrice, search);
     }, []);
 
-    const updateState = (cat, catName, minPrice, maxPrice, sort, search, subcat, subcatNames, listStyle) => {
+    const updateState = (cat, catName, minPrice, maxPrice, sort, search, subcat, subcatNames, listStyle, suggested) => {
         props.history.replace(props.location.pathname, { supercategory: cat, supercategoryName: catName, minPrice: minPrice, maxPrice: maxPrice, sort: sort, 
-            search: search, subcat: subcat, subcatNames: subcatNames, list: listStyle });
+            search: search, subcat: subcat, subcatNames: subcatNames, list: listStyle, suggested: suggested });
     }
 
-    const fetchProducts = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames) => {
+    const fetchProducts = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames, suggested) => {
         setLoading(true);
 
-        updateState(cat, catName, minPrice, maxPrice, sort, search, subcat, subcatNames, listStyle);
+        updateState(cat, catName, minPrice, maxPrice, sort, search, subcat, subcatNames, listStyle, suggested);
 
         let params = new URLSearchParams();
         params.append("cat", cat);
@@ -136,6 +144,7 @@ function ShopPage(props) {
             if (data == null) data = {products: [], hasNext: false};
             if (data.products == null) data.products = [];
             setActiveHasNext(data.hasNext);
+            setSuggested(data.suggested == null || data.suggested == "" || data.suggested == search ? "" : data.suggested);
             if (pageNo > 0) handleAlerts(setShow, setMessage, setVariant, setProducts, message, variant, [...products, ...data.products]);
             else handleAlerts(setShow, setMessage, setVariant, setProducts, message, variant, data.products);
             setLoading(false);
@@ -144,7 +153,7 @@ function ShopPage(props) {
 
     const fetchPriceFilterInfo = (cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames) => {
         
-        fetchProducts(cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames);
+        fetchProducts(cat, catName, minPrice, maxPrice, sort, search, pageNo, subcat, subcatNames, suggested);
 
         setLoadingPrice(true);
 
@@ -207,7 +216,7 @@ function ShopPage(props) {
     const exploreMore = () => {
         let pageNo = activePageNo + 1;
         setActivePageNo(pageNo);
-        fetchProducts(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, pageNo, subcategories, subcategoriesNames);
+        fetchProducts(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, pageNo, subcategories, subcategoriesNames, suggested);
     }
 
     const handleSortingSelect = e => {
@@ -232,7 +241,7 @@ function ShopPage(props) {
         }
 
         setSorting({title: title, value: value});
-        fetchProducts(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, {title: title, value: value}, search, activePageNo, subcategories, subcategoriesNames);
+        fetchProducts(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, {title: title, value: value}, search, activePageNo, subcategories, subcategoriesNames, suggested);
     }
 
     const priceFilterChange = price => {
@@ -240,7 +249,7 @@ function ShopPage(props) {
         setActiveMinPrice(price.minPrice);
         setActiveMaxPrice(price.maxPrice);
         setActivePageNo(0);
-        fetchProducts(supercategoryId, supercategoryName, price.minPrice, price.maxPrice, sorting, search, 0, subcategories, subcategoriesNames);
+        fetchProducts(supercategoryId, supercategoryName, price.minPrice, price.maxPrice, sorting, search, 0, subcategories, subcategoriesNames, suggested);
         fetchCategoriesFilterInfo(price.minPrice, price.maxPrice, search);
     }
 
@@ -260,15 +269,21 @@ function ShopPage(props) {
     }
 
     const handleStyleChange = e => {
-        updateState(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, subcategories, subcategoriesNames, e);
+        updateState(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, subcategories, subcategoriesNames, e, suggested);
         setListStyle(e);
     }
 
     const handleSearchChange = search => {
-        setSearch(search);
+        setSearch(search.trim());
         setActivePageNo(0);
-        fetchPriceFilterInfo(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search, 0, subcategories, subcategoriesNames);
-        fetchCategoriesFilterInfo(activeMinPrice, activeMaxPrice, search);
+        fetchPriceFilterInfo(supercategoryId, supercategoryName, activeMinPrice, activeMaxPrice, sorting, search.trim(), 0, subcategories, subcategoriesNames);
+        fetchCategoriesFilterInfo(activeMinPrice, activeMaxPrice, search.trim());
+    }
+
+    const handleDidYouMeanSelect = () => {
+        handleSearchChange(suggested);
+        const newMenuKey = menuKey * 89;
+        setMenuKey(newMenuKey);
     }
 
     // Closable filter tags
@@ -304,6 +319,7 @@ function ShopPage(props) {
     return (
         <div>
             <Menu handleSearchChange={handleSearchChange} initial={search} key={menuKey}/>
+            <DidYouMean handleDidYouMeanSelect={handleDidYouMeanSelect} value={suggested}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <Filters minPrice={minPrice} maxPrice={maxPrice} activeMinPrice={activeMinPrice} activeMaxPrice={activeMaxPrice} supercategory={supercategoryName} subcategories={subcategoriesNames} search={search}
             resetMinPrice={resetMinPrice} resetMaxPrice={resetMaxPrice} resetSupercategory={resetSupercategory} resetSubcategory={resetSubcategory} resetSearch={resetSearch}/>
