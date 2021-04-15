@@ -26,6 +26,10 @@ class ItemPage extends React.Component {
     }
 
     componentDidMount() {
+        this.fetchProduct();
+    }
+
+    fetchProduct = () => {
         productsApi.getProductById((message, variant, data) => {
             handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
         }, window.location.pathname.split('/').pop());
@@ -186,7 +190,7 @@ class ItemPage extends React.Component {
                         </div>
                         <div className="itemPageProducts">
                         {this.state.recommendedProducts && this.state.recommendedProducts.map((product, index) => (
-                            <div className="itemPageProduct">
+                            <div className="itemPageProduct" onClick={() => this.fetchProduct()}>
                                 <ItemCard product={product}/>
                             </div>
                         ))}
