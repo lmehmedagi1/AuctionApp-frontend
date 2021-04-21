@@ -15,7 +15,9 @@ function BidderTable(props) {
             dataField: 'user.firstName',
             text: 'Bidder',
             formatter: (value, row) => {
-                return <div><img src={imagePlaceholder}/> {  row.user.firstName + " " + row.user.lastName}</div>
+                let image = imagePlaceholder;
+                if (row.user.avatar != null) image = 'data:' + row.user.avatarType + ';base64,' + row.user.avatar;
+                return <div><img src={image}/> { row.user.firstName + " " + row.user.lastName}</div>
             }
         }, {
             dataField: 'time',

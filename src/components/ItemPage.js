@@ -14,6 +14,7 @@ import bidsApi from 'api/bids'
 import { handleAlerts } from 'utils/handlers'
 import { timeDifference } from 'utils/calc'
 import { imagePlaceholder } from 'utils/constants'
+import ScrollButton from 'utils/ScrollButton'
 
 import { userIsLoggedIn, getUser } from "api/auth"
 
@@ -22,7 +23,7 @@ class ItemPage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { images: [], activeImage: "", show: false, message: "", variant: "", product: {}, bidInput: "", recommendedProducts: [] };
+        this.state = { images: [], activeImage: "", show: false, message: "", variant: "", product: {}, bidInput: "", recommendedProducts: [], loading: false };
     }
 
     componentDidMount() {
@@ -30,8 +31,10 @@ class ItemPage extends React.Component {
     }
 
     fetchProduct = () => {
+        this.setState({loading: true});
         productsApi.getProductById((message, variant, data) => {
             handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
+            this.setState({loading: false});
         }, window.location.pathname.split('/').pop());
     }
 
@@ -79,6 +82,7 @@ class ItemPage extends React.Component {
         }
 
         let timeLeft = timeDifference((new Date(product.endDate)).getTime(), Date.now());
+        let startTimeLeft = timeDifference((new Date(product.startDate)).getTime(), Date.now());
         if (timeLeft < 0) timeLeft = 0;
 
         let newProduct = {
@@ -88,6 +92,7 @@ class ItemPage extends React.Component {
             highestBidderId: highestBidderId,
             numberOfBids: product.bids.length,
             timeLeft: timeLeft,
+            startTimeLeft: startTimeLeft,
             details: product.details,
             category: product.category,
             id: product.id,
@@ -114,19 +119,25 @@ class ItemPage extends React.Component {
         formDataObj = Object.fromEntries(formData.entries());
         const bid = formDataObj.bid;
 
+        ScrollButton.scrollToTop();
+
         if (bid <= this.state.product.highestBid)
             handleAlerts(this.setShow, this.setMessage, this.setVariant, null, "There are bids higher than yours. You could give a second try!", "warning", null);
         else if (bid < this.state.product.startingPrice) 
             handleAlerts(this.setShow, this.setMessage, this.setVariant, null, "Starting price is higher than your bid. You could give a second try!", "warning", null);
-        else
+        else {
+            this.setState({loading: true});
             bidsApi.bid((message, variant, data) => {
                 handleAlerts(this.setShow, this.setMessage, this.setVariant, null, message, variant, data);
+                this.setState({loading: false});
             }, {price: bid, productId: this.state.product.id}, this.props.getToken(), this.props.setToken);
+        }
     }
 
     placeBidDescription = () => {
 
         if (this.state.product.timeLeft <= 0) return "Auction has ended";
+        else if (this.state.product.startTimeLeft > 0) return "Auction did not start yet";
         else if (!userIsLoggedIn()) return "You have to be logged in to place bid";
         else if (getUser().id == this.state.product.sellerId) return "You cannot bid on your own item";
         else if (getUser().id == this.state.product.highestBidderId) return "Your bid is already the highest bid";
@@ -140,7 +151,8 @@ class ItemPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={this.state.loading ? "blockedWait" : ""}>
+            <div className={this.state.loading ? "blocked" : ""}>
                 <Menu handleSearchChange={this.handleSearchChange} />
                 <Breadcrumb />
                 <Alert message={this.state.message} showAlert={this.state.show} variant={this.state.variant} onShowChange={this.setShow} />
@@ -163,7 +175,7 @@ class ItemPage extends React.Component {
                             <h2>Start from - ${this.state.product.startingPrice}</h2>
                             <Form inline onSubmit={this.handleBidSubmit}>
                                 <FormControl type="text" name="bid" className="mr-sm-2" value={this.state.bidInput} onChange={event => this.setState({bidInput: event.target.value.replace(/[^0-9]+/g,'')})} />
-                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0 || getUser().id == this.state.product.highestBidderId}>
+                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0 || this.state.product.startTimeLeft > 0 || getUser().id == this.state.product.highestBidderId}>
                                     PLACE BID <i className="bi bi-chevron-right"></i>
                                 </Button>
                             </Form>
@@ -198,6 +210,7 @@ class ItemPage extends React.Component {
                     </div>
                     }
                 </div>
+            </div>
             </div>
         );
     }

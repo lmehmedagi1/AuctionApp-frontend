@@ -24,8 +24,10 @@ function SellPage(props) {
     const [product, setProduct] = useState({});
 
     const [step, setStep] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const [resolvedImages, setResolvedImages] = useState([]);
+
 
     let resolvedNewImages = [];
 
@@ -92,17 +94,17 @@ function SellPage(props) {
         });
     };
 
-    const delay = ms => new Promise(res => setTimeout(res, ms));
-
     const handleSubmit = (item) => {
         setProduct(item);
         if (step < 3) setStep(s => s + 1);
         else {
+            setLoading(true);
 
             // Don't allow submit when page refreshes
             if (item.name == "" || item.description == "" || item.category == "" || item.subcategory == "" || item.images == null || item.images.length == 0) {
                 handleAlerts(setShow, setMessage, setVariant, null, "Some data might have been lost, check previous steps", "warning", null);
                 ScrollButton.scrollToTop();
+                setLoading(false);
                 return;
             }
 
@@ -122,10 +124,10 @@ function SellPage(props) {
                         images: pushResults[item.images.length-1]
                     }
 
-                    ScrollButton.scrollToTop();
-
                     productsApi.addNewProduct((message, variant, data) => {
                         if (data == null) data = [];
+                        setLoading(false);
+                        ScrollButton.scrollToTop();
                         handleAlerts(setShow, setMessage, setVariant, setCategories, message, variant, data);
                     }, newParams, props.getToken(), props.setToken);
                 }
@@ -149,7 +151,8 @@ function SellPage(props) {
     ]
 
     return (
-        <div>
+        <div className={loading ? "blockedWait" : ""}>
+        <div className={loading ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb update={updateState}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
@@ -157,6 +160,7 @@ function SellPage(props) {
                 <Stepper step={step}/>
                 {SellPageSteps[step-1]}
             </div>
+        </div>
         </div>
     )
 }

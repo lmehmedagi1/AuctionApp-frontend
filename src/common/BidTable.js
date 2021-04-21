@@ -47,7 +47,7 @@ function BidTable(props) {
             dataField: 'product.details',
             text: 'Item',
             formatter: (value, row) => {
-                return <div><img src={row.product.images[0].url}/></div>
+                return <div><img src={'data:' + row.product.images[0].type + ';base64,' + row.product.images[0].url}/></div>
             }
         }, {
             dataField: 'product.name',

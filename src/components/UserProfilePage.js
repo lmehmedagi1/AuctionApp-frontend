@@ -73,7 +73,8 @@ function UserProfilePage(props) {
     }
 
     return (
-        <div>
+        <div className={loading ? "blockedWait" : ""}>
+        <div className={loading ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange} handleTabChange={updateState}/>
             <Breadcrumb key={breadcrumbsKey} update={updateState}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
@@ -119,8 +120,8 @@ function UserProfilePage(props) {
                 </Tab.Content>
             </Row>
             </Tab.Container>
-                
             </div>
+        </div>
         </div>
     )
 }

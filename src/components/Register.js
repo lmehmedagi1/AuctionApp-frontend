@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { loginUrl } from 'utils/url'
 import { handleAlerts } from 'utils/handlers'
+import ScrollButton from 'utils/ScrollButton'
 import { Formik } from "formik"
 import * as yup from 'yup'
-import auth from "api/auth"
+import auth, { getUser } from "api/auth"
 
 import Breadcrumb from 'common/Breadcrumbs'
 import Menu from 'common/Menu'
@@ -33,9 +34,22 @@ function Register(props) {
     const [message, setMessage]=useState("");
     const [variant, setVariant]=useState("");
 
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (getUser() != null) {
+            props.history.push({
+                pathname: '/'
+            });
+        }
+    }, []);
+
     const handleSubmit = user => {
+        setLoading(true);
         auth.register((message, variant, token) => {
             handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
+            setLoading(false);
+            ScrollButton.scrollToTop();
             if (token != null)
                 props.history.push({
                     pathname: '/'
@@ -51,7 +65,8 @@ function Register(props) {
     }
 
     return (
-        <div>
+        <div className={loading ? "blockedWait" : ""}>
+        <div className={loading ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb />
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
@@ -110,6 +125,7 @@ function Register(props) {
                     </Formik>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

@@ -21,7 +21,7 @@ export const setUserSession = (user) => {
 
 // check if user is logged in
 export const userIsLoggedIn = () => {
-    return localStorage.getItem('user') != null;
+    return getUser() != null;
 }
 
 class Auth extends React.Component {

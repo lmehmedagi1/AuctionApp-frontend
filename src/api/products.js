@@ -1,6 +1,5 @@
 import React from 'react'
 import { hostUrl } from 'utils/url'
-import { imagePlaceholder } from 'utils/constants'
 import Requests from 'api/requests'
 import auth from 'api/auth'
 
@@ -19,14 +18,22 @@ class Products extends React.Component {
             }
             let products = response.data;
             if (products.products != null) products = products.products;
+
+            let newProducts = [];
             for (let i = 0; i<products.length; i++) {
-                let image = imagePlaceholder;
-                if (products[i].images.length > 0) image = 'data:'+products[i].images[0].type+';base64,'+products[i].images[0].url; //products[i].images[0].url;
-                products[i].url = "/single-product/" + products[i].id;
-                products[i].image = image;
+                let image = 'data:' + products[i].images[0].type + ';base64,' + products[i].images[0].url;
+                let newProduct = {
+                    image: image,
+                    url: "/single-product/" + products[i].id,
+                    name: products[i].name,
+                    details: products[i].details,
+                    startingPrice: products[i].startingPrice,
+                    id: products[i].id
+                }
+                newProducts.push(newProduct);
             }
-            if (response.data.hasNext != null) cb(null, null, {products: products, hasNext: response.data.hasNext, suggested: response.data.suggested});
-            else cb(null, null, products);
+            if (response.data.hasNext != null) cb(null, null, {products: newProducts, hasNext: response.data.hasNext, suggested: response.data.suggested});
+            else cb(null, null, newProducts);
         }, null);
     }
 

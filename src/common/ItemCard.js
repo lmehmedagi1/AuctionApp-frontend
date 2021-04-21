@@ -7,7 +7,7 @@ function ItemCard(props) {
         <div className="itemCard">
             <Link to={props.product.url}>
                 <div className="itemImage">
-                    <img src={props.product.image}/>
+                    <img src={props.product.image} alt="Product image"/>
                 </div>
                 <div className="itemInfo">
                 <div className="itemName">

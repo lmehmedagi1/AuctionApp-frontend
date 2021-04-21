@@ -83,7 +83,6 @@ function ShopPage(props) {
                 initialMaxLoad = true;
                 maxPrice = props.location.state.maxPrice;
                 setActiveMaxPrice(maxPrice);
-
             }
             if (props.location.state.search && props.location.state.search != "") {
                 search = props.location.state.search;
@@ -245,17 +244,22 @@ function ShopPage(props) {
     }
 
     const priceFilterChange = price => {
-        if (activeMinPrice == price.minPrice && activeMaxPrice == price.maxPrice) return;
-        setActiveMinPrice(price.minPrice);
-        setActiveMaxPrice(price.maxPrice);
+
+        let newMinPrice = price.minPrice;
+        let newMaxPrice = price.maxPrice;
+
+        if (minPrice == price.minPrice) newMinPrice = 0;
+        if (maxPrice == price.maxPrice) newMaxPrice = 2147483640;
+
+        setActiveMinPrice(newMinPrice);
+        setActiveMaxPrice(newMaxPrice);
+        
         setActivePageNo(0);
-        fetchProducts(supercategoryId, supercategoryName, price.minPrice, price.maxPrice, sorting, search, 0, subcategories, subcategoriesNames, suggested);
-        fetchCategoriesFilterInfo(price.minPrice, price.maxPrice, search);
+        fetchProducts(supercategoryId, supercategoryName, newMinPrice, newMaxPrice, sorting, search, 0, subcategories, subcategoriesNames, suggested);
+        fetchCategoriesFilterInfo(newMinPrice, newMaxPrice, search);
     }
 
     const setPriceInfo = info => {
-        if (!initialMinLoad && (activeMinPrice == minPrice || activeMinPrice < info.minPrice)) setActiveMinPrice(info.minPrice);
-        if (!initialMaxLoad && (activeMaxPrice == maxPrice || activeMaxPrice > info.maxPrice)) setActiveMaxPrice(info.maxPrice);
 
         setPrices(info.histogram);
         setMinPrice(info.minPrice);
@@ -317,7 +321,8 @@ function ShopPage(props) {
     }
 
     return (
-        <div>
+        <div className={loading || loadingPrice ? "blockedWait" : ""}>
+        <div className={loading || loadingPrice ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange} initial={search} key={menuKey}/>
             <DidYouMean handleDidYouMeanSelect={handleDidYouMeanSelect} value={suggested}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
@@ -375,6 +380,7 @@ function ShopPage(props) {
                     : null}
                 </div>
             </div>
+        </div>
         </div>
     )
 }

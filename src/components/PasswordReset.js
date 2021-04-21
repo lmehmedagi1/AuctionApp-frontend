@@ -5,8 +5,8 @@ import { Formik } from "formik"
 import * as yup from 'yup'
 import auth, { getUser } from "api/auth"
 import { handleAlerts } from 'utils/handlers'
+import ScrollButton from 'utils/ScrollButton'
 
-import Breadcrumb from 'common/Breadcrumbs'
 import Menu from 'common/Menu'
 import Alert from 'common/Alert'
 
@@ -43,6 +43,8 @@ function PasswordReset(props) {
 
     const [token, setToken] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
 
         if (getUser() != null) {
@@ -60,18 +62,24 @@ function PasswordReset(props) {
     }, []);
 
     const handleSubmitEmail = user => {
+        setLoading(true);
         auth.sendResetPasswordEmail((message, variant, token) => {
+            setLoading(false);
+            ScrollButton.scrollToTop();
             handleAlerts(setShow, setMessage, setVariant, null, message, variant, null);
         }, user);
     }
 
     const handleSubmitPassword = user => {
+        setLoading(true);
         user.token = token;
         auth.resetPassword((message, variant, token) => {
+            setLoading(false);
+            ScrollButton.scrollToTop();
             if (token != null)
-            props.history.push({
-                pathname: '/'
-            });
+                props.history.push({
+                    pathname: '/'
+                });
             handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
         }, user);
     }
@@ -84,7 +92,8 @@ function PasswordReset(props) {
     }
 
     return (
-        <div>
+        <div className={loading ? "blockedWait" : ""}>
+        <div className={loading ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <div className="formContainer">
@@ -153,6 +162,7 @@ function PasswordReset(props) {
                     }
                 </div>
             </div>
+        </div>
         </div>
     )
 }
