@@ -1,0 +1,169 @@
+.sellPageContainer {
+    margin: 2% 12%;
+
+    .stepperContainer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 30px auto;
+
+        .stepper {
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle, #ECECEC 40%, white 40%);
+            border: 3px solid #ECECEC;  
+            border-radius: 50%;
+        }
+
+        .line {
+            width: 200px;
+            height: 5px;
+            background: #ECECEC;
+            margin-top: 12px;
+        }
+
+        .activeLine {
+            background: #8367D8;
+        }
+
+        .activeStepper {
+            background: radial-gradient(circle, $default-purple-color 40%, white 40%);
+            border: 3px solid #8367D8;  
+        }
+    }
+
+    .stepFormContainer {
+        margin: 0 200px;
+        background: #FFFFFF;
+        border: 1px solid #D8D8D8;
+
+        .formTitle {
+            font-weight: bold;
+            font-size: 20px;
+            color: $base-color;
+            letter-spacing: 0.7px;
+            background: $light-background-color;
+            height: 50px;
+            margin-bottom: 30px;
+            position: relative;
+            p {
+                position: absolute; 
+                width: 100%;
+                top: 50%;
+                transform: translate(0, -50%);
+            }
+        }
+
+        .formBasic {
+            padding: 0 20px;
+            text-align: left;
+
+            .form-label {
+                font-size: 18px;
+                color: #252525;
+                letter-spacing: 0.63px;
+                margin-top: 40px;
+            }
+
+            .form-control {
+                height: 54px;
+                background: #FCFCFC;
+                border: 1px solid #D8D8D8;
+            }
+
+            .form-check {
+                margin-top: 40px;
+            }
+
+            .formControlDescription {
+                font-size: 16px;
+                color: #9B9B9B;
+                letter-spacing: 0.56px;
+                width: 100%;
+                text-align: right;
+            }
+
+            p {
+                font-size: 16px;
+                color: #9B9B9B;
+                letter-spacing: 0.56px;
+                line-height: 30px;
+                margin-bottom: 80px;
+            }
+
+            .shippingDesc {
+                margin-left: 20px;
+            }
+
+            .buttons {
+                display: flex;
+                justify-content: space-between;
+
+                button {
+                    width: 183px;
+                    height: 57px;
+                    background: #FFFFFF;
+                    border: 3px solid #8367D8;
+                    border-radius: 0;
+                    box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #252525;
+                    letter-spacing: 0.63px;
+                }
+
+                .backButton button {
+                    border: 3px solid #E3E3E3;
+                    box-shadow: 3px 3px 0 0 rgba(0,0,0,0.05);
+                }
+            }
+
+            .formLocation {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 5px;
+            }
+
+            .sc-kDThTU {
+                padding: 80px 0px;
+            }
+
+            .sc-egiSv {
+                font-family: "Lato", sans-serif;
+                font-size: 14px;
+                color: #252525;
+                letter-spacing: 0.49px;
+                margin: 0;
+
+                span {
+                    color: #8367D8;
+                }
+            }
+
+            .sc-bkkfTU {
+                overflow: hidden;
+                img {
+                    object-fit: cover;
+                }
+            }
+
+            .errorMessage {
+                font-size: 80%;
+                color: #dc3545;
+            }
+        }
+
+    }
+}
+
+@media #{$tablet} {
+    .sellPageContainer {
+        margin: 5% 5%;
+    }
+}
+
+@media #{$mobile} {
+    .sellPageContainer {
+        margin: 5% 5%;
+    }
+}

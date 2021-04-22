@@ -12,6 +12,9 @@ import UserSeller from 'components/UserSeller'
 import UserSettings from 'components/UserSettings'
 import UserWishlist from 'components/UserWishlist'
 
+import { sellPageUrl } from 'utils/url'
+import { getUser } from 'api/auth'
+
 function UserProfilePage(props) {
 
     const [activeTab, setActiveTab] = useState("profile");
@@ -26,6 +29,14 @@ function UserProfilePage(props) {
     const [sellerType, setSellerType] = useState("active");
 
     useEffect(() => {
+
+        if (getUser() == null) {
+            props.history.push({
+                pathname: '/login'
+            });
+            return;
+        }
+
         if (props.location.state) {
             if (props.location.state.activeKey) setActiveTab(props.location.state.activeKey);
             if (props.location.state.sellerType) setSellerType(props.location.state.sellerType);
@@ -48,6 +59,12 @@ function UserProfilePage(props) {
         });
     }
 
+    const handleBecomeSellerButtonClick = () => {
+        props.history.push({
+            pathname: sellPageUrl
+        });
+    }
+
     const handleSellerTabChange = tab => {
         setSellerType(tab);
         props.history.replace('/my-account/' + activeTab, { activeKey: activeTab, sellerType: tab });
@@ -56,7 +73,8 @@ function UserProfilePage(props) {
     }
 
     return (
-        <div>
+        <div className={loading ? "blockedWait" : ""}>
+        <div className={loading ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange} handleTabChange={updateState}/>
             <Breadcrumb key={breadcrumbsKey} update={updateState}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
@@ -88,7 +106,7 @@ function UserProfilePage(props) {
                     <UserProfile setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/> 
                     </Tab.Pane>
                     <Tab.Pane eventKey="seller"   active={activeTab == "seller"}>
-                    <UserSeller handleSellerTabChange={handleSellerTabChange} sellerType={sellerType} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/>
+                    <UserSeller handleSellerTabChange={handleSellerTabChange} sellerType={sellerType} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading} handleBecomeSellerButtonClick={handleBecomeSellerButtonClick}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="bids"     active={activeTab == "bids"}>
                     <UserBids setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/>
@@ -102,8 +120,8 @@ function UserProfilePage(props) {
                 </Tab.Content>
             </Row>
             </Tab.Container>
-                
             </div>
+        </div>
         </div>
     )
 }

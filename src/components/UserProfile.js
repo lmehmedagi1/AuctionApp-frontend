@@ -6,7 +6,8 @@ import auth, { getUser } from 'api/auth'
 
 import { handleAlerts } from 'utils/handlers'
 import { getMonthNames, getDaysInAMonth, getMonthName, getMonthFromName } from 'utils/converters'
-import { imagePlaceholder, getCountries, getStatesInCountry, getCitiesInStates, getFirstState, getFirstCity } from 'utils/constants'
+import { avatarPlaceholder, getCountries, getStatesInCountry, getCitiesInStates, getFirstState, getFirstCity } from 'utils/constants'
+import ScrollButton from 'utils/ScrollButton'
 
 import Mastercard from 'assets/images/mastercard.jpg'
 import Maestro from 'assets/images/maestro.jpg'
@@ -29,8 +30,11 @@ const schema = yup.object().shape({
 
 function UserProfile(props) {
 
-    const [address, setAddress] = useState({'country': getUser().country, 'state': getUser().state, 'city': getUser().city});
+    const [address, setAddress] = useState({'country': '', 'state': '', 'city': ''});
     const [birthDate, setBirthDate] = useState({'day': new Date().getDate(), 'month': new Date().getMonth() + 1, 'year': new Date().getFullYear()});
+
+    const [image, setImage] = useState("");
+    const [base64URL, setBase64URL] = useState("");
 
     useEffect(() => {
 
@@ -38,25 +42,36 @@ function UserProfile(props) {
             props.history.push({
                 pathname: '/login'
             });
+            return;
         }
+
+        setImage({ type: getUser().avatarType != null ? getUser().avatarType : 'image/png'});
+        setBase64URL(getUser().avatar != null ? getUser().avatar : avatarPlaceholder);
+
+        setAddress({'country': getUser().country, 'state': getUser().state, 'city': getUser().city});
+
         if (getUser().birthDate != null) 
             setBirthDate({'day': getUser().birthDate.split('-')[2], 'month': getUser().birthDate.split('-')[1], 'year': getUser().birthDate.split('-')[0]});
     }, []);
 
     const handleSubmit = user => {
-        console.log("submit");
 
         let updatedInfo = {};
 
-        if (birthDate.month < 10) birthDate.month = '0' + birthDate.month;
-        if (birthDate.day < 10) birthDate.day = '0' + birthDate.day;
+        let month = birthDate.month;
+        let day = birthDate.day;
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
 
         updatedInfo.firstName = user.firstName ? user.firstName : getUser().firstName;
         updatedInfo.lastName = user.lastName ? user.lastName : getUser().lastName;
         updatedInfo.gender = user.gender ? user.gender : getUser().gender;
-        updatedInfo.birthDate = birthDate.year + '-' + birthDate.month + '-' + birthDate.day;
+        updatedInfo.birthDate = birthDate.year + '-' + month + '-' + day;
         updatedInfo.phoneNumber = user.phoneNumber ? user.phoneNumber : getUser().phoneNumber;
         updatedInfo.email = user.email ? user.email : getUser().email;
+        updatedInfo.avatar = base64URL;
+        updatedInfo.avatarType = image.type;
 
         updatedInfo.nameOnCard = user.nameOnCard ? user.nameOnCard : getUser().nameOnCard;
         updatedInfo.cardNumber = user.cardNumber ? user.cardNumber : getUser().cardNumber;
@@ -75,70 +90,59 @@ function UserProfile(props) {
         auth.updateUserInfo((message, variant, data) => {
             handleAlerts(props.setShow, props.setMessage, props.setVariant, props.setToken, message, variant, data);
             props.setLoading(false);
+            ScrollButton.scrollToTop();
         }, props.getToken(), props.setToken, updatedInfo);
     }
 
-    const countryChange = (event, handleChange) => {
+    const locationChange = (event, handleChange, country, state, city) => {
         event.preventDefault();
+        setAddress({'country': country, 'state': state, 'city': city});
+        handleChange(event);
+    }
+
+    const countryChange = (event, handleChange) => {
         let newCountry = event.target.value;
         let newState = getFirstState(newCountry);
         let newCity = getFirstCity(newCountry, newState);
-        setAddress({'country': newCountry, 'state': newState, 'city': newCity});
-        handleChange(event);
+        locationChange(event, handleChange, newCountry, newState, newCity);
     }
 
     const stateChange = (event, handleChange) => {
-        event.preventDefault();
-        let newCountry = address.country;
-        let newState = event.target.value;
-        let newCity = getFirstCity(newCountry, newState);
-        setAddress({'country': newCountry, 'state': newState, 'city': newCity});
-        handleChange(event);
+        locationChange(event, handleChange, address.country, event.target.value, getFirstCity(address.country, event.target.value));
     }
 
     const cityChange = (event, handleChange) => {
-        event.preventDefault();
-        let newCountry = address.country;
-        let newState = address.state;
-        let newCity = event.target.value;
-        setAddress({'country': newCountry, 'state': newState, 'city': newCity});
-        handleChange(event);
+        locationChange(event, handleChange, address.country, address.state, event.target.value);
+    }
 
+    const dateChange = (event, handleChange, year, month, day) => {
+        event.preventDefault();
+        if (day > getDaysInAMonth(year, month).length) day = 1;
+        setBirthDate({'day': day, 'month': month, 'year': year});
+        handleChange(event);
     }
 
     const yearChange = (event, handleChange) => {
-        event.preventDefault();
-        let newYear = event.target.value;
-        let newMonth = birthDate.month;
-        let newDay = birthDate.day;
-
-        if (newDay > getDaysInAMonth(newYear, newMonth).length) newDay = 1;
-
-        setBirthDate({'day': newDay, 'month': newMonth, 'year': newYear});
-        handleChange(event);
+        dateChange(event, handleChange, event.target.value, birthDate.month, birthDate.day);
     }
 
     const monthChange = (event, handleChange) => {
-        event.preventDefault();
-        let newYear = birthDate.year;
-        let newMonth = getMonthFromName(event.target.value);
-        let newDay = birthDate.day;
-
-        if (newDay > getDaysInAMonth(newYear, newMonth).length) newDay = 1;
-
-        setBirthDate({'day': newDay, 'month': newMonth, 'year': newYear});
-        handleChange(event);
+        dateChange(event, handleChange, birthDate.year, getMonthFromName(event.target.value), birthDate.day);
     }
 
     const dayChange = (event, handleChange) => {
-        let newYear = birthDate.year;
-        let newMonth = birthDate.month;
-        let newDay = event.target.value;
-        setBirthDate({'day': newDay, 'month': newMonth, 'year': newYear});
-        handleChange(event);
+        dateChange(event, handleChange, birthDate.year, birthDate.month, event.target.value);
     }
 
     const getInitialValues = () => {
+
+        if (getUser() == null) {
+            props.history.push({
+                pathname: '/login'
+            });
+            return;
+        }
+
         return {
             firstName: getUser().firstName,
             lastName: getUser().lastName,
@@ -163,6 +167,39 @@ function UserProfile(props) {
         }
     }
 
+    const getBase64 = file => {
+        return new Promise(resolve => {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                let baseURL = reader.result;
+                resolve(baseURL);
+            };
+        });
+    };
+
+    const handleFileInputChange = e => {
+
+        let file = e.target.files[0];
+
+        if (file.type.substring(0, 6) != "image/") {
+            handleAlerts(props.setShow, props.setMessage, props.setVariant, null, "Invalid image type", "warning", null);
+            return;
+        }
+
+        getBase64(file)
+            .then(result => {
+                file["base64"] = result;
+                setBase64URL(result.substring(13 + file.type.length));
+                setImage(file);
+            })
+            .catch(err => {
+                handleAlerts(props.setShow, props.setMessage, props.setVariant, null, "Image loading failed", "warning", null);
+            });
+
+        setImage(e.target.files[0]);
+    }
+
     return (
         <div className="userProfileContainer">
 
@@ -179,9 +216,10 @@ function UserProfile(props) {
                 <div className="title"><p>REQUIRED</p></div>
                 <div className="accountInfo">
                     <div className="image">
-                        <div>
-                            <img src={imagePlaceholder} alt="Profile image"/>
-                            <button>CHANGE PHOTO</button>
+                        <div id="myFileDiv">
+                            <img src={'data:'+image.type+';base64,'+base64URL} alt="Profile image"/>
+                            <input type="file" id="inputFile" onChange={handleFileInputChange} accept="image/*"/>
+                            <label for="inputFile">CHANGE PHOTO</label>
                         </div>
                     </div>
                     <div className="profileForm">
@@ -326,7 +364,7 @@ function UserProfile(props) {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formCity">
                         <Form.Label>City</Form.Label>
-                        <Form.Control as="select" name="city" defaultValue={address.city} onChange={ event => cityChange(event, handleChange) } >
+                        <Form.Control as="select" name="city" value={address.city} onChange={ event => cityChange(event, handleChange) } >
                         {getCitiesInStates(address.country, address.state).map((name, i) => {return <option>{name}</option>})}
                         </Form.Control>
                         </Form.Group>
@@ -340,14 +378,14 @@ function UserProfile(props) {
 
                     <Form.Group controlId="formBasicState">
                         <Form.Label>State</Form.Label>
-                        <Form.Control as="select" name="state" defaultValue={address.state} onChange={ event => stateChange(event, handleChange) } >
+                        <Form.Control as="select" name="state" value={address.state} onChange={ event => stateChange(event, handleChange) } >
                         {getStatesInCountry(address.country).map((name, i) => <option>{name}</option>)}
                         </Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId="formBasicCountry">
                         <Form.Label>Country</Form.Label>
-                        <Form.Control as="select" name="country" defaultValue={address.country} onChange={ event => countryChange(event, handleChange) } >
+                        <Form.Control as="select" name="country" value={address.country} onChange={ event => countryChange(event, handleChange) } >
                         {getCountries().map((name, i) => <option>{name}</option>)}
                         </Form.Control>
                     </Form.Group>

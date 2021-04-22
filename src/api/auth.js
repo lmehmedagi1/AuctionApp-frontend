@@ -21,7 +21,7 @@ export const setUserSession = (user) => {
 
 // check if user is logged in
 export const userIsLoggedIn = () => {
-    return localStorage.getItem('user') != null;
+    return getUser() != null;
 }
 
 class Auth extends React.Component {
@@ -72,7 +72,9 @@ class Auth extends React.Component {
             city: data.city,
             zipcode: data.zipcode,
             state: data.state,
-            country: data.country
+            country: data.country,
+            avatar: data.avatar,
+            avatarType: data.avatarType
         }
         for (let i = 0; i < data.roles.length; i++) {
             let role = data.roles[i];
@@ -124,6 +126,26 @@ class Auth extends React.Component {
         this.authenticate(url, parameters, cb);
     }
 
+    resetPassword(cb, values) {
+        let parameters = {
+            token: values.token,
+            password: values.password
+        }
+        Requests.sendPostRequest(cb, hostUrl + '/user/password-reset', parameters, Requests.getCookieHeader(), 
+            (response) => { 
+                let user = this.extractUser(response.data.user);
+                setUserSession(user);
+                cb(null, null, response.data.jwt);
+            }, null);
+    }
+    
+    sendResetPasswordEmail(cb, values) {
+        Requests.sendGetRequest(cb, hostUrl + '/password-reset',  {params: {email: values.email}}, 
+            (response) => { 
+                cb(`Email was sent to ${values.email}. It will expire in 24 hours`, "success", null);
+            }, null);
+    }
+
     sendGetCheckIfUserIsSeller = (cb, token, params) => {
         Requests.sendGetRequest(cb, hostUrl + "/user/seller", Requests.getAuthorizationHeader(token), (response) => { cb(null, null, response.data); }, null);
     }
@@ -153,7 +175,6 @@ class Auth extends React.Component {
     }
 
     updateUserInfo = (cb, token, setToken, userInfo) => {
-        console.log(userInfo);
         this.forwardRequest(cb, userInfo, token, setToken, this.sendPutUpdateUserInfo);
     }
 }

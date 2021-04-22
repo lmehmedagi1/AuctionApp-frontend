@@ -25,7 +25,7 @@ function UserSeller(props) {
                 <div className="body">
                     <div><img src={ShoppingBag} alt="Shopping bag icon" /></div>
                     <p>You do not have any scheduled items for sale.</p>
-                    <button>START SELLING <i className="bi bi-chevron-right"></i></button>    
+                    <button onClick={props.handleBecomeSellerButtonClick}>START SELLING <i className="bi bi-chevron-right"></i></button>    
                 </div>
             </div>
             :
@@ -38,7 +38,7 @@ function UserSeller(props) {
                 </ToggleButtonGroup>
                 </div>
                 <div className="addItemButton">
-                <button><i className="fa fa-plus" aria-hidden="true"></i> ADD ITEM</button>
+                <button onClick={props.handleBecomeSellerButtonClick}><i className="fa fa-plus" aria-hidden="true"></i> ADD ITEM</button>
                 </div>
             </div>
             <BidTable tab={props.sellerType} setShow={props.setShow} setMessage={props.setMessage} setVariant={props.setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={props.setLoading}></BidTable>
