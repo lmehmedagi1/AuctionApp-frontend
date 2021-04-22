@@ -1,12 +1,12 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
-import BigImage from '../assets/images/about-us-big-image.jpg'
-import SmallImage1 from '../assets/images/about-us-small-image-1.jpg'
-import SmallImage2 from '../assets/images/about-us-small-image-2.jpg'
+import BigImage from 'assets/images/about-us-big-image.jpg'
+import SmallImage1 from 'assets/images/about-us-small-image-1.jpg'
+import SmallImage2 from 'assets/images/about-us-small-image-2.jpg'
 
-import Breadcrumb from '../common/Breadcrumbs'
-import Menu from '../common/Menu'
+import Breadcrumb from 'common/Breadcrumbs'
+import Menu from 'common/Menu'
 
 function AboutUs(props) {
 

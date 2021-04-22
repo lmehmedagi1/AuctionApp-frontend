@@ -1,6 +1,6 @@
 .itemCard {
 
-    font-family: "Lato", sans-serif;
+    
     
     .itemImage {
         overflow: hidden;
@@ -14,7 +14,7 @@
     .itemName {
         font-size: 24px;
         font-weight: bold;
-        color: #252525;
+        color: $base-color;
         letter-spacing: 0.84px;
     }
 
@@ -26,7 +26,7 @@
     .itemPrice {
         font-size: 16px;
         letter-spacing: 0.56px;
-        color: #252525;
+        color: $base-color;
     }
 
     .itemButtons button {
@@ -35,9 +35,9 @@
         border: 3px solid #ECECEC;
         border-radius: 0;
         width: 100px;
-        font-family: "Lato", sans-serif;
+        
         font-size: 15px;
-        color: #252525;
+        color: $base-color;
         letter-spacing: 0.52px;
         line-height: 22px;
 

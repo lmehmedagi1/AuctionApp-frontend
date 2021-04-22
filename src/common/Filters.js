@@ -25,8 +25,8 @@ function Filters(props) {
 
     return (
         <div className="filtersContainer">
-            <Alert variant="primary" show={props.activeMinPrice && props.minPrice && props.minPrice != 0 && props.activeMinPrice != props.minPrice} onClose={() => resetMinPrice()} dismissible>Min price: ${props.activeMinPrice} </Alert>
-            <Alert variant="primary" show={props.activeMaxPrice && props.maxPrice && props.maxPrice != 2147483640 && props.activeMaxPrice != props.maxPrice} onClose={() => resetMaxPrice()} dismissible>Max price: ${props.activeMaxPrice} </Alert>
+            <Alert variant="primary" show={props.activeMinPrice && props.minPrice && props.minPrice != 0 && props.activeMinPrice > props.minPrice} onClose={() => resetMinPrice()} dismissible>Min price: ${props.activeMinPrice} </Alert>
+            <Alert variant="primary" show={props.activeMaxPrice && props.maxPrice && props.maxPrice != 2147483640 && props.activeMaxPrice < props.maxPrice} onClose={() => resetMaxPrice()} dismissible>Max price: ${props.activeMaxPrice} </Alert>
             <Alert variant="primary" show={props.supercategory && props.supercategory != ""} onClose={() => resetSupercategory()} dismissible>Supercategory: {props.supercategory} </Alert>
             {props.subcategories.map((subcategory, idx) => (
             <Alert variant="primary" show={true} onClose={() => resetSubcategory(idx)} dismissible>

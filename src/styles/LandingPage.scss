@@ -1,10 +1,10 @@
 .landingPageContainer {
     margin: 5% 12%;
 
-    font-family: "Lato", sans-serif;
+    
     text-align: left;
     font-size: 28px;
-    color: #252525;
+    color: $base-color;
     letter-spacing: 0.98px;
 
     .landingPageHeader {
@@ -16,7 +16,7 @@
             background: #FFFFFF;
             box-shadow: 3px 3px 0 0 rgba(0,0,0,0.11);
             font-size: 16px;
-            color: #8367D8;
+            color: $default-purple-color;
             letter-spacing: 0.56px;
 
             p {
@@ -64,33 +64,33 @@
 
                     h1 {
                         font-size: 46px;
-                        color: #252525;
+                        color: $base-color;
                         letter-spacing: 1.61px;
                     }
 
                     h2 {
                         font-size: 24px;
-                        color: #8367D8;
+                        color: $default-purple-color;
                         letter-spacing: 0.84px;
                         margin-top: 10px;
                     }
 
                     h3 {
                         font-size: 16px;
-                        color: #252525;
+                        color: $base-color;
                         letter-spacing: 0.56px;
                         line-height: 22px;
                     }
 
                     button {
                         background: #FFFFFF;
-                        border: 3px solid #8367D8;
+                        border: 3px solid $default-purple-color;
                         box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
                         width: 200px;
                         margin-top: 10px;
                         font-size: 18px;
                         font-weight: bold;
-                        color: #252525;
+                        color: $base-color;
                         letter-spacing: 0.63px;
                     }
                 }
@@ -131,7 +131,7 @@
     
             .active {
                 background-color: inherit;
-                border-bottom: #8367D8 3px solid !important;
+                border-bottom: $default-purple-color 3px solid !important;
             }
         }
     }

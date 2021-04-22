@@ -1,7 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import Breadcrumb from '../common/Breadcrumbs'
-import Menu from '../common/Menu'
+import Breadcrumb from 'common/Breadcrumbs'
+import Menu from 'common/Menu'
 
 function TearmsAndConditions(props) {
 

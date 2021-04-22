@@ -1,8 +1,8 @@
 import React from 'react'
-import Logo from '../assets/images/gavel-icon.ico'
+import Logo from 'assets/images/gavel-icon.ico'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { homeUrl } from '../utils/url'
+import { homeUrl } from 'utils/url'
 
 function NotFound() {
     return (

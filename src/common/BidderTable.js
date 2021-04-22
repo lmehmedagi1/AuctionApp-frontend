@@ -5,8 +5,8 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css'
 
-import { imagePlaceholder } from '../utils/constants'
-import { timestampToDate } from '../utils/converters'
+import { imagePlaceholder } from 'utils/constants'
+import { timestampToDate } from 'utils/converters'
 
 function BidderTable(props) {
 
@@ -15,7 +15,9 @@ function BidderTable(props) {
             dataField: 'user.firstName',
             text: 'Bidder',
             formatter: (value, row) => {
-                return <div><img src={imagePlaceholder}/> {  row.user.firstName + " " + row.user.lastName}</div>
+                let image = imagePlaceholder;
+                if (row.user.avatar != null) image = 'data:' + row.user.avatarType + ';base64,' + row.user.avatar;
+                return <div><img src={image}/> { row.user.firstName + " " + row.user.lastName}</div>
             }
         }, {
             dataField: 'time',

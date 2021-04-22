@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 import { Formik } from "formik"
 import * as yup from 'yup'
-import auth from "../api/auth"
-import { handleAlerts } from '../utils/handlers'
+import auth, { getUser } from "api/auth"
+import { handleAlerts } from 'utils/handlers'
+import ScrollButton from 'utils/ScrollButton'
 
-import Breadcrumb from '../common/Breadcrumbs'
-import Menu from '../common/Menu'
-import Alert from '../common/Alert'
+import Breadcrumb from 'common/Breadcrumbs'
+import Menu from 'common/Menu'
+import Alert from 'common/Alert'
 
 const schema = yup.object().shape({
     email: yup.string().email("*Email must be valid").required("*Email is required"),
-    password: yup.string().required("*Password is required")
+    password: yup.string().required("*Password is required").matches(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!"#$%&'()*+,-./:;<=>?@\[\]^_`{|}~])(?=\S+$).{8,}$/, "*Password must be at least 8 characters long. There must be at least one digit, one lowercase and one uppercase letter, one special character and no whitespaces!")
 });
 
 const initialValues = {
@@ -26,12 +27,26 @@ function Login(props) {
     const [message, setMessage] = useState("");
     const [variant, setVariant] = useState("");
 
-    const handleSubmit = user => {
-        auth.login((message, variant, token) => {
-            handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (getUser() != null) {
             props.history.push({
                 pathname: '/'
             });
+        }
+    }, []);
+
+    const handleSubmit = user => {
+        setLoading(true);
+        auth.login((message, variant, token) => {
+            handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
+            setLoading(false);
+            ScrollButton.scrollToTop();
+            if (token != null)
+                props.history.push({
+                    pathname: '/'
+                });
         }, user);
     }
 
@@ -42,8 +57,15 @@ function Login(props) {
         });
     }
 
+    const handleForgotPasswordCLick = () => {
+        props.history.push({
+            pathname: '/reset_password'
+        });
+    }
+
     return (
-        <div>
+        <div className={loading ? "blockedWait" : ""}>
+        <div className={loading ? "blocked" : ""}>
             <Menu handleSearchChange={handleSearchChange}/>
             <Breadcrumb />
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
@@ -82,11 +104,13 @@ function Login(props) {
                                         LOGIN
                                     </Button>
                                 </Form.Group>
+                                <div className="forgotPassword" onClick={handleForgotPasswordCLick}>Forgot Password?</div>
                             </Form>
                         )}
                     </Formik>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

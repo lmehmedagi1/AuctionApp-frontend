@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { aboutUrl, termsAndConditionsUrl, privacyPolicyUrl } from '../utils/url'
+import { aboutUrl, termsAndConditionsUrl, privacyPolicyUrl } from 'utils/url'
 
 function Footer() {
     return (

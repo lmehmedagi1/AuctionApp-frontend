@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { loginUrl, registerUrl } from '../utils/url'
-import auth, { userIsLoggedIn } from "../api/auth"
+import { loginUrl, registerUrl } from 'utils/url'
+import auth, { userIsLoggedIn } from "api/auth"
 
 function Header() {
 
