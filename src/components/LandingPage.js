@@ -2,16 +2,15 @@ import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { ToggleButtonGroup, ToggleButton, ListGroup, Button } from 'react-bootstrap'
 
-import ItemCard from '../common/ItemCard'
-import Menu from '../common/Menu'
-import Alert from '../common/Alert'
+import ItemCard from 'common/ItemCard'
+import Menu from 'common/Menu'
+import Alert from 'common/Alert'
 
-import categoriesApi from "../api/categories"
-import productsApi from "../api/products"
-import { userIsLoggedIn } from "../api/auth"
+import categoriesApi from "api/categories"
+import productsApi from "api/products"
+import { userIsLoggedIn } from "api/auth"
 
-import { handleAlerts } from '../utils/handlers'
-import { nameToUrl } from '../utils/converters'
+import { handleAlerts } from 'utils/handlers'
 
 class LandingPage extends React.Component {
 

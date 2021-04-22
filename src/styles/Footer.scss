@@ -7,9 +7,9 @@
 
     padding-top: 4.2%;
 
-    font-family: "Lato", sans-serif;
+    
     font-size: 16px;
-    color: #d8d8d8;
+    color: $border-color;
     letter-spacing: 0.56px;
 
     display: grid;
@@ -25,7 +25,7 @@
             margin-bottom: 0.7%;
 
             .footerLink {
-                color: #d8d8d8;
+                color: $border-color;
             }
 
             .fa {
@@ -47,7 +47,7 @@
             .fa-twitter,
             .fa-instagram,
             .fa-google-plus {
-                background: #d8d8d8;
+                background: $border-color;
                 color: $base-color;
             }
         }

@@ -2,9 +2,9 @@
     width: 100%;
     background: #ffffff;
 
-    font-family: "Lato", sans-serif;
+    
     font-size: 18px;
-    color: #252525;
+    color: $base-color;
     letter-spacing: 0.63px;
 
     margin: 5% auto;
@@ -12,18 +12,18 @@
     div {
         width: 700px;
         margin: 20px auto;
-        border: 1px solid #d8d8d8;
+        border: 1px solid $border-color;
 
         text-align: left;
 
         .formTitle {
             width: 100%;
             height: 60px;
-            background: #fafafa;
-            font-family: "Lato", sans-serif;
+            background: $light-background-color;
+            
             font-weight: bold;
             font-size: 24px;
-            color: #252525;
+            color: $base-color;
             letter-spacing: 0.84px;
             text-align: center;
             border: none;
@@ -42,6 +42,7 @@
                     margin: 0 auto;
                     border: none;
                     font-size: 12px;
+                    width: 100%;
                 }
 
                 .form-check {
@@ -51,10 +52,10 @@
 
                 button {
                     width: 100%;
-                    background: #8367d8;
-                    border: 3px solid #8367d8;
+                    background: $default-purple-color;
+                    border: 3px solid $default-purple-color;
                     box-shadow: 3px 3px 0 0 rgba(131, 103, 216, 0.31);
-                    font-family: "Lato", sans-serif;
+                    
                     font-weight: bold;
                     font-size: 18px;
                     color: #ffffff;
@@ -65,9 +66,9 @@
 
                 #registerButton {
                     background: #FFFFFF;
-                    border: 3px solid #8367D8;
+                    border: 3px solid $default-purple-color;
                     box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
-                    color: #252525;
+                    color: $base-color;
                 }
 
                 .form-label {
@@ -83,14 +84,28 @@
                 p {
                     text-align: center;
                     font-size: 18px;
-                    color: #9b9b9b;
+                    color: $text-color;
                     letter-spacing: 0.63px;
                     margin-top: 25px;
 
                     .formLink {
-                        color: #8367d8;
+                        color: $default-purple-color;
                     }
                 }
+            }
+
+            .formInfoText {
+                width: 85%;
+                border: none;
+                margin: 20px auto;
+            }
+
+            .forgotPassword {
+                width: 85%;
+                border: none;
+                margin: 30px auto;
+                text-align: center;
+                cursor: pointer;
             }
         }
     }

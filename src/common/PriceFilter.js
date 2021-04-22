@@ -12,8 +12,15 @@ function PriceFilter(props) {
     useEffect(() => {
         if (!props.prices) return;
         setMaxValue(Math.max(...props.prices));
-        setFilterMin(props.activeMin);
-        props.activeMax == 2147483640 ? setFilterMax(props.activeMin) : setFilterMax(props.activeMax);
+
+        if (props.activeMin < props.minPrice) setFilterMin(props.minPrice);
+        else if (props.activeMin > props.maxPrice) setFilterMin(props.maxPrice);
+        else setFilterMin(props.activeMin);
+
+        if (props.activeMax > props.maxPrice) setFilterMax(props.maxPrice);
+        else if (props.activeMax < props.minPrice) setFilterMax(props.minPrice);
+        else setFilterMax(props.activeMax);
+
     }, [props]);
 
     const priceRangeChange = price => {
@@ -23,6 +30,22 @@ function PriceFilter(props) {
 
     const afterPriceRangeChange = price => {
         props.priceFilterChange({ minPrice: price[0], maxPrice: price[1] });
+    }
+
+    const showRangeText = () => {
+        let text = "$";
+        if (filterMin < props.minPrice) text += props.minPrice;
+        else if (filterMin > props.maxPrice) text += props.maxPrice;
+        else text += filterMin;
+
+        text += " - $";
+
+        if (filterMax > props.maxPrice) text += props.maxPrice;
+        else if (filterMax < props.minPrice) text += props.minPrice;
+        else if (filterMax == 2147483640) text += "0";
+        else text += filterMax;
+
+        return text;
     }
 
     return (
@@ -51,7 +74,7 @@ function PriceFilter(props) {
             />
             </div>
             <div className="priceInfo">
-                {"$" + (filterMin < props.minPrice ? props.minPrice : filterMin) + " - $" + (filterMax > props.maxPrice ? props.maxPrice : filterMax)}
+                {showRangeText()}
             </div>
             <div className="priceInfo">
                 The average price is ${props.avgPrice}.
