@@ -4,4 +4,6 @@ AuctionApp is an e-commerce web application that provides consumer-to-consumer s
 
 Frontend: https://auction-app-atlantbh-frontend.herokuapp.com \
 Backend: https://auction-app-atlantbh.herokuapp.com/ \
-Swagger documentation: https://auction-app-atlantbh.herokuapp.com/swagger-ui/
+Swagger documentation: https://auction-app-atlantbh.herokuapp.com/swagger-ui/ \
+
+Backend code: https://github.com/lmehmedagi1/AuctionApp
