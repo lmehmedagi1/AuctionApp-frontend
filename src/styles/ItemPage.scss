@@ -121,6 +121,26 @@
                 letter-spacing: 0.52px;
                 line-height: 22px;
             }
+
+            .auctionWonDiv {
+                font-size: 16px;
+                color: #252525;
+                letter-spacing: 0.56px;
+            }
+
+            .payButton, .receiptButton {
+                background: #FFFFFF;
+                border: 3px solid $default-purple-color;
+                border-radius: 0;
+                box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+                font-size: 18px;
+        
+                color: $base-color;
+
+                width: 150px;
+                height: 50px;
+                margin-bottom: 20px;
+            }
         }
     }
 

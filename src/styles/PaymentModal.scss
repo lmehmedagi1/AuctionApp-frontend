@@ -1,0 +1,170 @@
+.paymentModalContainer {
+
+    .modal-dialog {
+        max-width: 700px;
+        font-family: "Lato", sans-serif;
+
+        .modal-body {
+            padding: 0;
+            
+        }
+
+        .close {
+            box-shadow: none;
+            font-size: 25px;
+        }
+    }
+
+    .profileCard {
+        background: #FFFFFF;
+        border: 1px solid $border-color;
+        margin-top: 20px;
+        
+        padding: 0 20px;
+
+        .title {
+            font-weight: bold;
+            font-size: 20px;
+            color: $base-color;
+            letter-spacing: 0.7px;
+            text-align: left;
+            background: $light-background-color;
+            height: 50px;
+            margin-bottom: 30px;
+            position: relative;
+            p {
+                position: absolute; 
+                top: 50%;
+                transform: translate(0, -50%);
+            }
+        }
+    
+        .cardInfo, .optionalInfo {
+            text-align: left;
+
+            .form-label {
+                font-size: 16px;
+                color: $base-color;
+                letter-spacing: 0.56px;
+                margin-top: 20px;
+            }
+
+            .form-check-label {
+                font-size: 16px;
+                color: $base-color;
+                letter-spacing: 0.56px;
+            }
+
+            .form-check {
+                margin-top: 20px;
+            }
+
+            .form-control {
+                height: 46px;
+                font-size: 16px;
+                letter-spacing: 0.63px;
+            }
+
+            .acceptedCards {
+                margin: 10px 20px;
+                p {
+                    color: $text-color;
+                    margin-bottom: 5px;
+                }
+            }
+
+            .cardImages {
+                display: flex;
+                gap: 10px;
+
+                div {
+                    width: 50px;
+                    height: 30px;
+
+                    img { width: 100%; }
+                }
+            }
+        }
+
+        .optionalInfo {
+
+            padding-bottom: 40px;
+
+            .form-label {
+                font-size: 18px;
+                color: $base-color;
+                letter-spacing: 0.56px;
+                margin-top: 10px;
+            }
+
+            .form-control {
+                font-size: 17px;
+                letter-spacing: 0.63px;
+            }
+
+            p {
+                font-size: 28px;
+                color: $base-color;
+                letter-spacing: 0.98px;
+            }
+
+        }
+    }
+
+    .paymentInfo {
+        text-align: center;
+        font-size: 16px;
+        color: $base-color;
+        letter-spacing: 0.56px;
+        margin: 20px 0;
+        span {
+            color: $default-purple-color;
+        }
+    }
+
+    .paymentError {
+        color: #dc3545;
+    }
+
+    .submitButtonWrapper {
+        text-align: center;
+    }
+    button {
+        background: #FFFFFF;
+        border: 3px solid $default-purple-color;
+        box-shadow: 3px 3px 0 0 rgba(131,103,216,0.31);
+        font-size: 18px;
+        font-weight: bold;
+        color: $base-color;
+        letter-spacing: 0.63px;
+        width: 200px;
+        height: 57px;
+    }
+
+    .btn-primary:hover {
+        background: lighten($color: $default-purple-color, $amount: 2);
+        color: white;
+        border: 3px solid $default-purple-color;
+    }
+
+    .btn-primary:disabled {
+        background: lighten($color: $default-purple-color, $amount: 2);
+        border-color: lighten($color: $default-purple-color, $amount: 2);
+    }
+}
+
+@media #{$tablet} {
+    .paymentModalContainer {
+        .cardInfo, .optionalInfo {
+            margin: 0 20px !important;
+        }
+    }
+}
+
+@media #{$mobile} {
+    .paymentModalContainer {
+        .cardInfo, .optionalInfo {
+            margin: 0 10px !important;
+        }
+    }
+}
