@@ -39,8 +39,8 @@ function PaymentModal(props) {
         return {
             nameOnCard: getUser() && getUser().nameOnCard ? getUser().nameOnCard : '',
             cardNumber: getUser() && getUser().cardNumber ? getUser().cardNumber : '',
-            expYear: getUser() && getUser().expYear ? getUser().expYear : '',
-            expMonth: getUser() && getUser().expMonth ? getUser().expMonth : '',
+            expYear: getUser() && getUser().cardExpirationYear ? getUser().cardExpirationYear : '',
+            expMonth: getUser() && getUser().cardExpirationMonth ? getMonthName(getUser().cardExpirationMonth) : '',
             cvc: getUser() && getUser().cvc ? getUser().cvc : '',
 
             street: getUser() && getUser().street ? getUser().street : '',

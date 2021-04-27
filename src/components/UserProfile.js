@@ -75,8 +75,8 @@ function UserProfile(props) {
 
         updatedInfo.nameOnCard = user.nameOnCard ? user.nameOnCard : getUser().nameOnCard;
         updatedInfo.cardNumber = user.cardNumber ? user.cardNumber : getUser().cardNumber;
-        updatedInfo.expYear = user.expYear ? user.expYear : getUser().cardExpirationYear;
-        updatedInfo.expMonth = user.expMonth ? user.expMonth : getUser().cardExpirationMonth;
+        updatedInfo.cardExpirationYear = user.expYear ? user.expYear : getUser().cardExpirationYear;
+        updatedInfo.cardExpirationMonth = user.expMonth ? getMonthFromName(user.expMonth) : getUser().cardExpirationMonth;
         updatedInfo.cvc = user.cvc ? user.cvc : getUser().cvc;
         
         updatedInfo.street = user.street ? user.street : getUser().street;
@@ -155,8 +155,8 @@ function UserProfile(props) {
 
             nameOnCard: getUser().nameOnCard,
             cardNumber: getUser().cardNumber,
-            expYear: getUser().expYear,
-            expMonth: getUser().expMonth,
+            expYear: getUser().cardExpirationYear,
+            expMonth: getUser().cardExpirationMonth,
             cvc: getUser().cvc ? getUser().cvc : '',
 
             street: getUser().street,
