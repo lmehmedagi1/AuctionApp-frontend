@@ -41,8 +41,8 @@ class Wishlist extends React.Component {
         Requests.sendDeleteRequest(cb, hostUrl + "/wishlist", parameters, (response) => { cb(response.data, "success", null); }, null);
     }
 
-    getUserWishlist = (cb, params, token, setToken) => {
-        auth.forwardRequest(cb, params, token, setToken, this.sendGetUserWishlistRequest);
+    getUserWishlist = (cb, token, setToken) => {
+        auth.forwardRequest(cb, {}, token, setToken, this.sendGetUserWishlistRequest);
     }
 
     removeWishlistItem = (cb, params, token, setToken) => {

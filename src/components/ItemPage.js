@@ -276,7 +276,7 @@ class ItemPage extends React.Component {
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>
 
-                            {userIsLoggedIn() ?
+                            {userIsLoggedIn() && getUser().id != this.state.product.sellerId ?
                             <div className="wishlistWrapper">
                                 <button className={this.state.inWishlist ? "wishlistButton activeBtn" : "wishlistButton"} onClick={() => {this.toggleWishlist();}}>Wishlist <i className={this.state.inWishlist ? "fa fa-heart active" : "fa fa-heart"} aria-hidden="true"></i></button>
                             </div>

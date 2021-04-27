@@ -45,6 +45,7 @@ function BidTable(props) {
                 }, props.getToken(), props.setToken);
                 break;
             default:
+                props.setLoading(false);
                 break;
         }
     }, [props.tab]);
@@ -106,10 +107,32 @@ function BidTable(props) {
         }]
     };
 
+    const wishlistColumns = [
+        ...columns, {
+            dataField: 'product.startingPrice',
+            text: '',
+            formatter: (value, row) => {
+                return <button className="wishlistButton" onClick={() => {removeItemFromWishlist(row.product.id);}}><i className="fa fa-heart" aria-hidden="true"></i></button>
+            }
+        }
+    ];
+    
+    const removeItemFromWishlist = id => {
+        props.setLoading(true);
+        wishlistApi.removeWishlistItem((message, variant, data) => {
+            if (message == "Wishlist item removed") {
+                let updatedBids = bids.filter(function( bid ) { return bid.product.id !== id; });
+                setBids(updatedBids);
+            }
+            props.setLoading(false);
+            handleAlerts(props.setShow, props.setMessage, props.setVariant, null, message, variant, null);
+        }, {productId: id}, props.getToken(), props.setToken);
+    }
+
     return (
         <div>
             {bids.length ? 
-            <BootstrapTable keyField='id' data={ bids } columns={ columns } pagination={ paginationFactory(options) } />
+            <BootstrapTable keyField='id' data={ bids } columns={ props.tab == "wishlist" ? wishlistColumns : columns } pagination={ paginationFactory(options) } />
             :
             <Table className="emptyTable">
             <thead>
