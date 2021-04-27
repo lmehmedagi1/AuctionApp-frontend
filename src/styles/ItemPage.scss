@@ -141,6 +141,33 @@
                 height: 50px;
                 margin-bottom: 20px;
             }
+
+            .wishlistWrapper {
+
+                .wishlistButton {
+                    background: #FFFFFF;
+                    border: 3px solid #ECECEC;
+                    font-size: 15px;
+                    color: #252525;
+                    letter-spacing: 0.52px;
+                    line-height: 22px;
+
+                    width: 140px;
+                    height: 36px;
+
+                    .fa {
+                        color: #ECECEC;
+                    }
+
+                    .active {
+                        color: $default-purple-color;
+                    }
+                }
+
+                .activeBtn {
+                    border: 3px solid $default-purple-color;
+                }
+            }
         }
     }
 

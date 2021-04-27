@@ -12,7 +12,8 @@ import ReceiptModal from 'common/ReceiptModal'
 
 import productsApi from 'api/products'
 import bidsApi from 'api/bids'
-import paymentsApi from 'api/payments';
+import paymentsApi from 'api/payments'
+import wishlistApi from 'api/wishlist'
 
 import { handleAlerts } from 'utils/handlers'
 import { timeDifference } from 'utils/calc'
@@ -39,7 +40,8 @@ class ItemPage extends React.Component {
             showPaymentModal: false,
             showReceiptModal: false,
             receipt: {},
-            alreadyPaid: false
+            alreadyPaid: false,
+            inWishlist: false
         };
     }
 
@@ -59,6 +61,14 @@ class ItemPage extends React.Component {
         paymentsApi.getReceipt((message, variant, data) => {
             if (message == null) {
                 this.setState({receipt: data, alreadyPaid: true});
+            }
+        }, {productId: productId}, this.props.getToken(), this.props.setToken);
+    }
+
+    isInWishlist = (productId) => {
+        wishlistApi.isItemInWishlist((message, variant, data) => {
+            if (message == null) {
+                this.setState({inWishlist: data});
             }
         }, {productId: productId}, this.props.getToken(), this.props.setToken);
     }
@@ -92,6 +102,7 @@ class ItemPage extends React.Component {
             }, {id: product.id});
 
         this.fetchReceipt(product.id);
+        this.isInWishlist(product.id);
 
         let images = [];
         if (!product.images.length)
@@ -195,6 +206,28 @@ class ItemPage extends React.Component {
         handleAlerts(this.setShow, this.setMessage, this.setVariant, null, "Payment successful", "success", null);
     }
 
+    toggleWishlist = () => {
+        ScrollButton.scrollToTop();
+        this.setState({loading: true});
+        this.state.inWishlist ? this.removeItemFromWishlist() : this.addItemToWishlist();
+    }
+
+    removeItemFromWishlist = () => {
+        wishlistApi.removeWishlistItem((message, variant, data) => {
+            this.setState({loading: false});
+            if (message == "Wishlist item removed") this.setState({inWishlist: false});
+            handleAlerts(this.setShow, this.setMessage, this.setVariant, null, message, variant, null);
+        }, {productId: this.state.product.id}, this.props.getToken(), this.props.setToken);
+    }
+
+    addItemToWishlist = () => {
+        wishlistApi.addNewWishlistItem((message, variant, data) => {
+            this.setState({loading: false});
+            if (message == "New wishlist item added") this.setState({inWishlist: true});
+            handleAlerts(this.setShow, this.setMessage, this.setVariant, null, message, variant, null);
+        }, {productId: this.state.product.id}, this.props.getToken(), this.props.setToken);
+    }
+
     render() {
         return (
             <div className={this.state.loading ? "blockedWait" : ""}>
@@ -242,6 +275,13 @@ class ItemPage extends React.Component {
                             <p>Highest bid: <span>${this.state.product.highestBid}</span></p>
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>
+
+                            {userIsLoggedIn() ?
+                            <div className="wishlistWrapper">
+                                <button className={this.state.inWishlist ? "wishlistButton activeBtn" : "wishlistButton"} onClick={() => {this.toggleWishlist();}}>Wishlist <i className={this.state.inWishlist ? "fa fa-heart active" : "fa fa-heart"} aria-hidden="true"></i></button>
+                            </div>
+                            : null}
+
                             <div className="productDetailsTitle">
                                 Details
                             </div>

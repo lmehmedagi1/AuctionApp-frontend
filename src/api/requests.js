@@ -52,6 +52,13 @@ class Requests extends React.Component {
             .then((response) => { successCb(response); })
             .catch(error => { this.handleError(error, cb, failureCb); });
     }
+
+    sendDeleteRequest(cb, url, params, successCb, failureCb) {
+        axios
+            .delete(url, params)
+            .then((response) => { successCb(response); })
+            .catch(error => { this.handleError(error, cb, failureCb); });
+    }
 }
 
 export default new Requests();

@@ -11,6 +11,7 @@ import { timeDifference } from 'utils/calc'
 import { handleAlerts } from 'utils/handlers'
 
 import bidsApi from 'api/bids'
+import wishlistApi from 'api/wishlist'
 
 function BidTable(props) {
 
@@ -33,6 +34,12 @@ function BidTable(props) {
                 break;
             case "active":
                 bidsApi.getMyActiveBids((message, variant, data) => {
+                    handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
+                    props.setLoading(false);
+                }, props.getToken(), props.setToken);
+                break;
+            case "wishlist":
+                wishlistApi.getUserWishlist((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
