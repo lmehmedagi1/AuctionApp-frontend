@@ -68,11 +68,11 @@ class Auth extends React.Component {
             cardExpirationMonth: data.cardExpirationMonth,
             cvc: data.cvc,
             roles: [],
-            street: data.street,
-            city: data.city,
-            zipcode: data.zipcode,
-            state: data.state,
-            country: data.country,
+            street: data.location == null ? null : data.location.street,
+            city: data.location == null ? null : data.location.city,
+            zipcode: data.location == null ? null : data.location.zipcode,
+            state: data.location == null ? null : data.location.state,
+            country: data.location == null ? null : data.location.country,
             avatar: data.avatar,
             avatarType: data.avatarType
         }

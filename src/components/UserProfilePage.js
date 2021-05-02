@@ -109,10 +109,10 @@ function UserProfilePage(props) {
                     <UserSeller handleSellerTabChange={handleSellerTabChange} sellerType={sellerType} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading} handleBecomeSellerButtonClick={handleBecomeSellerButtonClick}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="bids"     active={activeTab == "bids"}>
-                    <UserBids setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/>
+                    <UserBids tab={activeTab} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="wishlist" active={activeTab == "wishlist"}>
-                    <UserWishlist />
+                    <UserWishlist tab={activeTab} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading} />
                     </Tab.Pane>
                     <Tab.Pane eventKey="settings" active={activeTab == "settings"}>
                     <UserSettings setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken}/>

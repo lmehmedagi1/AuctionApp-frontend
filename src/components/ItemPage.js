@@ -7,23 +7,42 @@ import Breadcrumb from 'common/Breadcrumbs'
 import Alert from 'common/Alert'
 import ItemCard from 'common/ItemCard'
 import BidderTable from 'common/BidderTable'
+import PaymentModal from 'common/PaymentModal'
+import ReceiptModal from 'common/ReceiptModal'
 
 import productsApi from 'api/products'
 import bidsApi from 'api/bids'
+import paymentsApi from 'api/payments'
+import wishlistApi from 'api/wishlist'
 
 import { handleAlerts } from 'utils/handlers'
 import { timeDifference } from 'utils/calc'
 import { imagePlaceholder } from 'utils/constants'
 import ScrollButton from 'utils/ScrollButton'
 
-import { userIsLoggedIn, getUser } from "api/auth"
+import { userIsLoggedIn, getUser } from 'api/auth'
 
 class ItemPage extends React.Component {
 
     constructor(props) {
         super(props);
 
-        this.state = { images: [], activeImage: "", show: false, message: "", variant: "", product: {}, bidInput: "", recommendedProducts: [], loading: false };
+        this.state = { 
+            images: [], 
+            activeImage: "", 
+            show: false, 
+            message: "", 
+            variant: "",
+            product: {}, 
+            bidInput: "", 
+            recommendedProducts: [], 
+            loading: false,
+            showPaymentModal: false,
+            showReceiptModal: false,
+            receipt: {},
+            alreadyPaid: false,
+            inWishlist: false
+        };
     }
 
     componentDidMount() {
@@ -36,6 +55,22 @@ class ItemPage extends React.Component {
             handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
             this.setState({loading: false});
         }, window.location.pathname.split('/').pop());
+    }
+
+    fetchReceipt = (productId) => {
+        paymentsApi.getReceipt((message, variant, data) => {
+            if (message == null) {
+                this.setState({receipt: data, alreadyPaid: true});
+            }
+        }, {productId: productId}, this.props.getToken(), this.props.setToken);
+    }
+
+    isInWishlist = (productId) => {
+        wishlistApi.isItemInWishlist((message, variant, data) => {
+            if (message == null) {
+                this.setState({inWishlist: data});
+            }
+        }, {productId: productId}, this.props.getToken(), this.props.setToken);
     }
 
     setShow = show => {
@@ -65,6 +100,9 @@ class ItemPage extends React.Component {
             productsApi.getRecommendedProducts((message, variant, data) => {
                 handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setRecommendedProducts, message, variant, data);
             }, {id: product.id});
+
+        this.fetchReceipt(product.id);
+        this.isInWishlist(product.id);
 
         let images = [];
         if (!product.images.length)
@@ -149,6 +187,47 @@ class ItemPage extends React.Component {
         return "Enter $" + minimalBid + " or more";
     }
 
+    userAlreadyPaid = () => {
+        return this.state.alreadyPaid;
+    }
+
+    handleClosePaymentModal = () => {
+        this.setState({showPaymentModal: false});
+    }
+
+    handleCloseReceiptModal = () => {
+        this.setState({showReceiptModal: false});
+    }
+
+    handlePay = (creditCardInfo) => {
+        this.handleClosePaymentModal();
+        this.fetchReceipt();
+        ScrollButton.scrollToTop();
+        handleAlerts(this.setShow, this.setMessage, this.setVariant, null, "Payment successful", "success", null);
+    }
+
+    toggleWishlist = () => {
+        ScrollButton.scrollToTop();
+        this.setState({loading: true});
+        this.state.inWishlist ? this.removeItemFromWishlist() : this.addItemToWishlist();
+    }
+
+    removeItemFromWishlist = () => {
+        wishlistApi.removeWishlistItem((message, variant, data) => {
+            this.setState({loading: false});
+            if (message == "Wishlist item removed") this.setState({inWishlist: false});
+            handleAlerts(this.setShow, this.setMessage, this.setVariant, null, message, variant, null);
+        }, {productId: this.state.product.id}, this.props.getToken(), this.props.setToken);
+    }
+
+    addItemToWishlist = () => {
+        wishlistApi.addNewWishlistItem((message, variant, data) => {
+            this.setState({loading: false});
+            if (message == "New wishlist item added") this.setState({inWishlist: true});
+            handleAlerts(this.setShow, this.setMessage, this.setVariant, null, message, variant, null);
+        }, {productId: this.state.product.id}, this.props.getToken(), this.props.setToken);
+    }
+
     render() {
         return (
             <div className={this.state.loading ? "blockedWait" : ""}>
@@ -173,6 +252,17 @@ class ItemPage extends React.Component {
                         <div className="productInfo">
                             <h1>{this.state.product.title}</h1>
                             <h2>Start from - ${this.state.product.startingPrice}</h2>
+                            {userIsLoggedIn() && this.state.product.timeLeft <= 0 && getUser().id == this.state.product.highestBidderId ?
+                            <div>
+                            <div className="auctionWonDiv"> Congratulations! You have won the Auction </div>
+                            {!this.userAlreadyPaid() ?
+                            <button className="payButton" onClick={() => this.setState({showPaymentModal: true})}>PAY NOW</button>
+                            :
+                            <button className="receiptButton" onClick={() => this.setState({showReceiptModal: true})}>RECEIPT</button>
+                            }
+                            </div>
+                            :
+                            <div>
                             <Form inline onSubmit={this.handleBidSubmit}>
                                 <FormControl type="text" name="bid" className="mr-sm-2" value={this.state.bidInput} onChange={event => this.setState({bidInput: event.target.value.replace(/[^0-9]+/g,'')})} />
                                 <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0 || this.state.product.startTimeLeft > 0 || getUser().id == this.state.product.highestBidderId}>
@@ -180,9 +270,18 @@ class ItemPage extends React.Component {
                                 </Button>
                             </Form>
                             <h5>{this.placeBidDescription()}</h5>
+                            </div>
+                            }
                             <p>Highest bid: <span>${this.state.product.highestBid}</span></p>
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>
+
+                            {userIsLoggedIn() && getUser().id != this.state.product.sellerId ?
+                            <div className="wishlistWrapper">
+                                <button className={this.state.inWishlist ? "wishlistButton activeBtn" : "wishlistButton"} onClick={() => {this.toggleWishlist();}}>Wishlist <i className={this.state.inWishlist ? "fa fa-heart active" : "fa fa-heart"} aria-hidden="true"></i></button>
+                            </div>
+                            : null}
+
                             <div className="productDetailsTitle">
                                 Details
                             </div>
@@ -210,6 +309,8 @@ class ItemPage extends React.Component {
                     </div>
                     }
                 </div>
+                <PaymentModal showModal={this.state.showPaymentModal} handleClosePaymentModal={this.handleClosePaymentModal} handlePay={this.handlePay} price={this.state.product.highestBid} productId={this.state.product.id} getToken={this.props.getToken} setToken={this.props.setToken}/>
+                <ReceiptModal showModal={this.state.showReceiptModal} handleCloseReceiptModal={this.handleCloseReceiptModal} receipt={this.state.receipt}/>
             </div>
             </div>
         );

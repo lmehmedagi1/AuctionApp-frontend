@@ -1,0 +1,50 @@
+.receiptModalContainer {
+
+    .modal-dialog {
+        max-width: 700px;
+        font-family: "Lato", sans-serif;
+
+        .modal-header {
+            padding-left: 30px;
+        }
+
+        .modal-body {
+            padding: 5px 30px;
+            font-size: 15px;
+            color: $text-color;
+            letter-spacing: 0.52px;
+            line-height: 22px;
+            margin-bottom: 20px;
+            
+        }
+
+        .close {
+            box-shadow: none;
+            font-size: 25px;
+        }
+    }
+
+    .divider {
+        width: 100%;
+        border-bottom: #ECECEC 3px solid;
+        font-size: 20px;
+        color: #252525;
+        margin-top: 35px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+
+    p {
+        span {
+            color: #252525;
+        }
+    }
+
+    .productInformation {
+        margin-top: 35px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+        color: $default-purple-color;
+    }
+}

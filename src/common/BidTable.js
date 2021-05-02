@@ -9,8 +9,10 @@ import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.m
 
 import { timeDifference } from 'utils/calc'
 import { handleAlerts } from 'utils/handlers'
+import { bidTableTabs } from 'utils/constants'
 
 import bidsApi from 'api/bids'
+import wishlistApi from 'api/wishlist'
 
 function BidTable(props) {
 
@@ -19,25 +21,32 @@ function BidTable(props) {
     useEffect(() => {
         props.setLoading(true);
         switch (props.tab) {
-            case "bids":
+            case bidTableTabs.BIDS:
                 bidsApi.getMyBids((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
                 break;
-            case "sold":
+            case bidTableTabs.SOLD:
                 bidsApi.getMySoldBids((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
                 break;
-            case "active":
+            case bidTableTabs.ACTIVE:
                 bidsApi.getMyActiveBids((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
                 break;
+            case bidTableTabs.WISHLIST:
+                wishlistApi.getUserWishlist((message, variant, data) => {
+                    handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
+                    props.setLoading(false);
+                }, props.getToken(), props.setToken);
+                break;
             default:
+                props.setLoading(false);
                 break;
         }
     }, [props.tab]);
@@ -99,10 +108,32 @@ function BidTable(props) {
         }]
     };
 
+    const wishlistColumns = [
+        ...columns, {
+            dataField: 'product.startingPrice',
+            text: '',
+            formatter: (value, row) => {
+                return <button className="wishlistButton" onClick={() => {removeItemFromWishlist(row.product.id);}}><i className="fa fa-heart" aria-hidden="true"></i></button>
+            }
+        }
+    ];
+    
+    const removeItemFromWishlist = id => {
+        props.setLoading(true);
+        wishlistApi.removeWishlistItem((message, variant, data) => {
+            if (message == "Wishlist item removed") {
+                let updatedBids = bids.filter(function( bid ) { return bid.product.id !== id; });
+                setBids(updatedBids);
+            }
+            props.setLoading(false);
+            handleAlerts(props.setShow, props.setMessage, props.setVariant, null, message, variant, null);
+        }, {productId: id}, props.getToken(), props.setToken);
+    }
+
     return (
         <div>
             {bids.length ? 
-            <BootstrapTable keyField='id' data={ bids } columns={ columns } pagination={ paginationFactory(options) } />
+            <BootstrapTable keyField='id' data={ bids } columns={ props.tab == bidTableTabs.WISHLIST ? wishlistColumns : columns } pagination={ paginationFactory(options) } />
             :
             <Table className="emptyTable">
             <thead>
