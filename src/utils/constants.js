@@ -61,3 +61,10 @@ export const getFirstCity = (newCountry, newState) => {
     })
     return newCity
 }
+
+export const bidTableTabs = {
+    BIDS: 'bids',
+    SOLD: 'sold',
+    ACTIVE: 'active',
+    WISHLIST: 'wishlist'
+}

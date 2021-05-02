@@ -9,6 +9,7 @@ import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.m
 
 import { timeDifference } from 'utils/calc'
 import { handleAlerts } from 'utils/handlers'
+import { bidTableTabs } from 'utils/constants'
 
 import bidsApi from 'api/bids'
 import wishlistApi from 'api/wishlist'
@@ -20,25 +21,25 @@ function BidTable(props) {
     useEffect(() => {
         props.setLoading(true);
         switch (props.tab) {
-            case "bids":
+            case bidTableTabs.BIDS:
                 bidsApi.getMyBids((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
                 break;
-            case "sold":
+            case bidTableTabs.SOLD:
                 bidsApi.getMySoldBids((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
                 break;
-            case "active":
+            case bidTableTabs.ACTIVE:
                 bidsApi.getMyActiveBids((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
                 }, props.getToken(), props.setToken);
                 break;
-            case "wishlist":
+            case bidTableTabs.WISHLIST:
                 wishlistApi.getUserWishlist((message, variant, data) => {
                     handleAlerts(props.setShow, props.setMessage, props.setVariant, setBids, message, variant, data);
                     props.setLoading(false);
@@ -132,7 +133,7 @@ function BidTable(props) {
     return (
         <div>
             {bids.length ? 
-            <BootstrapTable keyField='id' data={ bids } columns={ props.tab == "wishlist" ? wishlistColumns : columns } pagination={ paginationFactory(options) } />
+            <BootstrapTable keyField='id' data={ bids } columns={ props.tab == bidTableTabs.WISHLIST ? wishlistColumns : columns } pagination={ paginationFactory(options) } />
             :
             <Table className="emptyTable">
             <thead>
