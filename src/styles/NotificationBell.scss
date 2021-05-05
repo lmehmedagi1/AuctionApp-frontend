@@ -1,0 +1,87 @@
+.notificationBellContainer {
+
+    .dropdown {
+        max-width: 36.5px;
+    }
+
+    .dropdown-menu {
+        max-width: 350px !important;
+        min-width: 350px !important;
+        right: 0 !important;
+        left: -310px;
+        padding: 0px 0px !important;
+    }
+
+    .dropdown-item {
+        padding: 0px 0px !important;
+    }
+
+    .bellIcon {
+        .fa-bell {
+            color: $default-purple-color;
+            font-size: 20px;
+        }
+
+        .count {
+            background-color: red;
+            border-radius: 50%;
+            color: white;
+            width: 16px;
+            height: 16px;
+            font-size: 11px;
+            font-weight: bold;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+
+
+    .notification, .unread {
+
+        display: flex;
+        width: 350px;
+        padding: 5px 10px;
+        margin-bottom: 2px;
+
+        .content {
+            width: 290px;
+            white-space: wrap;
+            h2 {
+                width: 100%;
+                white-space: pre-line;
+                font-size: 16px;
+                color: $text-color;
+            }
+    
+            h3 {
+                width: 290px;
+                font-size: 13px;
+            }
+        }
+
+        button {
+            border: none;
+            background: transparent;
+            margin-top: 50%;
+        }
+
+
+        .fa {
+            color: $default-purple-color;
+        }
+    }
+
+    .unread {
+        background: lighten($color: $default-purple-color, $amount: 30);
+    }
+
+    .markAllButton {
+        text-align: center;
+        width: 100%;
+        border: none;
+        background: transparent;
+        color: $default-purple-color;
+        margin: 10px auto;
+    }
+}

@@ -3,6 +3,8 @@ import countries from 'assets/json/countries-states-cities.json'
 export const imagePlaceholder = "https://www.firstfishonline.com/wp-content/uploads/2017/07/default-placeholder-700x700.png";
 export const avatarPlaceholder = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==';
 
+export const notificationSoundUrl = `https://ia800203.us.archive.org/14/items/slack_sfx/flitterbug.mp3`;
+
 export const getDefaultCountry = () => countries[0].name;
 export const getDefaultState = (country) => country.states[0].name;
 export const getDefaultCity = (state) => state.cities[0].name;

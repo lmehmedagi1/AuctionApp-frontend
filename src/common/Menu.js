@@ -4,6 +4,8 @@ import { homeUrls, shopUrls, accountUrls, homeUrl } from 'utils/url'
 import { Navbar, Nav, Form, FormControl, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from "react-router-bootstrap"
 import Logo from 'assets/images/gavel-icon.ico'
+import { userIsLoggedIn } from 'api/auth'
+import NotificationBell from 'common/NotificationBell'
 
 function Menu(props) {
 
@@ -83,6 +85,7 @@ function Menu(props) {
                         <NavDropdown.Item eventKey="wishlist" onClick={() => handleMyAccountDropdown("wishlist")} active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="wishlist"}>Wishlist</NavDropdown.Item>
                         <NavDropdown.Item eventKey="settings" onClick={() => handleMyAccountDropdown("settings")} active={props.location.state && props.location.state.activeKey && props.location.state.activeKey=="settings"}>Settings</NavDropdown.Item>
                     </NavDropdown>
+                    {userIsLoggedIn() ? <NotificationBell {...props}/> : null}
                 </Nav>
             </Navbar>
         </div>

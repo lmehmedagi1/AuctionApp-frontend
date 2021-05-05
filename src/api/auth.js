@@ -1,6 +1,7 @@
 import React from 'react'
 import { hostUrl } from 'utils/url'
 import Requests from 'api/requests'
+import notificationsApi from 'api/notifications';
 
 // return the user data from the session storage
 export const getUser = () => {

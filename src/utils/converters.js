@@ -10,7 +10,12 @@ export const urlToName = url => {
 
 export const timestampToDate = timestamp => {
     const longDateTimeFormat = "D MMMM YYYY";
-    return moment.utc(timestamp ).local().format(longDateTimeFormat);
+    return moment.utc(timestamp).local().format(longDateTimeFormat);
+}
+
+export const timestampToDateTime = timestamp => {
+    const longDateTimeFormat = "MMMM Do YYYY, h:mm:ss a";
+    return moment.utc(timestamp).local().format(longDateTimeFormat);
 }
 
 export const getMonthName = (month) => {

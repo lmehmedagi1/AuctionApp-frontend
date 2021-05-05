@@ -323,7 +323,7 @@ function ShopPage(props) {
     return (
         <div className={loading || loadingPrice ? "blockedWait" : ""}>
         <div className={loading || loadingPrice ? "blocked" : ""}>
-            <Menu handleSearchChange={handleSearchChange} initial={search} key={menuKey}/>
+            <Menu handleSearchChange={handleSearchChange} initial={search} key={menuKey} {...props}/>
             <DidYouMean handleDidYouMeanSelect={handleDidYouMeanSelect} value={suggested}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <Filters minPrice={minPrice} maxPrice={maxPrice} activeMinPrice={activeMinPrice} activeMaxPrice={activeMaxPrice} supercategory={supercategoryName} subcategories={subcategoriesNames} search={search}

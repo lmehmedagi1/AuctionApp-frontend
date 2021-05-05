@@ -75,7 +75,7 @@ function UserProfilePage(props) {
     return (
         <div className={loading ? "blockedWait" : ""}>
         <div className={loading ? "blocked" : ""}>
-            <Menu handleSearchChange={handleSearchChange} handleTabChange={updateState}/>
+            <Menu handleSearchChange={handleSearchChange} handleTabChange={updateState} {...props}/>
             <Breadcrumb key={breadcrumbsKey} update={updateState}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <div className="userProfilePageContainer">
