@@ -93,7 +93,7 @@ class LandingPage extends React.Component {
     render() {
         return (
             <div>
-                <Menu handleSearchChange={this.handleSearchChange} />
+                <Menu handleSearchChange={this.handleSearchChange} {...this.props}/>
                 <Alert message={this.state.message} showAlert={this.state.show} variant={this.state.variant} onShowChange={this.setShow} />
                 <div className="landingPageContainer">
                     <div className="landingPageHeader">

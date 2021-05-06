@@ -28,15 +28,15 @@ function Routes(props) {
   return (
     <ScrollToTop>
       <Switch>
-        <Route exact path={homeUrl} render={(routeProps) => <LandingPage {...routeProps} setToken={props.setToken}/>}></Route>
-        <Route exact path={aboutUrl}><AboutUs /></Route>
-        <Route path={termsAndConditionsUrl}><TearmsAndConditions /></Route>
-        <Route path={privacyPolicyUrl}><PrivacyPolicy /></Route>
+        <Route exact path={homeUrl} render={(routeProps) => <LandingPage {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route exact path={aboutUrl} render={(routeProps) => <AboutUs {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route path={termsAndConditionsUrl} render={(routeProps) => <TearmsAndConditions {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route path={privacyPolicyUrl} render={(routeProps) => <PrivacyPolicy {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
         <Route path={itemPageUrls} render={(routeProps) => <ItemPage {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
-        <Route exact path={shopPageUrl} component={ShopPage} />
-        <Route path={loginUrl}><Login setToken={props.setToken} /></Route>
-        <Route path={registerUrl}><Register setToken={props.setToken} /></Route>
-        <Route path={resetPasswordUrl}><PasswordReset setToken={props.setToken} /></Route>
+        <Route exact path={shopPageUrl} render={(routeProps) => <ShopPage {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route path={loginUrl} render={(routeProps) => <Login {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route path={registerUrl} render={(routeProps) => <Register {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
+        <Route path={resetPasswordUrl} render={(routeProps) => <PasswordReset {...routeProps} setToken={props.setToken} getToken={props.getToken}/>}></Route>
         <ProtectedRoute path={sellPageUrl}><SellPage setToken={props.setToken} getToken={props.getToken}/></ProtectedRoute>
         <ProtectedRoute exact path={userProfileUrls}><UserProfilePage setToken={props.setToken} getToken={props.getToken}/></ProtectedRoute>
         <Route><NotFound/></Route>

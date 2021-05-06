@@ -94,7 +94,7 @@ function PasswordReset(props) {
     return (
         <div className={loading ? "blockedWait" : ""}>
         <div className={loading ? "blocked" : ""}>
-            <Menu handleSearchChange={handleSearchChange}/>
+            <Menu handleSearchChange={handleSearchChange} {...props}/>
             <Alert message={message} showAlert={show} variant={variant} onShowChange={setShow} />
             <div className="formContainer">
                 <div>

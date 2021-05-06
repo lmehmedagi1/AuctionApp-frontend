@@ -19,7 +19,7 @@ function AboutUs(props) {
 
     return (
         <div>
-            <Menu handleSearchChange={handleSearchChange}/>
+            <Menu handleSearchChange={handleSearchChange} {...props}/>
             <Breadcrumb />
             <div className="aboutUsContainer">
                 <div id="aboutTitle">

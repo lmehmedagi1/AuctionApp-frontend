@@ -232,7 +232,7 @@ class ItemPage extends React.Component {
         return (
             <div className={this.state.loading ? "blockedWait" : ""}>
             <div className={this.state.loading ? "blocked" : ""}>
-                <Menu handleSearchChange={this.handleSearchChange} />
+                <Menu handleSearchChange={this.handleSearchChange} {...this.props} updateProduct={this.fetchProduct} />
                 <Breadcrumb />
                 <Alert message={this.state.message} showAlert={this.state.show} variant={this.state.variant} onShowChange={this.setShow} />
                 <div className="itemPageContainer">

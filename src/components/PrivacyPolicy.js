@@ -14,7 +14,7 @@ function PrivacyPolicy(props) {
 
     return (
         <div>
-            <Menu handleSearchChange={handleSearchChange}/>
+            <Menu handleSearchChange={handleSearchChange} {...props}/>
             <Breadcrumb />
             <div className="staticContainer">
                 <div className="staticColumn staticTitle">
