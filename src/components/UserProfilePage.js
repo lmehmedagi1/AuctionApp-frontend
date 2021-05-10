@@ -115,7 +115,7 @@ function UserProfilePage(props) {
                     <UserWishlist tab={activeTab} setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading} />
                     </Tab.Pane>
                     <Tab.Pane eventKey="settings" active={activeTab == "settings"}>
-                    <UserSettings setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken}/>
+                    <UserSettings setShow={setShow} setMessage={setMessage} setVariant={setVariant} getToken={props.getToken} setToken={props.setToken} setLoading={setLoading}/>
                     </Tab.Pane>
                 </Tab.Content>
             </Row>

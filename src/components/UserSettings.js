@@ -3,6 +3,7 @@ import { Form, Button, Modal } from 'react-bootstrap'
 import auth, { getUser } from 'api/auth'
 
 import { handleAlerts } from 'utils/handlers'
+import ScrollButton from 'utils/ScrollButton'
 
 function UserSettings(props) {
 
@@ -27,7 +28,10 @@ function UserSettings(props) {
 
     const handleDeactivate = (e) => {
         setShowModal(false);
+        props.setLoading(true);
+        ScrollButton.scrollToTop();
         auth.deactivateAccount((message, variant, data) => {
+            props.setLoading(false);
             handleAlerts(props.setShow, props.setMessage, props.setVariant, null, message, variant, data);
         }, props.getToken(), props.setToken);
     }
