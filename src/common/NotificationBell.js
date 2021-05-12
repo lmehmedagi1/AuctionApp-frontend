@@ -80,7 +80,7 @@ function NotificationBell(props) {
     const getBellIcon = () => {
         return <div className="bellIcon">
             <div><i className="fa fa-bell" aria-hidden="true"/></div>
-            <div className="count">{notificationsCount > 9 ? "9+" : notificationsCount}</div>
+            {notificationsCount > 0 ? <div className="count">{notificationsCount > 9 ? "9+" : notificationsCount}</div> : null}
         </div>
     }
 
@@ -90,7 +90,7 @@ function NotificationBell(props) {
                 props.history.push({
                     pathname: '/single-product/' + notification.productId
                 });
-            else props.updateProduct();
+            else props.updateProduct(notification.productId);
         });
     }
 
