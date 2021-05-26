@@ -43,10 +43,10 @@ function Login(props) {
             handleAlerts(setShow, setMessage, setVariant, props.setToken, message, variant, token);
             setLoading(false);
             ScrollButton.scrollToTop();
-            if (token != null)
-                props.history.push({
-                    pathname: '/'
-                });
+            if (token != null) {
+                if (props.location.state && props.location.state.ratingModePath) props.history.push({ pathname: props.location.state.ratingModePath });
+                else props.history.push({ pathname: '/' });
+            }
         }, user);
     }
 

@@ -9,18 +9,21 @@ import ItemCard from 'common/ItemCard'
 import BidderTable from 'common/BidderTable'
 import PaymentModal from 'common/PaymentModal'
 import ReceiptModal from 'common/ReceiptModal'
+import RatingModal from 'common/RatingModal'
+import RatingCard from 'common/RatingCard'
 
 import productsApi from 'api/products'
 import bidsApi from 'api/bids'
 import paymentsApi from 'api/payments'
 import wishlistApi from 'api/wishlist'
+import ratingsApi from 'api/ratings'
 
 import { handleAlerts } from 'utils/handlers'
 import { timeDifference } from 'utils/calc'
 import { imagePlaceholder } from 'utils/constants'
 import ScrollButton from 'utils/ScrollButton'
 
-import { userIsLoggedIn, getUser } from 'api/auth'
+import auth, { userIsLoggedIn, getUser } from 'api/auth'
 
 class ItemPage extends React.Component {
 
@@ -39,22 +42,56 @@ class ItemPage extends React.Component {
             loading: false,
             showPaymentModal: false,
             showReceiptModal: false,
+            showRatingModal: false,
             receipt: {},
             alreadyPaid: false,
-            inWishlist: false
+            inWishlist: false,
+            ratings: [],
+            initRating: -1
         };
     }
 
     componentDidMount() {
-        this.fetchProduct();
+        let productId = window.location.pathname.split('/').pop();
+        if (productId == "rating") this.validateRatingMode();
+        else this.fetchProduct(productId);
     }
 
-    fetchProduct = () => {
+    validateRatingMode = () => {
+        let values = window.location.pathname.split('/');
+        let userId = values[values.length - 2];
+        let productId = values[values.length - 3];
+        if (!userIsLoggedIn()) {
+            this.props.history.push({
+                pathname: '/login',
+                state: { ratingModePath: window.location.pathname }
+            });
+            return;
+        }
+        else if (userId != getUser().id) {
+            auth.logout(() => {
+                this.props.history.push({
+                    pathname: '/login',
+                    state: { ratingModePath: window.location.pathname }
+                });
+            });
+            return;
+        }
+        else  {
+            let newPathname = this.props.location.pathname.substring(0, this.props.location.pathname.length - 44)
+            this.props.history.replace(newPathname, {});
+            this.fetchProduct(productId, userId);
+            this.setState({showRatingModal: true});
+        }
+    }
+
+    fetchProduct = (productId, userId) => {
         this.setState({loading: true});
         productsApi.getProductById((message, variant, data) => {
-            handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
+            if (data == null) handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setProduct, message, variant, data);
+            else this.setProduct(data, userId);
             this.setState({loading: false});
-        }, window.location.pathname.split('/').pop());
+        }, productId);
     }
 
     fetchReceipt = (productId) => {
@@ -65,7 +102,26 @@ class ItemPage extends React.Component {
         }, {productId: productId}, this.props.getToken(), this.props.setToken);
     }
 
+    fetchSellerRatings = (sellerEmail) => {
+        ratingsApi.getSellerRatings((message, variant, data) => {
+            if (data == null) data = [];
+            if (message == null) {
+                this.setState({ratings: data});
+            }
+        }, {sellerEmail: sellerEmail});
+    }
+
+    fetchInitialRating = (sellerEmail) => {
+        ratingsApi.getUserSellerRatings((message, variant, data) => {
+            if (data == null) data = [];
+            if (message == null) {
+                this.setState({initRating: data});
+            }
+        }, {sellerEmail: sellerEmail}, this.props.getToken(), this.props.setToken);
+    }
+
     isInWishlist = (productId) => {
+        if (!userIsLoggedIn()) return;
         wishlistApi.isItemInWishlist((message, variant, data) => {
             if (message == null) {
                 this.setState({inWishlist: data});
@@ -94,15 +150,18 @@ class ItemPage extends React.Component {
         this.setState({recommendedProducts: data});
     }
 
-    setProduct = product => {
+    setProduct = (product, userId) => {
 
-        if (this.state.recommendedProducts.length == 0)
+        if (userId != null) this.fetchInitialRating(product.seller.email);
+        this.isInWishlist(product.id);
+        this.fetchReceipt(product.id);
+        this.fetchSellerRatings(product.seller.email);
+
+        if (this.state.recommendedProducts.length == 0) {
             productsApi.getRecommendedProducts((message, variant, data) => {
                 handleAlerts(this.setShow, this.setMessage, this.setVariant, this.setRecommendedProducts, message, variant, data);
             }, {id: product.id});
-
-        this.fetchReceipt(product.id);
-        this.isInWishlist(product.id);
+        }
 
         let images = [];
         if (!product.images.length)
@@ -134,7 +193,7 @@ class ItemPage extends React.Component {
             details: product.details,
             category: product.category,
             id: product.id,
-            sellerId: product.seller.id,
+            seller: product.seller,
             bids: product.bids
         }
         this.setState({images: images, activeImage: images[0], product: newProduct});
@@ -177,7 +236,7 @@ class ItemPage extends React.Component {
         if (this.state.product.timeLeft <= 0) return "Auction has ended";
         else if (this.state.product.startTimeLeft > 0) return "Auction did not start yet";
         else if (!userIsLoggedIn()) return "You have to be logged in to place bid";
-        else if (getUser().id == this.state.product.sellerId) return "You cannot bid on your own item";
+        else if (this.state.product.seller && getUser().id == this.state.product.seller.id) return "You cannot bid on your own item";
         else if (getUser().id == this.state.product.highestBidderId) return "Your bid is already the highest bid";
         
         let minimalBid = 0;
@@ -191,19 +250,31 @@ class ItemPage extends React.Component {
         return this.state.alreadyPaid;
     }
 
-    handleClosePaymentModal = () => {
+    handlePay = () => {
         this.setState({showPaymentModal: false});
-    }
-
-    handleCloseReceiptModal = () => {
-        this.setState({showReceiptModal: false});
-    }
-
-    handlePay = (creditCardInfo) => {
-        this.handleClosePaymentModal();
         this.fetchReceipt();
         ScrollButton.scrollToTop();
         handleAlerts(this.setShow, this.setMessage, this.setVariant, null, "Payment successful", "success", null);
+    }
+
+    handleRatingLeft = (rating) => {
+        let ratings = this.state.ratings;
+        for (let i = 0; i < ratings.length; i++) {
+            if (ratings[i] == this.state.initRating) {
+                ratings[i] = rating;
+                break;
+            }
+        }
+        if (ratings.length == 0) ratings.push(rating);
+        this.setState({ratings: ratings, showRatingModal: false});
+
+        const params = {
+            sellerEmail: this.state.product.seller.email,
+            rating: rating
+        }
+        ratingsApi.leaveSellerRating((message, variant, data) => {
+            if (variant != "success") handleAlerts(this.setShow, this.setMessage, this.setVariant, null, message, variant, null);
+        }, params, this.props.getToken(), this.props.setToken);
     }
 
     toggleWishlist = () => {
@@ -265,7 +336,7 @@ class ItemPage extends React.Component {
                             <div>
                             <Form inline onSubmit={this.handleBidSubmit}>
                                 <FormControl type="text" name="bid" className="mr-sm-2" value={this.state.bidInput} onChange={event => this.setState({bidInput: event.target.value.replace(/[^0-9]+/g,'')})} />
-                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || getUser().id == this.state.product.sellerId || this.state.product.timeLeft <= 0 || this.state.product.startTimeLeft > 0 || getUser().id == this.state.product.highestBidderId}>
+                                <Button variant="primary" type="submit" disabled={!userIsLoggedIn() || (this.state.product.seller && getUser().id == this.state.product.seller.id) || this.state.product.timeLeft <= 0 || this.state.product.startTimeLeft > 0 || getUser().id == this.state.product.highestBidderId}>
                                     PLACE BID <i className="bi bi-chevron-right"></i>
                                 </Button>
                             </Form>
@@ -276,7 +347,7 @@ class ItemPage extends React.Component {
                             <p>No bids: {this.state.product.numberOfBids}</p>
                             <p>Time left: {this.state.product.timeLeft} days</p>
 
-                            {userIsLoggedIn() && getUser().id != this.state.product.sellerId ?
+                            {userIsLoggedIn() && this.state.product.seller && getUser().id != this.state.product.seller.id ?
                             <div className="wishlistWrapper">
                                 <button className={this.state.inWishlist ? "wishlistButton activeBtn" : "wishlistButton"} onClick={() => {this.toggleWishlist();}}>Wishlist <i className={this.state.inWishlist ? "fa fa-heart active" : "fa fa-heart"} aria-hidden="true"></i></button>
                             </div>
@@ -290,7 +361,10 @@ class ItemPage extends React.Component {
                             </div>
                         </div>
                     </div>
-                    {userIsLoggedIn() && getUser().id == this.state.product.sellerId ? 
+
+                    <RatingCard seller={this.state.product.seller ? this.state.product.seller : null} ratings={this.state.ratings} getToken={this.props.getToken} setToken={this.props.setToken} />
+                    
+                    {userIsLoggedIn() && this.state.product.seller && getUser().id == this.state.product.seller.id ? 
                     <div className="bids">
                         <BidderTable bids={this.state.product.bids}  highestBid={this.state.product.highestBid} />
                     </div>
@@ -301,7 +375,7 @@ class ItemPage extends React.Component {
                         </div>
                         <div className="itemPageProducts">
                         {this.state.recommendedProducts && this.state.recommendedProducts.map((product, index) => (
-                            <div className="itemPageProduct" onClick={() => this.fetchProduct()}>
+                            <div className="itemPageProduct" onClick={() => this.fetchProduct(product.id)}>
                                 <ItemCard product={product}/>
                             </div>
                         ))}
@@ -309,8 +383,9 @@ class ItemPage extends React.Component {
                     </div>
                     }
                 </div>
-                <PaymentModal showModal={this.state.showPaymentModal} handleClosePaymentModal={this.handleClosePaymentModal} handlePay={this.handlePay} price={this.state.product.highestBid} productId={this.state.product.id} getToken={this.props.getToken} setToken={this.props.setToken}/>
-                <ReceiptModal showModal={this.state.showReceiptModal} handleCloseReceiptModal={this.handleCloseReceiptModal} receipt={this.state.receipt}/>
+                <PaymentModal showModal={this.state.showPaymentModal} handleClosePaymentModal={() =>  this.setState({showPaymentModal: false})} handlePay={this.handlePay} price={this.state.product.highestBid} productId={this.state.product.id} getToken={this.props.getToken} setToken={this.props.setToken}/>
+                <ReceiptModal showModal={this.state.showReceiptModal} handleCloseReceiptModal={() =>  this.setState({showReceiptModal: false})} receipt={this.state.receipt}/>
+                <RatingModal showModal={this.state.showRatingModal && this.state.initRating > -1} handleCloseRatingModal={() =>  this.setState({showRatingModal: false})} handleRatingLeft={this.handleRatingLeft} seller={this.state.product.seller} initRating={this.state.initRating}/>
             </div>
             </div>
         );

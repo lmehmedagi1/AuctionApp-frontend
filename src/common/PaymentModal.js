@@ -27,7 +27,7 @@ function PaymentModal(props) {
 
     const [address, setAddress] = useState({'country': '', 'state': '', 'city': ''});
     const [errorMessage, setErrorMessage] = useState("");
-    const [disabled, setDisabled] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (getUser() != null)
@@ -73,10 +73,10 @@ function PaymentModal(props) {
         if (parameters.cardExpirationYear == null) parameters.cardExpirationYear = new Date().getFullYear();
         if (parameters.cardExpirationMonth == null) parameters.cardExpirationMonth = 1;
 
-        setDisabled(true);
+        setLoading(true);
 
         payments.payForProduct((message, variant, data) => {
-            setDisabled(false);
+            setLoading(false);
 
             if (message != null && variant == "success") {
                 props.handlePay();
@@ -120,6 +120,8 @@ function PaymentModal(props) {
             <Modal.Title>PAYMENT</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            <div className={loading ? "blockedWait" : ""}>
+            <div className={loading ? "blocked" : ""}>
             <div className="paymentForm cardInfo">
                 <Formik
                     validationSchema={schema}
@@ -239,13 +241,15 @@ function PaymentModal(props) {
                             <div className="paymentInfo paymentError">{errorMessage}</div>
 
                             <Form.Group className="submitButtonWrapper">
-                                <Button variant="primary" type="submit" disabled={disabled}>
+                                <Button variant="primary" type="submit">
                                     PAY
                                 </Button>
                             </Form.Group>
                         </Form>
                     )}
                 </Formik>
+            </div>
+            </div>
             </div>
             </Modal.Body>
         </Modal>
