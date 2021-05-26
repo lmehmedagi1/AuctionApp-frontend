@@ -19,6 +19,7 @@
     "react-bootstrap-table-next": "^4.0.3",
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-dom": "^17.0.1",
+    "react-ratings-declarative": "^3.4.1",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",

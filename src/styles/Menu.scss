@@ -91,6 +91,10 @@
 
         float: right;
         gap: 8px;
+
+        .dropdown {
+            width: 130px !important;
+        }
     }
 
     .nav-link:hover {
